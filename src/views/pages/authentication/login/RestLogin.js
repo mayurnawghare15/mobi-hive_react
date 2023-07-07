@@ -1,9 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
-import configData from '../../../../config';
-
+import { useTranslation } from 'react-i18next';
+import { Link as RouterLink } from 'react-router-dom';
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -77,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 //============================|| API JWT - LOGIN ||============================//
 
 const RestLogin = (props, { ...others }) => {
+    const { t } = useTranslation();
     const classes = useStyles();
     const dispatcher = useDispatch();
 
@@ -92,6 +92,9 @@ const RestLogin = (props, { ...others }) => {
         event.preventDefault();
     };
 
+    const userReq = <label>{t('username_required')}</label>;
+    const passReq = <label>{t('password_required')}</label>;
+
     return (
         <React.Fragment>
             <Formik
@@ -101,8 +104,8 @@ const RestLogin = (props, { ...others }) => {
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
-                    username: Yup.string().max(255).required('username is required'),
-                    password: Yup.string().max(255).required('Password is required')
+                    username: Yup.string().max(255).required(userReq),
+                    password: Yup.string().max(255).required(passReq)
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
@@ -112,7 +115,9 @@ const RestLogin = (props, { ...others }) => {
                                 password: values.password
                             })
                             .then(function (response) {
-                                if (response.data.success) {
+                                console.log(response.data, 'Data');
+                                console.log(response.data.status, 'Success');
+                                if (response.data.status === 200) {
                                     console.log(response.data);
                                     dispatcher({
                                         type: ACCOUNT_INITIALIZE,
@@ -146,7 +151,7 @@ const RestLogin = (props, { ...others }) => {
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
                     <form noValidate onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.username && errors.username)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-username-login">Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-username-login">{t('username')}</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-username-login"
                                 type="username"
@@ -154,7 +159,7 @@ const RestLogin = (props, { ...others }) => {
                                 name="username"
                                 onBlur={handleBlur}
                                 onChange={handleChange}
-                                label="Username"
+                                label={t('username')}
                                 inputProps={{
                                     classes: {
                                         notchedOutline: classes.notchedOutline
@@ -170,7 +175,7 @@ const RestLogin = (props, { ...others }) => {
                         </FormControl>
 
                         <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
-                            <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-password-login">{t('password')}</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
@@ -214,7 +219,7 @@ const RestLogin = (props, { ...others }) => {
                                         color="primary"
                                     />
                                 }
-                                label="Remember me"
+                                label={t('rememeber_me')}
                             />
                             <Typography
                                 variant="subtitle1"
@@ -223,7 +228,7 @@ const RestLogin = (props, { ...others }) => {
                                 color="secondary"
                                 sx={{ textDecoration: 'none' }}
                             >
-                                Forgot Password?
+                                <label>{t('forgot_password')}</label>
                             </Typography>
                         </Stack>
                         {errors.submit && (
@@ -251,7 +256,7 @@ const RestLogin = (props, { ...others }) => {
                                     variant="contained"
                                     color="secondary"
                                 >
-                                    Sign IN
+                                    <label>{t('sign_in')}</label>
                                 </Button>
                             </AnimateButton>
                         </Box>

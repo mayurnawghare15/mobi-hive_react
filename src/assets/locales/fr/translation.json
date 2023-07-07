@@ -1,0 +1,19 @@
+{
+
+      "login" : "Connexion",
+      "enter_your_credentials_to_continue" : "Entrez_vos_identifiants_pour_continuer",
+      "username": "nom d'utilisateur",
+      "password":"Mot de passe",
+      "rememeber_me":"Souviens-toi de moi",
+      "forgot_password" : "Mot de passe oublié ?",
+      "sign_in" : "S'identifier",
+      "dont_have_an_account" : "Vous n'avez pas de compte ?",
+      "username_required" : "Nom d'utilisateur est nécessaire",
+      "password_required" : "Mot de passe requis"
+  
+    }
+    
+  
+  
+  
+  

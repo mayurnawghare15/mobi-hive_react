@@ -57,12 +57,10 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     </Avatar>
                 </ButtonBase>
             </div>
-
             {/* header search */}
             <SearchSection theme="light" />
             <div className={classes.grow} />
             <div className={classes.grow} />
-
             {/* notification & profile */}
             <NotificationSection />
             <ProfileSection />

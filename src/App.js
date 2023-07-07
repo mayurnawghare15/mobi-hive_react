@@ -14,6 +14,8 @@ import theme from './themes';
 // project imports
 import NavigationScroll from './layout/NavigationScroll';
 
+import './i18nextInit';
+
 //-----------------------|| APP ||-----------------------//
 
 const App = () => {
