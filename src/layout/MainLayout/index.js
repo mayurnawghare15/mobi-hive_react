@@ -1,11 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 // material-ui
 import { makeStyles, useTheme } from '@material-ui/styles';
 import { AppBar, CssBaseline, Toolbar, useMediaQuery } from '@material-ui/core';
 
+import MobileVerification from '../../views/MobileNoVerify/index.js';
 // third-party
 import clsx from 'clsx';
 
@@ -77,6 +78,15 @@ const useStyles = makeStyles((theme) => ({
 //-----------------------|| MAIN LAYOUT ||-----------------------//
 
 const MainLayout = ({ children }) => {
+    const [open, setOpen] = useState(false);
+
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
     const classes = useStyles();
     const theme = useTheme();
     const matchDownMd = useMediaQuery(theme.breakpoints.down('md'));
@@ -121,6 +131,10 @@ const MainLayout = ({ children }) => {
                     }
                 ])}
             >
+                {/* <div>
+                    <button onClick={handleOpen}>Open Mobile Verification</button>
+                    <MobileVerification open={open} onClose={handleClose} />
+                </div> */}
                 {/* <Main open={leftDrawerOpened}> */}
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />

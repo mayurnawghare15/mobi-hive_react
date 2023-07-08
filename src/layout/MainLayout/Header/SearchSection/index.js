@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     closeAvatar: {
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
-        background: theme.palette.orange.light,
+        background: theme.palette.orange.dark,
         color: theme.palette.orange.dark,
         '&:hover': {
             background: theme.palette.orange.dark,

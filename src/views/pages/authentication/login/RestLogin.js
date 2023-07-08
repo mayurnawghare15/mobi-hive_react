@@ -110,7 +110,7 @@ const RestLogin = (props, { ...others }) => {
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         axios
-                            .post('https://stage.credithive.co.uk/webservices/v1/token/auth/', {
+                            .post('https://app.credithive.co.uk/webservices/v1/token/auth/', {
                                 username: values.username,
                                 password: values.password
                             })
@@ -119,6 +119,8 @@ const RestLogin = (props, { ...others }) => {
                                 console.log(response.data.status, 'Success');
                                 if (response.data.status === 200) {
                                     console.log(response.data);
+                                    console.log(response.data.token);
+                                    console.log(response.data.user);
                                     dispatcher({
                                         type: ACCOUNT_INITIALIZE,
                                         payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }

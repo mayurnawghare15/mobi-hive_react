@@ -1,18 +1,20 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 // material-ui
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { createTheme } from '@mui/material/styles';
+
 import { Avatar, Box, ButtonBase } from '@material-ui/core';
 
 // project imports
 import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
-import NotificationSection from './NotificationSection';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
+import DarkMode from './DarkMode';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -43,12 +45,13 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
+    const theme = createTheme();
 
     return (
         <React.Fragment>
             {/* logo & toggler button */}
             <div className={classes.boxContainer}>
-                <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
+                <Box component="span" sx={{ display: { xs: 'none', md: 'flex' }, flexGrow: 1 }}>
                     <LogoSection />
                 </Box>
                 <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
@@ -58,11 +61,17 @@ const Header = ({ handleLeftDrawerToggle }) => {
                 </ButtonBase>
             </div>
             {/* header search */}
-            <SearchSection theme="light" />
+
+            <SearchSection theme="dark" />
+            {/* Other header components */}
+
             <div className={classes.grow} />
             <div className={classes.grow} />
             {/* notification & profile */}
-            <NotificationSection />
+            {/* <NotificationSection /> */}
+
+            <div className={theme.spacing(10000)} />
+            <DarkMode />
             <ProfileSection />
         </React.Fragment>
     );

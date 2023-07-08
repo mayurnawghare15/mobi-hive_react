@@ -133,13 +133,14 @@ const ProfileSection = () => {
     const anchorRef = React.useRef(null);
     const handleLogout = () => {
         console.log(account.token);
+        localStorage.clear();
+
         axios
-            .post( configData.API_SERVER + 'users/logout', {token: `${account.token}`}, { headers: { Authorization: `${account.token}` } })
+            .post(configData.API_SERVER + 'users/logout', { token: `${account.token}` }, { headers: { Authorization: `${account.token}` } })
             .then(function (response) {
-                
                 // Force the LOGOUT
                 //if (response.data.success) {
-                    dispatcher({ type: LOGOUT });
+                dispatcher({ type: LOGOUT });
                 //} else {
                 //    console.log('response - ', response.data.msg);
                 //}
@@ -171,16 +172,16 @@ const ProfileSection = () => {
             <Chip
                 classes={{ label: classes.profileLabel }}
                 className={classes.profileChip}
-                icon={
-                    <Avatar
-                        src={User1}
-                        className={classes.headerAvatar}
-                        ref={anchorRef}
-                        aria-controls={open ? 'menu-list-grow' : undefined}
-                        aria-haspopup="true"
-                        color="inherit"
-                    />
-                }
+                // icon={
+                //     <Avatar
+                //         src={User1}
+                //         className={classes.headerAvatar}
+                //         ref={anchorRef}
+                //         aria-controls={open ? 'menu-list-grow' : undefined}
+                //         aria-haspopup="true"
+                //         color="inherit"
+                //     />
+                // }
                 label={<IconSettings stroke={1.5} size="1.5rem" color={theme.palette.primary.main} />}
                 variant="outlined"
                 ref={anchorRef}
@@ -216,12 +217,7 @@ const ProfileSection = () => {
                                         <Grid container direction="column" spacing={0}>
                                             <Grid item className={classes.flex}>
                                                 <Typography variant="h4">Good Morning,</Typography>
-                                                <Typography component="span" variant="h4" className={classes.name}>
-                                                    John
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item>
-                                                <Typography variant="subtitle2">Project Admin</Typography>
+                                                <Typography component="span" variant="h4" className={classes.name}></Typography>
                                             </Grid>
                                         </Grid>
                                         <OutlinedInput
@@ -242,7 +238,6 @@ const ProfileSection = () => {
                                         />
                                         <Divider />
                                         <PerfectScrollbar className={classes.ScrollHeight}>
-                                            <UpgradePlanCard />
                                             <Divider />
                                             <Card className={classes.card}>
                                                 <CardContent>
@@ -250,31 +245,7 @@ const ProfileSection = () => {
                                                         <Grid item>
                                                             <Grid item container alignItems="center" justifyContent="space-between">
                                                                 <Grid item>
-                                                                    <Typography variant="subtitle1">Start DND Mode</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        color="primary"
-                                                                        checked={sdm}
-                                                                        onChange={(e) => setSdm(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
-                                                                </Grid>
-                                                            </Grid>
-                                                        </Grid>
-                                                        <Grid item>
-                                                            <Grid item container alignItems="center" justifyContent="space-between">
-                                                                <Grid item>
-                                                                    <Typography variant="subtitle1">Allow Notifications</Typography>
-                                                                </Grid>
-                                                                <Grid item>
-                                                                    <Switch
-                                                                        checked={notification}
-                                                                        onChange={(e) => setNotification(e.target.checked)}
-                                                                        name="sdm"
-                                                                        size="small"
-                                                                    />
+                                                                    <Typography variant="subtitle1">Functionality of Admin </Typography>
                                                                 </Grid>
                                                             </Grid>
                                                         </Grid>

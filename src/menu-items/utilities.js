@@ -1,9 +1,9 @@
 // assets
-import { IconBrandFramer, IconTypography, IconPalette, IconShadow, IconWindmill, IconLayoutGridAdd } from '@tabler/icons';
+import { IconBrandFramer, IconZoomCheck, IconPalette, IconShadow, IconWindmill, IconLayoutGridAdd } from '@tabler/icons';
 
 // constant
 const icons = {
-    IconTypography: IconTypography,
+    IconeCreateLead: IconZoomCheck,
     IconPalette: IconPalette,
     IconShadow: IconShadow,
     IconWindmill: IconWindmill,
@@ -20,11 +20,11 @@ export const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'Typography',
+            title: 'Create New Lead',
             type: 'item',
-            url: '/utils/util-typography',
-            icon: icons['IconTypography'],
-            breadcrumbs: false
+            url: '/NewLead/OTPVerify/',
+            icon: icons['IconeCreateLead'],
+            breadcrumbs: true
         },
         {
             id: 'util-color',

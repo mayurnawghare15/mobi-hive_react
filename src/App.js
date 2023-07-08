@@ -5,6 +5,8 @@ import './app.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline, StyledEngineProvider } from '@material-ui/core';
 
+import MobileVerification from './views/MobileNoVerify';
+
 // routing
 import Routes from './routes';
 

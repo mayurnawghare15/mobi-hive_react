@@ -63,9 +63,7 @@ const UpgradePlanCard = () => {
             <CardContent>
                 <Grid container direction="column" spacing={2}>
                     <Grid item>
-                        <Typography variant="h4">
-                            React Nodejs Berry
-                        </Typography>
+                        <Typography variant="h4"></Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="subtitle2" className={classes.tagLine}>
@@ -83,7 +81,7 @@ const UpgradePlanCard = () => {
                                     className={classes.button}
                                 >
                                     See Product
-                                </Button>                                
+                                </Button>
                             </AnimateButton>
                         </Stack>
                     </Grid>
@@ -92,5 +90,3 @@ const UpgradePlanCard = () => {
         </Card>
     );
 };
-
-export default UpgradePlanCard;

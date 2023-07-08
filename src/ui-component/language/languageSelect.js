@@ -10,14 +10,15 @@ import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
 const languageMap = {
-    en: { label: 'English', dir: 'ltr', active: true },
-    fr: { label: 'Français', dir: 'ltr', active: false },
+    en: { label: 'English', dir: 'ltr', active: false },
+    fr: { label: 'Français', dir: 'ltr', active: true },
     ar: { label: 'Arabic', dir: 'ltr', active: false },
     por: { label: 'Portuguese', dir: 'ltr', active: false }
 };
 
+// localStorage.setItem('i18nextLng', languageMap['en']);
 const LanguageSelect = () => {
-    const selected = localStorage.getItem('i18nextLng') || 'en';
+    let selected = localStorage.getItem('i18nextLng') || 'en'; //First time show error
     const { t } = useTranslation();
 
     const [menuAnchor, setMenuAnchor] = React.useState(null);

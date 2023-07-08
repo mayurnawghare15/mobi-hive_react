@@ -8,6 +8,7 @@ import AuthenticationRoutes from './AuthenticationRoutes';
 
 // project imports
 import config from './../config';
+import MobileVerification from '../views/MobileNoVerify';
 
 //-----------------------|| ROUTING RENDER ||-----------------------//
 
@@ -24,6 +25,7 @@ const Routes = () => {
 
                 {/* Routes for main layouts */}
                 <MainRoutes />
+                <MobileVerification />
             </React.Fragment>
         </Switch>
     );

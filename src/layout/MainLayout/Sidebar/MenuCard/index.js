@@ -62,28 +62,24 @@ const UpgradePlanCard = () => {
         <Card className={classes.card}>
             <CardContent>
                 <Grid container direction="column" spacing={2}>
+                    {/* <Grid item>
+                        <Typography variant="h4">React Nodejs Berry</Typography>
+                    </Grid> */}
                     <Grid item>
-                        <Typography variant="h4">
-                            React Nodejs Berry
-                        </Typography>
-                    </Grid>
-                    <Grid item>
-                        <Typography variant="subtitle2" className={classes.tagLine}>
+                        {/* <Typography variant="subtitle2" className={classes.tagLine}>
                             Open-source full-stack seed project.
-                        </Typography>
+                        </Typography> */}
                     </Grid>
                     <Grid item>
                         <Stack direction="row">
                             <AnimateButton>
-                                <Button
+                                {/* <Button
                                     component={Link}
                                     href="https://appseed.us/product/react-node-js-berry-dashboard"
                                     target="_blank"
                                     variant="contained"
                                     className={classes.button}
-                                >
-                                    See Product
-                                </Button>
+                                ></Button> */}
                             </AnimateButton>
                         </Stack>
                     </Grid>

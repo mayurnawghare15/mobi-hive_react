@@ -1,8 +1,8 @@
-let BACKEND_SERVER = null;
+let API_SERVER = 'https//stage.credithive.co.uk';
 if (process.env.REACT_APP_BACKEND_SERVER) {
-  BACKEND_SERVER = process.env.REACT_APP_BACKEND_SERVER;
+    API_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 } else {
-  BACKEND_SERVER = "http://localhost:5000/api/";
+    API_SERVER = 'http://localhost:5000/api/';
 }
 
 const config = {
@@ -12,7 +12,7 @@ const config = {
     defaultPath: '/dashboard/default',
     fontFamily: `'Roboto', sans-serif`,
     borderRadius: 12,
-    API_SERVER: BACKEND_SERVER
+    API_SERVER: API_SERVER
 };
 
 export default config;
