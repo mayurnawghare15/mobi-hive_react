@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
+
 // material-ui
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -33,6 +35,7 @@ import { ACCOUNT_INITIALIZE } from './../../../../store/actions';
 // assets
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import { useState } from 'react';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -81,9 +84,11 @@ const RestLogin = (props, { ...others }) => {
     const dispatcher = useDispatch();
 
     const scriptedRef = useScriptRef();
-    const [checked, setChecked] = React.useState(true);
+    const [checked, setChecked] = useState(true);
+    const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
+    const [password, setPassword] = useState(localStorage.getItem('myapp-password') || '');
 
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
     };
@@ -94,6 +99,15 @@ const RestLogin = (props, { ...others }) => {
 
     const userReq = <label>{t('username_required')}</label>;
     const passReq = <label>{t('password_required')}</label>;
+
+    // function remember(){
+    //     if(rememberCheck.current.checked){
+    //       localStorage.setItem("myapp-email", email); localStorage.setItem("myapp-password", password)
+    //     }
+    //     else{
+    //       localStorage.setItem("myapp-email", ""); localStorage.setItem("myapp-password", "")
+    //     }
+    //   }
 
     return (
         <React.Fragment>
@@ -110,39 +124,50 @@ const RestLogin = (props, { ...others }) => {
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         axios
-                            .post('https://app.credithive.co.uk/webservices/v1/token/auth/', {
+                            .post('http://sandbox.credithive.co.uk:8090/webservices/v1/token/auth/', {
                                 username: values.username,
                                 password: values.password
                             })
                             .then(function (response) {
-                                console.log(response.data, 'Data');
-                                console.log(response.data.status, 'Success');
+                                // console.log(response.data, 'Data');
+                                // console.log(response.data.status, 'Success');
+                                console.log(response.data.data.token);
                                 if (response.data.status === 200) {
+                                    toast.success('Login Sucessfully');
+
                                     console.log(response.data);
-                                    console.log(response.data.token);
+                                    console.log(response.data.data.token);
                                     console.log(response.data.user);
                                     dispatcher({
                                         type: ACCOUNT_INITIALIZE,
-                                        payload: { isLoggedIn: true, user: response.data.user, token: response.data.token }
+                                        payload: {
+                                            isLoggedIn: true,
+                                            user: response.data.user,
+                                            token: response.data.data.token
+                                        }
                                     });
                                     if (scriptedRef.current) {
                                         setStatus({ success: true });
                                         setSubmitting(false);
                                     }
                                 } else {
+                                    toast.error('Please Enter Correct Credentials');
+
                                     setStatus({ success: false });
-                                    setErrors({ submit: response.data.msg });
+                                    setErrors({ submit: response.data.message });
                                     setSubmitting(false);
                                 }
                             })
                             .catch(function (error) {
+                                toast.error('Please Enter Correct Credentials');
                                 setStatus({ success: false });
-                                setErrors({ submit: error.response.data.msg });
+                                // setErrors({ submit: error.response.data.message });
                                 setSubmitting(false);
                             });
                     } catch (err) {
                         console.error(err);
                         if (scriptedRef.current) {
+                            toast.error('Please Enter Correct Credentials');
                             setStatus({ success: false });
                             setErrors({ submit: err.message });
                             setSubmitting(false);

@@ -9,7 +9,10 @@
     "sign_in" : "Sign In",
     "dont_have_an_account" : "Don't have an account?",
     "username_required" : "Username is required",
-    "password_required" : "Password is required"
+    "password_required" : "Password is required",
+    "Verify_Mobile_Number": "Verify Mobile Number",
+    "Enter_Your_Mobile_Number_to_Continue" : "Enter mobile number to continue"
+  
 
   }
   

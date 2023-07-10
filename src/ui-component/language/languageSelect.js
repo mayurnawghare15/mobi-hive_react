@@ -8,6 +8,7 @@ import Popover from '@material-ui/core/Popover';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListSubheader from '@material-ui/core/ListSubheader';
+import { useEffect } from 'react';
 
 const languageMap = {
     en: { label: 'English', dir: 'ltr', active: false },
@@ -17,8 +18,9 @@ const languageMap = {
 };
 
 // localStorage.setItem('i18nextLng', languageMap['en']);
+
 const LanguageSelect = () => {
-    let selected = localStorage.getItem('i18nextLng') || 'en'; //First time show error
+    let selected = localStorage.getItem('i18nextLng') === 'en-US' ? 'en' : localStorage.getItem('i18nextLng'); //First time show error
     const { t } = useTranslation();
 
     const [menuAnchor, setMenuAnchor] = React.useState(null);

@@ -17,6 +17,8 @@ import theme from './themes';
 import NavigationScroll from './layout/NavigationScroll';
 
 import './i18nextInit';
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //-----------------------|| APP ||-----------------------//
 
@@ -24,14 +26,29 @@ const App = () => {
     const customization = useSelector((state) => state.customization);
 
     return (
-        <StyledEngineProvider injectFirst>
-            <ThemeProvider theme={theme(customization)}>
-                <CssBaseline />
-                <NavigationScroll>
-                    <Routes />
-                </NavigationScroll>
-            </ThemeProvider>
-        </StyledEngineProvider>
+        <>
+            <ToastContainer
+                transition={Slide}
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={true}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                limit={1}
+            />
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme(customization)}>
+                    <CssBaseline />
+                    <NavigationScroll>
+                        <Routes />
+                    </NavigationScroll>
+                </ThemeProvider>
+            </StyledEngineProvider>
+        </>
     );
 };
 

@@ -13,11 +13,15 @@ import Logo from './../../../../ui-component/Logo';
 import AuthCardWrapper from './../AuthCardWrapper';
 import RestLogin from './RestLogin';
 import AuthFooter from './../../../../ui-component/cards/AuthFooter';
+import { useEffect } from 'react';
 
 //================================|| LOGIN MAIN ||================================//
 const Login = () => {
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('sm'));
+    useEffect(() => {
+        localStorage.setItem('i18nextLng', 'en');
+    }, []);
 
     const { t } = useTranslation();
 

@@ -9,7 +9,8 @@
       "sign_in" : "S'identifier",
       "dont_have_an_account" : "Vous n'avez pas de compte ?",
       "username_required" : "Nom d'utilisateur est nécessaire",
-      "password_required" : "Mot de passe requis"
+      "password_required" : "Mot de passe requis",
+      "Enter_Your_Mobile_Number_to_Continue" : "Entrez le numéro de téléphone portable pour continuer"
   
     }
     

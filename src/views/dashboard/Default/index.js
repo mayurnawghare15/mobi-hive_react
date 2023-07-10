@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 // material-ui
 import { Grid } from '@material-ui/core';
+import { useTranslation } from 'react-i18next';
 
 // project imports
 // import EarningCard from './EarningCard';
@@ -19,6 +20,8 @@ const Dashboard = () => {
     useEffect(() => {
         setLoading(false);
     }, []);
+
+    const { t } = useTranslation();
 
     return (
         <Grid container spacing={gridSpacing}>

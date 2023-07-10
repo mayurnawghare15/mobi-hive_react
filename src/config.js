@@ -1,4 +1,4 @@
-let API_SERVER = 'https//stage.credithive.co.uk';
+let API_SERVER = 'https//stage.credithive.co.uk/webservices/';
 if (process.env.REACT_APP_BACKEND_SERVER) {
     API_SERVER = process.env.REACT_APP_BACKEND_SERVER;
 } else {
