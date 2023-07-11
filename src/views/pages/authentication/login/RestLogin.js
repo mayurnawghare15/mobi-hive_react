@@ -82,6 +82,7 @@ const RestLogin = (props, { ...others }) => {
     const { t } = useTranslation();
     const classes = useStyles();
     const dispatcher = useDispatch();
+    const BASE_URL = process.env.REACT_APP_BASE_URL;
 
     const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
@@ -124,13 +125,13 @@ const RestLogin = (props, { ...others }) => {
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         axios
-                            .post('http://app.credithive.co.uk/webservices/v1/token/auth/', {
+                            .post('https://sandbox.credithive.co.uk/webservices/v1/token/auth/', {
                                 username: values.username,
                                 password: values.password
                             })
                             .then(function (response) {
-                                // console.log(response.data, 'Data');
-                                // console.log(response.data.status, 'Success');
+                                console.log(response.data, 'Data');
+                                console.log(response.data.status, 'Success');
                                 console.log(response.data.data.token);
                                 if (response.data.status === 200) {
                                     toast.success('Login Sucessfully');

@@ -5,8 +5,6 @@ import './app.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline, StyledEngineProvider } from '@material-ui/core';
 
-import MobileVerification from './views/MobileNoVerify';
-
 // routing
 import Routes from './routes';
 
@@ -30,7 +28,7 @@ const App = () => {
             <ToastContainer
                 transition={Slide}
                 position="top-center"
-                autoClose={3000}
+                autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop={true}
                 closeOnClick
