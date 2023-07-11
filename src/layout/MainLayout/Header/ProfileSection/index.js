@@ -37,6 +37,7 @@ import { LOGOUT } from './../../../../store/actions';
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from './../../../../assets/images/users/user-round.svg';
+import { Redirect } from 'react-router';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -131,23 +132,25 @@ const ProfileSection = () => {
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
+
     const handleLogout = () => {
         console.log(account.token);
         localStorage.clear();
+        window.location.reload();
 
-        axios
-            .post(configData.API_SERVER + 'users/logout', { token: `${account.token}` }, { headers: { Authorization: `${account.token}` } })
-            .then(function (response) {
-                // Force the LOGOUT
-                //if (response.data.success) {
-                dispatcher({ type: LOGOUT });
-                //} else {
-                //    console.log('response - ', response.data.msg);
-                //}
-            })
-            .catch(function (error) {
-                console.log('error - ', error);
-            });
+        // axios
+        //     .post(configData.API_SERVER + 'users/logout', { token: `${account.token}` }, { headers: { Authorization: `${account.token}` } })
+        //     .then(function (response) {
+        //         // Force the LOGOUT
+        //         //if (response.data.success) {
+        //         dispatcher({ type: LOGOUT });
+        //         //} else {
+        //         //    console.log('response - ', response.data.msg);
+        //         //}
+        //     })
+        //     .catch(function (error) {
+        //         console.log('error - ', error);
+        //     });
     };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);

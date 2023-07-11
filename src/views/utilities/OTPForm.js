@@ -113,6 +113,7 @@ const OTPForm = () => {
                                                     fullWidth
                                                     required
                                                     variant="standard"
+                                                    maxLength={6}
                                                 />
                                             </Grid>
                                             <Grid item>
