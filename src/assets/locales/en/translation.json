@@ -11,7 +11,11 @@
     "username_required" : "Username is required",
     "password_required" : "Password is required",
     "Verify_Mobile_Number": "Verify Mobile Number",
-    "Enter_Your_Mobile_Number_to_Continue" : "Enter mobile number to continue"
+    "Enter_Your_Mobile_Number_to_Continue" : "Enter mobile number to continue",
+    "Send_OTP":"Send OTP",
+    "Verify_OTP" : "Verify OTP",
+    "Resend_OTP" : "Resend OTP"
+  
   
 
   }

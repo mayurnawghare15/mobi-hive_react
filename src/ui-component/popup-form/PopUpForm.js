@@ -1,41 +1,39 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React, { useState } from 'react';
+import { TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 
-export default function FormDialog() {
-    const [open, setOpen] = React.useState(false);
+const PopupForm = ({ onClose }) => {
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Do something with the form data, like sending it to an API
 
-    const handleClose = () => {
-        setOpen(false);
+        // Clear form inputs
+        setName('');
+        setEmail('');
+
+        // Close the popup
+        onClose();
     };
 
     return (
-        <div>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
-            </Button>
-            <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Subscribe</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We will send updates occasionally.
-                    </DialogContentText>
-                    <TextField autoFocus margin="dense" id="name" label="Email Address" type="email" fullWidth variant="standard" />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleClose}>Subscribe</Button>
-                </DialogActions>
-            </Dialog>
-        </div>
+        <Dialog open={true} onClose={onClose}>
+            <DialogTitle>Popup Form</DialogTitle>
+            <DialogContent>
+                <form onSubmit={handleSubmit}>
+                    <TextField label="Name" value={name} onChange={(e) => setName(e.target.value)} fullWidth margin="normal" />
+                    <TextField label="Email" value={email} onChange={(e) => setEmail(e.target.value)} fullWidth margin="normal" />
+                </form>
+            </DialogContent>
+            <DialogActions>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={handleSubmit} variant="contained" color="primary">
+                    Submit
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
-}
+};
+
+export default PopupForm;

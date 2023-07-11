@@ -20,7 +20,7 @@ export const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'Create_New_Lead',
+            title: 'Create New Lead',
             type: 'item',
             url: '/NewLead/OTPVerify/',
             icon: icons['IconeCreateLead'],
