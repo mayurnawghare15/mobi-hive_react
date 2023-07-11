@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SubCard from '../../ui-component/cards/SubCard';
 import MainCard from '../../ui-component/cards/MainCard';
-import LeadForm from './leadForm/LeadForm';
-
+import LeadForm from './LeadForm';
 import { gridSpacing } from '../../store/constant';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -248,7 +247,10 @@ const OTPForm = () => {
                     </Grid>
                 </MainCard>
             ) : (
-                <LeadForm />
+                // 'Testing....'
+                <>
+                    <LeadForm></LeadForm>
+                </>
             )}
         </Grid>
     );
