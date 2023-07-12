@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import SubCard from '../../ui-component/cards/SubCard';
 import MainCard from '../../ui-component/cards/MainCard';
-import LeadForm from './LeadForm';
+import LeadForm from './leadFormEss/LeadForm';
 import { gridSpacing } from '../../store/constant';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
@@ -21,7 +21,7 @@ const OTPForm = () => {
     const [countryCode, setCountryCode] = useState('IN');
     const [showPopup, setShowPopup] = useState(false);
     const [DOB, setDOB] = useState();
-    const [verifyForm, setVerifyForm] = useState(false);
+    const [verifyForm, setVerifyForm] = useState(true);
     const { t } = useTranslation();
 
     const handleMobileNumberChange = (phoneNumber) => {

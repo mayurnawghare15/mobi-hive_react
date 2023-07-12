@@ -9,6 +9,7 @@ import Switch from '@mui/material/Switch';
 
 const DarkMode = ({ onClick }) => {
     const theme = useTheme();
+
     const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         width: 62,
         height: 34,
