@@ -9,13 +9,14 @@ import { toast } from 'react-toastify';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import VerifyUser from '../popups/VerifyUser';
-import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 console.log(BASE_URL);
 
 const RegisterLeadViaPhone = () => {
+    const navigate = useNavigate()
     const data = JSON.parse(localStorage.getItem('berry-account'));
     const [mobileNumber, setMobileNumber] = useState('');
     const [otp, setOtp] = useState('');
@@ -137,6 +138,11 @@ const RegisterLeadViaPhone = () => {
                         setShowPopup(true);
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
+                        console.log(response.data.data.user_found)
+                        if (response.data.data.user_found === false) {
+                            console.log(response.data.data.user_found, 'Inside if')
+                            return navigate("/lead/createlead")
+                        }
                     } else {
                         toast.error('Invalid OTP');
                     }
@@ -164,13 +170,12 @@ const RegisterLeadViaPhone = () => {
                 "dob": DOB,
                 "recipient": mobileNumber
             };
-            console.log(body)
             try {
                 axios.post(BASE_URL + "v2/dob_verify/", body, headers).then((response) => {
                     if (response.data.status) {
                         setShowPopup(false);
                         toast.success(response.data.message);
-                        return <Redirect to="/lead/verify-phonenumber" />;
+                        return navigate("/lead/createlead")
                     }
                 });
             } catch (err) {
@@ -181,8 +186,6 @@ const RegisterLeadViaPhone = () => {
 
     return (
         <>
-            {/* <VerifyUser showPopup={showDobPopup} setShowPopup={setShowDobPopup} /> */}
-
             <Grid open={verifyForm}>
                 {verifyForm ? (
                     <MainCard title={t('Enter mobile number to continue')}>

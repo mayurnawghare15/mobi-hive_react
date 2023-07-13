@@ -15,6 +15,8 @@ import ProfileSection from './ProfileSection';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import DarkMode from './DarkMode';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -46,6 +48,25 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
     const theme = createTheme();
+    const navigate = useNavigate()
+    // useEffect(() => {
+    //     const delay = 300; // Delay in milliseconds
+
+    //     const timer = setTimeout(() => {
+    //         const localStorageData = JSON.parse(JSON.stringify(localStorage.getItem("berry-account")));
+    //         const isAuthenticated = localStorageData.token ? true : false;
+    //         // Code to execute after the delay
+    //         if (!isAuthenticated) {
+    //             // Redirect to the login page
+
+    //             return navigate('/login');
+    //         }
+    //     }, delay);
+
+    //     // Cleanup the timer on component unmount
+    //     return () => clearTimeout(timer);
+    // }, [])
+
 
     return (
         <React.Fragment>

@@ -21,9 +21,7 @@ import './assets/scss/style.scss';
 ReactDOM.render(
     <Provider store={store}>
         <PersistGate loading={null} persistor={persister}>
-            <BrowserRouter basename={config.basename}>
                 <App />
-            </BrowserRouter>
         </PersistGate>
     </Provider>,
     document.getElementById('root')

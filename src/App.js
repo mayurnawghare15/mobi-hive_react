@@ -6,13 +6,12 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline, StyledEngineProvider } from '@material-ui/core';
 
 // routing
-import Routes from './routes';
+import AllRoutes from './routes';
+
 
 // defaultTheme
 import theme from './themes';
 
-// project imports
-import NavigationScroll from './layout/NavigationScroll';
 
 import './i18nextInit';
 import { ToastContainer, Slide } from 'react-toastify';
@@ -41,9 +40,7 @@ const App = () => {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme(customization)}>
                     <CssBaseline />
-                    <NavigationScroll>
-                        <Routes />
-                    </NavigationScroll>
+                        <AllRoutes />
                 </ThemeProvider>
             </StyledEngineProvider>
         </>
