@@ -9,6 +9,7 @@
   "sign_in" : "تسجيل الدخول",
   "dont_have_an_account" : "ليس لديك حساب؟",
   "username_required" : "اسم المستخدم مطلوب",
-  "password_required" : "كلمة المرور مطلوبة"
+  "password_required" : "كلمة المرور مطلوبة",
+  "Please_enter_a_mobile_number" : "الرجاء إدخال رقم الهاتف النقال"
 
 }

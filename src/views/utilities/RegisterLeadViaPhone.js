@@ -22,10 +22,9 @@ const RegisterLeadViaPhone = () => {
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
-    const [showPopup, setShowPopup] = useState(true);
     const [DOB, setDOB] = useState();
     const [verifyForm, setVerifyForm] = useState(true);
-    const [showDobPopup, setShowDobPopup] = useState(false)
+    const [showDobPopup, setShowDobPopup] = useState(false);
     const { t } = useTranslation();
 
     const handleMobileNumberChange = (phoneNumber) => {
@@ -41,7 +40,7 @@ const RegisterLeadViaPhone = () => {
 
     const handleSendOtp = () => {
         if (!mobileNumber) {
-            toast.error('Please enter a mobile number');
+            toast.error(t('Please_enter_a_mobile_number'));
         } else if (!isValidPhoneNumber(mobileNumber, countryCode)) {
             toast.error('Please enter a valid mobile number');
         } else {
@@ -135,7 +134,7 @@ const RegisterLeadViaPhone = () => {
             try {
                 axios.post(BASE_URL + 'v2/otp_verify/', body, headers).then(function (response) {
                     if (response.status) {
-                        setShowPopup(true);
+                        setShowDobPopup(true);
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found)
@@ -156,7 +155,6 @@ const RegisterLeadViaPhone = () => {
     };
 
     const handleDOBSubmit = () => {
-        setVerifyForm(false);
         if (!DOB) {
             toast.error('Please enter DOB');
         } else {
@@ -167,13 +165,14 @@ const RegisterLeadViaPhone = () => {
             };
 
             const body = {
-                "dob": DOB,
-                "recipient": mobileNumber
+                dob: DOB,
+                recipient: mobileNumber
             };
             try {
-                axios.post(BASE_URL + "v2/dob_verify/", body, headers).then((response) => {
+                axios.post(BASE_URL + 'v2/dob_verify/', body, headers).then((response) => {
                     if (response.data.status) {
-                        setShowPopup(false);
+                        setShowDobPopup(false);
+                        setVerifyForm(true);
                         toast.success(response.data.message);
                         return navigate("/lead/createlead")
                     }
@@ -208,7 +207,7 @@ const RegisterLeadViaPhone = () => {
                                                 />
                                             </Grid>
                                             {/* Popup Dialog */}
-                                            <Dialog open={showPopup}>
+                                            <Dialog open={showDobPopup}>
                                                 <DialogTitle sx={{ fontSize: '1.2rem' }}>Please Enter your Date of Birth</DialogTitle>
                                                 <DialogContent>
                                                     <TextField
@@ -223,7 +222,7 @@ const RegisterLeadViaPhone = () => {
                                                     <Button onClick={handleDOBSubmit} color="primary">
                                                         Submit
                                                     </Button>
-                                                    <Button onClick={() => setShowPopup(false)} color="primary">
+                                                    <Button onClick={() => setShowDobPopup(false)} color="primary">
                                                         Close
                                                     </Button>
                                                 </DialogActions>
@@ -262,9 +261,9 @@ const RegisterLeadViaPhone = () => {
                             </Grid>
                         </Grid>
                     </MainCard>
-                ) : (
+                ) :
                     ""
-                )}
+                }
             </Grid>
         </>
     );

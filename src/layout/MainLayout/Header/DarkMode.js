@@ -8,8 +8,6 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
 const DarkMode = ({ onClick }) => {
-    const theme = useTheme();
-
     const MaterialUISwitch = styled(Switch)(({ theme }) => ({
         width: 62,
         height: 34,
@@ -60,7 +58,7 @@ const DarkMode = ({ onClick }) => {
     return (
         <>
             <FormGroup>
-                <FormControlLabel control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />} />
+                <FormControlLabel control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked  />} />
             </FormGroup>
         </>
     );
