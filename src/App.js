@@ -10,13 +10,12 @@ import { I18nextProvider } from 'react-i18next';
 import './i18nextInit';
 
 // routing
-import Routes from './routes';
+import AllRoutes from './routes';
+
 
 // defaultTheme
 import theme from './themes';
 
-// project imports
-import NavigationScroll from './layout/NavigationScroll';
 
 //Toasts
 import { ToastContainer, Slide } from 'react-toastify';
@@ -45,9 +44,7 @@ const App = () => {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme(customization)}>
                     <CssBaseline />
-                    <NavigationScroll>
-                        <Routes />
-                    </NavigationScroll>
+                        <AllRoutes />
                 </ThemeProvider>
             </StyledEngineProvider>
         </>

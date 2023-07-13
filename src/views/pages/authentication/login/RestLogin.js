@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
@@ -80,6 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RestLogin = (props, { ...others }) => {
     const { t } = useTranslation();
+    const navigate = useNavigate()
     const classes = useStyles();
     const dispatcher = useDispatch();
     const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -132,6 +133,10 @@ const RestLogin = (props, { ...others }) => {
                             .then(function (response) {
                                 if (response.status) {
                                     toast.success('Login Sucessfully');
+                                    if (scriptedRef.current) {
+                                        setStatus({ success: true });
+                                        setSubmitting(false);
+                                    }
                                     dispatcher({
                                         type: ACCOUNT_INITIALIZE,
                                         payload: {
@@ -140,10 +145,7 @@ const RestLogin = (props, { ...others }) => {
                                             token: response.data.data.token
                                         }
                                     });
-                                    if (scriptedRef.current) {
-                                        setStatus({ success: true });
-                                        setSubmitting(false);
-                                    }
+                                    return navigate("/")
                                 } else {
                                     toast.error('Please Enter Correct Credentials');
                                     setStatus({ success: false });

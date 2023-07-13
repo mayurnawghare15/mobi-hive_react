@@ -22,17 +22,23 @@ import './assets/scss/style.scss';
 
 //-----------------------|| REACT DOM RENDER  ||-----------------------//
 
+
 ReactDOM.render(
+
     <I18nextProvider i18n={i18n}>
+
         <Provider store={store}>
+
             <PersistGate loading={null} persistor={persister}>
-                <BrowserRouter basename={config.basename}>
-                    <App />
-                </BrowserRouter>
+                <App />
             </PersistGate>
+
         </Provider>
+
     </I18nextProvider>,
+
     document.getElementById('root')
+
 );
 
 // If you want your app to work offline and load faster, you can change
