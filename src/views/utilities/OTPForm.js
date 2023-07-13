@@ -19,9 +19,10 @@ const OTPForm = () => {
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
+    const [showConfirmation, setShowConfirmation] = useState(false);
     const [DOB, setDOB] = useState();
-    const [verifyForm, setVerifyForm] = useState(true);
+    const [verifyForm, setVerifyForm] = useState(false);
     const { t } = useTranslation();
 
     const handleMobileNumberChange = (phoneNumber) => {
@@ -136,6 +137,7 @@ const OTPForm = () => {
                     console.log(response.data);
                     if (response.data.status_code === 200) {
                         setShowPopup(true);
+
                         toast.success('OTP Verified successfully');
                     } else {
                         toast.error('Invalid OTP');
@@ -150,109 +152,112 @@ const OTPForm = () => {
     };
 
     const handleDOBSubmit = () => {
-        setVerifyForm(false);
-        console.log(DOB);
-        if (!DOB) {
-            toast.error('Please enter DOB');
-        } else {
-            const body = {};
-            try {
-                axios.post().then((response) => {
-                    if (response.data.status === 200) {
-                        toast.success('DOB Matched');
-                        setShowPopup(false);
-                    }
-                });
-            } catch (err) {
-                console.log(err);
-            }
-        }
+        setShowConfirmation(true);
+        // console.log(DOB);
+        // if (!DOB) {
+        //     toast.error('Please enter DOB');
+        // } else {
+        //     const body = {};
+        //     try {
+        //         axios.post().then((response) => {
+        //             if (response.data.status === 200) {
+        //                 toast.success('DOB Matched');
+        //                 setShowPopup(false);
+        //             }
+        //         });
+        //     } catch (err) {
+        //         console.log(err);
+        //     }
+        // }
     };
 
     return (
-        <Grid open={verifyForm}>
-            {verifyForm ? (
-                <MainCard title={t('Enter mobile number to continue')}>
-                    <Grid container spacing={gridSpacing}>
-                        {/* OTP Form */}
-                        <Grid item xs={12} sm={6}>
-                            <SubCard>
-                                <form>
-                                    <Grid container direction="column" spacing={2}>
-                                        <Grid item>
-                                            <MuiPhoneNumber
-                                                defaultCountry={'in'}
-                                                label="Mobile Number"
-                                                value={mobileNumber}
-                                                onChange={handleMobileNumberChange}
-                                                fullWidth
-                                                required
-                                                countryCodeEditable
-                                                onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
-                                            />
-                                        </Grid>
-                                        {/* Popup Dialog */}
-                                        <Dialog open={showPopup}>
-                                            <DialogTitle sx={{ fontSize: '1.2rem' }}>Please Enter your Date of Birth</DialogTitle>
-                                            <DialogContent>
-                                                <TextField
-                                                    value={DOB}
-                                                    type="date"
-                                                    fullWidth
-                                                    onChange={handleDOBChange}
-                                                    // Add any necessary props and event handlers for capturing the date of birth
-                                                />
-                                            </DialogContent>
-                                            <DialogActions>
-                                                <Button onClick={handleDOBSubmit} color="primary">
-                                                    Submit
-                                                </Button>
-                                                <Button onClick={() => setShowPopup(false)} color="primary">
-                                                    Close
-                                                </Button>
-                                            </DialogActions>
-                                        </Dialog>
-
-                                        {!otpSent ? (
+        <>
+            <Dialog open={showConfirmation}></Dialog>
+            <Grid open={verifyForm}>
+                {verifyForm ? (
+                    <MainCard title={t('Enter mobile number to continue')}>
+                        <Grid container spacing={gridSpacing}>
+                            {/* OTP Form */}
+                            <Grid item xs={12} sm={6}>
+                                <SubCard>
+                                    <form>
+                                        <Grid container direction="column" spacing={2}>
                                             <Grid item>
-                                                <Button type="button" onClick={handleSendOtp}>
-                                                    {t('Send_OTP')}
-                                                </Button>
+                                                <MuiPhoneNumber
+                                                    defaultCountry={'in'}
+                                                    label="Mobile Number"
+                                                    value={mobileNumber}
+                                                    onChange={handleMobileNumberChange}
+                                                    fullWidth
+                                                    required
+                                                    countryCodeEditable
+                                                    onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
+                                                />
                                             </Grid>
-                                        ) : (
-                                            <React.Fragment key="otpForm">
-                                                <Grid item>
+                                            {/* Popup Dialog */}
+                                            <Dialog open={showPopup}>
+                                                <DialogTitle sx={{ fontSize: '1.2rem' }}>Please Enter your Date of Birth</DialogTitle>
+                                                <DialogContent>
                                                     <TextField
-                                                        error={otp.length === 0}
-                                                        helperText={!otp.length ? 'OTP is required' : ''}
-                                                        label="OTP"
-                                                        value={otp}
-                                                        onChange={handleOtpChange}
+                                                        value={DOB}
+                                                        type="date"
                                                         fullWidth
-                                                        required
-                                                        variant="standard"
-                                                        inputProps={{ maxLength: 6 }}
+                                                        onChange={handleDOBChange}
+                                                        // Add any necessary props and event handlers for capturing the date of birth
                                                     />
-                                                </Grid>
+                                                </DialogContent>
+                                                <DialogActions>
+                                                    <Button onClick={handleDOBSubmit} color="primary">
+                                                        Submit
+                                                    </Button>
+                                                    <Button onClick={() => setShowPopup(false)} color="primary">
+                                                        Close
+                                                    </Button>
+                                                </DialogActions>
+                                            </Dialog>
+
+                                            {!otpSent ? (
                                                 <Grid item>
-                                                    <Button onClick={handleVerifyOtp}>{t('Verify_OTP')}</Button>
-                                                    <Button onClick={handleResendOTP}>{t('Resend_OTP')}</Button>
+                                                    <Button type="button" onClick={handleSendOtp}>
+                                                        {t('Send_OTP')}
+                                                    </Button>
                                                 </Grid>
-                                            </React.Fragment>
-                                        )}
-                                    </Grid>
-                                </form>
-                            </SubCard>
+                                            ) : (
+                                                <React.Fragment key="otpForm">
+                                                    <Grid item>
+                                                        <TextField
+                                                            error={otp.length === 0}
+                                                            helperText={!otp.length ? 'OTP is required' : ''}
+                                                            label="OTP"
+                                                            value={otp}
+                                                            onChange={handleOtpChange}
+                                                            fullWidth
+                                                            required
+                                                            variant="standard"
+                                                            inputProps={{ maxLength: 6 }}
+                                                        />
+                                                    </Grid>
+                                                    <Grid item>
+                                                        <Button onClick={handleVerifyOtp}>{t('Verify_OTP')}</Button>
+                                                        <Button onClick={handleResendOTP}>{t('Resend_OTP')}</Button>
+                                                    </Grid>
+                                                </React.Fragment>
+                                            )}
+                                        </Grid>
+                                    </form>
+                                </SubCard>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </MainCard>
-            ) : (
-                // 'Testing....'
-                <>
-                    <LeadForm></LeadForm>
-                </>
-            )}
-        </Grid>
+                    </MainCard>
+                ) : (
+                    // 'Testing....'
+                    <>
+                        <LeadForm></LeadForm>
+                    </>
+                )}
+            </Grid>
+        </>
     );
 };
 

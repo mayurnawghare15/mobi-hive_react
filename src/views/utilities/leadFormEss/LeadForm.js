@@ -10,7 +10,6 @@ import '../leadFormEss/style.css';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import {
     Box,
     FormControl,
@@ -29,7 +28,6 @@ import UploadProfilePhoto from './uploadProfilePhoto';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 
 const RegisterForm = () => {
-    const [selectTittleValue, setselectTittleValue] = useState('');
     const [anchorEl, setAnchorEl] = useState('');
     const [firstName, setFirstName] = useState('');
     const [middleName, setMiddleName] = useState('');
@@ -280,11 +278,11 @@ const RegisterForm = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
-                                className="textfield"
+                            <MuiPhoneNumber
+                                className="label"
+                                defaultCountry={'in'}
                                 label="Whatsapp"
-                                type="whatsapp"
-                                variant="outlined"
+                                value={whatsappNo}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -292,9 +290,11 @@ const RegisterForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                onChange={(e) => setWhatsappNo(e.value)}
                                 fullWidth
-                                value={whatsappNo}
-                                onChange={(e) => setWhatsappNo(e.target.value)}
+                                required
+                                variant="outlined"
+                                countryCodeEditable
                             />
                         </Grid>
                     </Grid>
@@ -338,11 +338,11 @@ const RegisterForm = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
-                                className="textfield"
+                            <MuiPhoneNumber
+                                className="label"
+                                defaultCountry={'in'}
                                 label="Local Phone Number"
-                                type="phone"
-                                variant="outlined"
+                                value={localPhoneNo}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">
@@ -350,9 +350,11 @@ const RegisterForm = () => {
                                         </InputAdornment>
                                     )
                                 }}
+                                onChange={(e) => setLocalPhoneNo(e.value)}
                                 fullWidth
-                                value={localPhoneNo}
-                                onChange={(e) => setLocalPhoneNo(e.target.value)}
+                                required
+                                variant="outlined"
+                                countryCodeEditable
                             />
                         </Grid>
                     </Grid>

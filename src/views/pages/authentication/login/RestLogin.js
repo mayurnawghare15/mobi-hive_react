@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { Link as RouterLink } from 'react-router-dom';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -86,8 +85,6 @@ const RestLogin = (props, { ...others }) => {
 
     const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
-    const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
-    const [password, setPassword] = useState(localStorage.getItem('myapp-password') || '');
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
