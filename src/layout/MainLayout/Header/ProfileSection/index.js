@@ -223,7 +223,7 @@ const ProfileSection = () => {
                                                 <Typography component="span" variant="h4" className={classes.name}></Typography>
                                             </Grid>
                                         </Grid>
-                                        <OutlinedInput
+                                        {/* <OutlinedInput
                                             className={classes.searchControl}
                                             id="input-search-profile"
                                             value={value}
@@ -238,7 +238,7 @@ const ProfileSection = () => {
                                             inputProps={{
                                                 'aria-label': 'weight'
                                             }}
-                                        />
+                                        /> */}
                                         <Divider />
                                         <PerfectScrollbar className={classes.ScrollHeight}>
                                             <Divider />

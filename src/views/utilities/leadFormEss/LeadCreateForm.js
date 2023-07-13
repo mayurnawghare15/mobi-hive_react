@@ -30,51 +30,73 @@ import AnimateButton from '../../../ui-component/extended/AnimateButton';
 
 const LeadCreateForm = () => {
     const { t } = useTranslation();
-    const [countryCode, setCountryCode] = useState("")
+    const [countryCode, setCountryCode] = useState('');
     const [createLeadForm, setCreateLeadForm] = useState({
-        photo: "",
-        saluation: "",
-        first_name: "",
-        middle_name: "",
-        last_name: "",
-        gender: "",
-        date_of_birth: "",
-        marital_status: "",
-        highest_education: "",
-        ph_number: "",
-        email: "",
-        whatsapp_number: "",
-        alt_number_name: "",
-        alt_number_relation: "",
-        alt_number: "",
-        current_employer: "",
-        employed_since: "",
-        occupation_sector: "",
-        employee_type: "",
-        monthly_income: "",
-        total_dependents: "",
-        monthly_saving: "",
+        photo: '',
+        saluation: '',
+        first_name: '',
+        middle_name: '',
+        last_name: '',
+        gender: '',
+        date_of_birth: '',
+        marital_status: '',
+        highest_education: '',
+        ph_number: '',
+        email: '',
+        whatsapp_number: '',
+        alt_number_name: '',
+        alt_number_relation: '',
+        alt_number: '',
+        current_employer: '',
+        employed_since: '',
+        occupation_sector: '',
+        employee_type: '',
+        monthly_income: '',
+        total_dependents: '',
+        monthly_saving: '',
         current_address: '',
-        city: "",
-        locality: "",
-        existing_loan:""
-    })
-    const { photo, saluation, first_name, last_name, gender, middle_name, date_of_birth, marital_status,
-        highest_education, ph_number, email, whatsapp_number, alt_number_name, alt_number,
-        alt_number_relation, current_employer, employed_since, occupation_sector, employee_type, monthly_income,
-        total_dependents, monthly_saving, current_address, city, locality,existing_loan } = createLeadForm;
+        city: '',
+        locality: '',
+        existing_loan: ''
+    });
+    const {
+        photo,
+        saluation,
+        first_name,
+        last_name,
+        gender,
+        middle_name,
+        date_of_birth,
+        marital_status,
+        highest_education,
+        ph_number,
+        email,
+        whatsapp_number,
+        alt_number_name,
+        alt_number,
+        alt_number_relation,
+        current_employer,
+        employed_since,
+        occupation_sector,
+        employee_type,
+        monthly_income,
+        total_dependents,
+        monthly_saving,
+        current_address,
+        city,
+        locality,
+        existing_loan
+    } = createLeadForm;
     const onInputChange = (e) => {
-        const name = e.target.name
-        const value = e.target.value
+        const name = e.target.name;
+        const value = e.target.value;
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
-        })
-    }
+        });
+    };
 
-    const handleSubmit = () => {
-
-    }
+    const handleSubmit = () => {};
     return (
         <Container maxWidth="md">
             <form>
@@ -91,15 +113,15 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="tittle-label">
-                                        Title
+                                        {t('title')}
                                     </InputLabel>
                                     <Select labelId="tittle-label" id="tittle" value={saluation} onChange={onInputChange}>
-                                        <MenuItem value={'Mr'}>Mr</MenuItem>
-                                        <MenuItem value={'Mrs'}>Mrs</MenuItem>
-                                        <MenuItem value={'Miss'}>Miss</MenuItem>
-                                        <MenuItem value={'Master'}>Master</MenuItem>
-                                        <MenuItem value={'Dr'}>Dr</MenuItem>
-                                        <MenuItem value={'Er'}>Er</MenuItem>
+                                        <MenuItem value={'Mr'}>{t('Mr')}</MenuItem>
+                                        <MenuItem value={'Mrs'}>{t('Mrs')}</MenuItem>
+                                        <MenuItem value={'Miss'}>{t('Miss')}</MenuItem>
+                                        <MenuItem value={'Master'}>{t('Master')}</MenuItem>
+                                        <MenuItem value={'Dr'}>{t('Dr')}</MenuItem>
+                                        <MenuItem value={'Er'}>{t('Er')}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -108,7 +130,7 @@ const LeadCreateForm = () => {
                                     className="textfield"
                                     type="text"
                                     variant="outlined"
-                                    label="First Name"
+                                    label={t('first_Name')}
                                     value={first_name}
                                     name="first_name"
                                     onChange={onInputChange}
@@ -122,7 +144,7 @@ const LeadCreateForm = () => {
                                     type="text"
                                     variant="outlined"
                                     color="secondary"
-                                    label="Middle Name"
+                                    label={t('middle_Name')}
                                     value={middle_name}
                                     name="middle_name"
                                     onChange={onInputChange}
@@ -136,7 +158,7 @@ const LeadCreateForm = () => {
                                     type="text"
                                     variant="outlined"
                                     color="secondary"
-                                    label="Last Name"
+                                    label={t('last_name')}
                                     value={last_name}
                                     name="last_name"
                                     onChange={onInputChange}
@@ -149,12 +171,12 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
-                                        Gender
+                                        {t('gender')}
                                     </FormLabel>
                                     <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange}>
-                                        <FormControlLabel value="female" control={<Radio />} label="Female" />
-                                        <FormControlLabel value="male" control={<Radio />} label="Male" />
-                                        <FormControlLabel value="other" control={<Radio />} label="Other" />
+                                        <FormControlLabel value="female" control={<Radio />} label={t('female')} />
+                                        <FormControlLabel value="male" control={<Radio />} label={t('male')} />
+                                        <FormControlLabel value="other" control={<Radio />} label={t('other')} />
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -164,7 +186,7 @@ const LeadCreateForm = () => {
                                     className="textfield"
                                     type="date"
                                     variant="outlined"
-                                    name="date_of_birth"
+                                    name={t('date_of_birth')}
                                     color="secondary"
                                     value={date_of_birth}
                                     onChange={onInputChange}
@@ -175,7 +197,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3} mt={2.5}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="marital-status-label">
-                                        Marital Status
+                                        {t('marital_Status')}
                                     </InputLabel>
                                     <Select
                                         labelId="marital-status-label"
@@ -184,25 +206,31 @@ const LeadCreateForm = () => {
                                         name="marital_status"
                                         onChange={onInputChange}
                                     >
-                                        <MenuItem value="Single / Never Married">Single / Never Married</MenuItem>
-                                        <MenuItem value="Married">Married</MenuItem>
-                                        <MenuItem value="Divorced">Divorced</MenuItem>
-                                        <MenuItem value="Seprated">Seprated</MenuItem>
-                                        <MenuItem value="Others">Others</MenuItem>
+                                        <MenuItem value="Single / Never Married">{t('single_/_Never_Married')}</MenuItem>
+                                        <MenuItem value="Married">{t('married')}</MenuItem>
+                                        <MenuItem value="Divorced">{t('divorced')}</MenuItem>
+                                        <MenuItem value="Seprated">{t('seprated')}</MenuItem>
+                                        <MenuItem value="Others">{t('others')}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={3} mt={2.5}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
-                                        Highest Education
+                                        {t('highest_Education')}
                                     </InputLabel>
-                                    <Select labelId="education-label" id="education" name="highest_education" value={highest_education} onChange={onInputChange}>
-                                        <MenuItem value="Primary">Primary</MenuItem>
-                                        <MenuItem value="Secondary">Secondary</MenuItem>
-                                        <MenuItem value="Bachelors / Graduate">Bachelors / Graduate</MenuItem>
-                                        <MenuItem value="Post-Graduate / Masters">Post-Graduate / Masters</MenuItem>
-                                        <MenuItem value="PhD / Doctorate">PhD / Doctorate</MenuItem>
+                                    <Select
+                                        labelId="education-label"
+                                        id="education"
+                                        name="highest_education"
+                                        value={highest_education}
+                                        onChange={onInputChange}
+                                    >
+                                        <MenuItem value="Primary">{t('primary')}</MenuItem>
+                                        <MenuItem value="Secondary">{t('secondary')}</MenuItem>
+                                        <MenuItem value="Bachelors / Graduate">{t('bachelor_Graduate')}</MenuItem>
+                                        <MenuItem value="Post-Graduate / Masters">{t('post_Graduate')}</MenuItem>
+                                        <MenuItem value="PhD / Doctorate">{t('phd')}</MenuItem>
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -213,7 +241,7 @@ const LeadCreateForm = () => {
                             <MuiPhoneNumber
                                 className="label"
                                 defaultCountry={'in'}
-                                label="Mobile Number"
+                                label={t('mobile_Number')}
                                 name="ph_number"
                                 value={ph_number}
                                 onChange={onInputChange}
@@ -227,7 +255,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label="E-Mail"
+                                label={t('email')}
                                 type="email"
                                 name="email"
                                 value={email}
@@ -246,7 +274,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label="Whatsapp"
+                                label={t('whatsapp')}
                                 type="whatsapp"
                                 variant="outlined"
                                 InputProps={{
@@ -271,7 +299,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label="Name"
+                                label={t('name')}
                                 type="text"
                                 variant="outlined"
                                 fullWidth
@@ -283,7 +311,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" id="relation-status-label">
-                                    Relation
+                                    {t('relation')}
                                 </InputLabel>
                                 <Select
                                     labelId="relation-status-label"
@@ -293,21 +321,21 @@ const LeadCreateForm = () => {
                                     name="alt_number_relation"
                                     onChange={onInputChange}
                                 >
-                                    <MenuItem value="Father">Father</MenuItem>
-                                    <MenuItem value="Mother">Mother</MenuItem>
-                                    <MenuItem value="Son">Son</MenuItem>
-                                    <MenuItem value="Wife">Wife</MenuItem>
-                                    <MenuItem value="Husband">Husband</MenuItem>
-                                    <MenuItem value="Brother">Brother</MenuItem>
-                                    <MenuItem value="Friend">Friend</MenuItem>
-                                    <MenuItem value="Others">Others</MenuItem>
+                                    <MenuItem value="Father">{t('father')}</MenuItem>
+                                    <MenuItem value="Mother">{t('mother')}</MenuItem>
+                                    <MenuItem value="Son">{t('son')}</MenuItem>
+                                    <MenuItem value="Wife">{t('wife')}</MenuItem>
+                                    <MenuItem value="Husband">{t('husband')}</MenuItem>
+                                    <MenuItem value="Brother">{t('brother')}</MenuItem>
+                                    <MenuItem value="Friend">{t('friend')}</MenuItem>
+                                    <MenuItem value="Others">{t('others')}</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label="Local Phone Number"
+                                label={t('local_phone_number')}
                                 type="phone"
                                 variant="outlined"
                                 InputProps={{
@@ -327,12 +355,12 @@ const LeadCreateForm = () => {
                 </SubCard>
                 {/* Business / Employment Information-------------------------- */}
                 <SubCard>
-                    <h3>Business / Employment Information</h3>
+                    <h3>{t('BusniessLabel')}</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={8} mt={2.5}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" id="relation-status-label">
-                                    Current Employer
+                                    {t('current_Employer')}
                                 </InputLabel>
                                 <Select
                                     labelId="relation-status-label"
@@ -341,15 +369,15 @@ const LeadCreateForm = () => {
                                     name="current_employer"
                                     onChange={onInputChange}
                                 >
-                                    <MenuItem value="Father">Father</MenuItem>
-                                    <MenuItem value="Mother">Mother</MenuItem>
-                                    <MenuItem value="Son">Son</MenuItem>
+                                    <MenuItem value="Father">{t('father')}</MenuItem>
+                                    <MenuItem value="Mother">{t('mother')}</MenuItem>
+                                    <MenuItem value="Son">{t('son')}</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <InputLabel className="label" color="primary">
-                                <b>Employed Since</b>
+                                <b>{t('employed_Since')}</b>
                             </InputLabel>
                             <TextField
                                 className="textfield"
@@ -365,122 +393,123 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" id="occupation-label">
-                                    Occupation
+                                    {t('occupation')}
                                 </InputLabel>
-                                <Select labelId="occupation-label" name="occupation" value={occupation_sector} onChange={onInputChange}>
-                                    <MenuItem value="Engineer">Engineer</MenuItem>
-                                    <MenuItem value="Doctor">Doctor</MenuItem>
-                                    <MenuItem value="Teacher">Teacher</MenuItem>
-                                    <MenuItem value="Lawyer">Lawyer</MenuItem>
+                                <Select
+                                    labelId="occupation-label"
+                                    name="occupation_sector"
+                                    value={occupation_sector}
+                                    onChange={onInputChange}
+                                >
+                                    <MenuItem value="Engineer">{t('engineer')}</MenuItem>
+                                    <MenuItem value="Doctor">{t('doctor')}</MenuItem>
+                                    <MenuItem value="Teacher">{t('teacher')}</MenuItem>
+                                    <MenuItem value="Lawyer">{t('lawyer')}</MenuItem>
                                     {/* Add more occupation options as needed */}
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
-                                <InputLabel className="label" id="Employee-label">
-                                    Employee Type
+                                <InputLabel className="label" id="employee-label">
+                                    {t('employee_Type')}
                                 </InputLabel>
-                                <Select labelId="occupation-label" id="occupation" value={employee_type} onChange={onInputChange}>
-                                    <MenuItem value="Full Time">Full Time</MenuItem>
-                                    <MenuItem value="Doctor">Part Time</MenuItem>
-                                    <MenuItem value="Part Time">Freelancer</MenuItem>
-                                    <MenuItem value="Self Employed">Self Employed</MenuItem>
-                                    {/* Add more occupation options as needed */}
+                                <Select
+                                    labelId="employee-label"
+                                    id="employee"
+                                    value={employee_type}
+                                    name="employee_type"
+                                    onChange={onInputChange}
+                                >
+                                    <MenuItem value="Full Time">{t('full_Time')}</MenuItem>
+                                    <MenuItem value="Part Time">{t('part_Time')}</MenuItem>
+                                    <MenuItem value="Freelancer">{t('freelancer')}</MenuItem>
+                                    <MenuItem value="Self Employed">{t('self_Employed')}</MenuItem>
+                                    {/* Add more employee type options as needed */}
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
-                                <InputLabel className="label" htmlFor="outlined-adornment-amount">
-                                    Income Monthly*
+                                <InputLabel className="label" htmlFor="monthly-income">
+                                    {t('income_Monthly')}
                                 </InputLabel>
-                                <Grid mt={1}>
-                                    <OutlinedInput
-                                        id="outlined-adornment-amount"
-                                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                        label="Amount"
-                                        value={monthly_income}
-                                        name="monthly_income"
-                                        onChange={onInputChange}
-                                    />
-                                </Grid>
+                                <OutlinedInput
+                                    id="monthly-income"
+                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                    label={t('amount')}
+                                    value={monthly_income}
+                                    name="monthly_income"
+                                    onChange={onInputChange}
+                                />
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
-                                <InputLabel className="label" htmlFor="outlined-adornment-amount">
-                                    Total Dependent(s)*
+                                <InputLabel className="label" htmlFor="total-dependents">
+                                    {t('total_Dependents')}
                                 </InputLabel>
-                                <Grid mt={1}>
-                                    <OutlinedInput
-                                        id="outlined-adornment-amount"
-                                        startAdornment={<InputAdornment position="start"></InputAdornment>}
-                                        label="Amount"
-                                        value={total_dependents}
-                                        name="total_dependents"
-                                        onChange={onInputChange}
-                                    />
-                                </Grid>
+                                <OutlinedInput
+                                    id="total-dependents"
+                                    label={t('amount')}
+                                    value={total_dependents}
+                                    name="total_dependents"
+                                    onChange={onInputChange}
+                                />
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
-                                <InputLabel className="label" htmlFor="outlined-adornment-amount">
-                                    Existing Loan*
+                                <InputLabel className="label" htmlFor="existing-loan">
+                                    {t('existing_Loan')}
                                 </InputLabel>
-                                <Grid mt={1}>
-                                    <OutlinedInput
-                                        id="outlined-adornment-amount"
-                                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                        label="Amount"
-                                        value={existing_loan}
-                                        name="existing_loan"
-                                        onChange={onInputChange}
-                                    />
-                                </Grid>
+                                <OutlinedInput
+                                    id="existing-loan"
+                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                    label={t('amount')}
+                                    value={existing_loan}
+                                    name="existing_loan"
+                                    onChange={onInputChange}
+                                />
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
-                                <InputLabel className="label" htmlFor="outlined-adornment-amount">
-                                    Monthly saving*
+                                <InputLabel className="label" htmlFor="monthly-saving">
+                                    {t('monthly_Saving')}
                                 </InputLabel>
-                                <Grid mt={1}>
-                                    <OutlinedInput
-                                        id="outlined-adornment-amount"
-                                        startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                                        label="Amount"
-                                        value={monthly_saving}
-                                        name="monthly_saving"
-                                        onChange={onInputChange}
-                                    />
-                                </Grid>
+                                <OutlinedInput
+                                    id="monthly-saving"
+                                    startAdornment={<InputAdornment position="start">$</InputAdornment>}
+                                    label={t('amount')}
+                                    value={monthly_saving}
+                                    name="monthly_saving"
+                                    onChange={onInputChange}
+                                />
                             </FormControl>
                         </Grid>
                     </Grid>
                 </SubCard>
                 <SubCard>
-                    <h3>Current Address</h3>
+                    <h3>{t('current_Address')}</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" color="primary">
-                                    <b>City*</b>
+                                    <b>{t('city')}*</b>
                                 </InputLabel>
-                                <Select labelId="occupation-label" id="occupation" name="city" value={city} onChange={onInputChange}>
-                                    <MenuItem value="Engineer">Engineer</MenuItem>
-                                    <MenuItem value="Doctor">Doctor</MenuItem>
-                                    <MenuItem value="Teacher">Teacher</MenuItem>
-                                    <MenuItem value="Lawyer">Lawyer</MenuItem>
-                                    {/* Add more occupation options as needed */}
+                                <Select labelId="city-label" id="city" name="city" value={city} onChange={onInputChange}>
+                                    <MenuItem value="City 1">{t('city1')}</MenuItem>
+                                    <MenuItem value="City 2">{t('city2')}</MenuItem>
+                                    <MenuItem value="City 3">{t('city3')}</MenuItem>
+                                    {/* Add more city options as needed */}
                                 </Select>
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label="Customer Locality*"
+                                label={t('customer_Locality')}
                                 type="text"
                                 variant="outlined"
                                 fullWidth
@@ -489,17 +518,23 @@ const LeadCreateForm = () => {
                                 onChange={onInputChange}
                             />
                         </Grid>
-
                         <Grid item xs={12} sm={8}>
                             <InputLabel className="label" color="primary">
-                                <b>Current Address*</b>
+                                <b>{t('current_Address')}*</b>
                             </InputLabel>
                             <FormControl mt={1} fullWidth>
-                                <TextareaAutosize required value={current_address} name="cuurent_address" onChange={onInputChange} minRows={5} />
+                                <TextareaAutosize
+                                    required
+                                    value={current_address}
+                                    name="current_address"
+                                    onChange={onInputChange}
+                                    minRows={5}
+                                />
                             </FormControl>
                         </Grid>
                     </Grid>
                 </SubCard>
+
                 <Box
                     sx={{
                         mt: 3

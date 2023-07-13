@@ -22,7 +22,7 @@ const RegisterLeadViaPhone = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
     const [DOB, setDOB] = useState();
-    const [verifyForm, setVerifyForm] = useState(true);
+    const [verifyForm, setVerifyForm] = useState(false);
     const [showDobPopup, setShowDobPopup] = useState(false);
     const { t } = useTranslation();
 
@@ -39,9 +39,9 @@ const RegisterLeadViaPhone = () => {
 
     const handleSendOtp = () => {
         if (!mobileNumber) {
-            toast.error(t('Please_enter_a_mobile_number'));
+            toast.error(t('please_enter_a_mobile_number'));
         } else if (!isValidPhoneNumber(mobileNumber, countryCode)) {
-            toast.error('Please enter a valid mobile number');
+            toast.error(t('please_enter_a_valid_mobile_number'));
         } else {
             try {
                 const phoneNumber = parsePhoneNumber(mobileNumber, countryCode);
@@ -60,16 +60,16 @@ const RegisterLeadViaPhone = () => {
                 axios
                     .post(BASE_URL + 'v2/request_otp/', body, headers)
                     .then(function (response) {
-                        toast.success('OTP sent successfully');
+                        toast.success(t('oTP_sent_successfully'));
                         console.log(response.data, 'Data');
                         console.log(response.data.status, 'Success');
                     })
                     .catch(function (error) {
-                        toast.error('Error while sending OTP');
+                        toast.error(t('error_while_sending_OTP'));
                         console.log(error);
                     });
             } catch (err) {
-                toast.error('Error while sending OTP');
+                toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
             setTimeout(() => {
@@ -99,23 +99,23 @@ const RegisterLeadViaPhone = () => {
             axios
                 .post(BASE_URL + 'v2/request_otp/', body, headers)
                 .then(function (response) {
-                    toast.success('OTP Resend');
+                    toast.success(t('oTP_Resend'));
                     console.log(response.data, 'Data');
                     console.log(response.data.status, 'Success');
                 })
                 .catch(function (error) {
-                    toast.error('Error while sending OTP');
+                    toast.error(t('error_while_sending_OTP'));
                     console.log(error);
                 });
         } catch (err) {
-            toast.error('Error while sending OTP');
+            toast.error(t('error_while_sending_OTP'));
             console.log(err);
         }
     };
 
     const handleVerifyOtp = () => {
         if (!otp) {
-            toast.error('Please enter OTP');
+            toast.error(t('please_enter_OTP'));
         } else {
             const phoneNumber = parsePhoneNumber(mobileNumber, countryCode);
             const body = {
@@ -135,13 +135,13 @@ const RegisterLeadViaPhone = () => {
                     if (response.status) {
                         setShowDobPopup(true);
                         setMobileNumber(response.data.data.recipient);
-                        toast.success('OTP Verified successfully');
+                        toast.success(t('oTP_Verified_successfully'));
                     } else {
-                        toast.error('Invalid OTP');
+                        toast.error(t('invalid_OTP'));
                     }
                 });
             } catch (err) {
-                toast.error('Error While Sending OTP');
+                toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
             setTimeout(() => {}, 2000);
@@ -150,7 +150,7 @@ const RegisterLeadViaPhone = () => {
 
     const handleDOBSubmit = () => {
         if (!DOB) {
-            toast.error('Please enter DOB');
+            toast.error(t('please_enter_DOB'));
         } else {
             const headers = {
                 headers: {
@@ -184,7 +184,7 @@ const RegisterLeadViaPhone = () => {
 
             <Grid open={verifyForm}>
                 {verifyForm ? (
-                    <MainCard title={t('Enter mobile number to continue')}>
+                    <MainCard title={t('Enter_Your_Mobile_Number_to_Continue')}>
                         <Grid container spacing={gridSpacing}>
                             {/* OTP Form */}
                             <Grid item xs={12} sm={6}>
@@ -194,7 +194,7 @@ const RegisterLeadViaPhone = () => {
                                             <Grid item>
                                                 <MuiPhoneNumber
                                                     defaultCountry={'in'}
-                                                    label="Mobile Number"
+                                                    label={t('mobile_Number')}
                                                     value={mobileNumber}
                                                     onChange={handleMobileNumberChange}
                                                     fullWidth
@@ -205,7 +205,9 @@ const RegisterLeadViaPhone = () => {
                                             </Grid>
                                             {/* Popup Dialog */}
                                             <Dialog open={showDobPopup}>
-                                                <DialogTitle sx={{ fontSize: '1.2rem' }}>Please Enter your Date of Birth</DialogTitle>
+                                                <DialogTitle sx={{ fontSize: '1.2rem' }}>
+                                                    {t('please_Enter_your_Date_of_Birth')}
+                                                </DialogTitle>
                                                 <DialogContent>
                                                     <TextField
                                                         value={DOB}
@@ -217,10 +219,10 @@ const RegisterLeadViaPhone = () => {
                                                 </DialogContent>
                                                 <DialogActions>
                                                     <Button onClick={handleDOBSubmit} color="primary">
-                                                        Submit
+                                                        {t('submit')}
                                                     </Button>
                                                     <Button onClick={() => setShowDobPopup(false)} color="primary">
-                                                        Close
+                                                        {t('close')}
                                                     </Button>
                                                 </DialogActions>
                                             </Dialog>
@@ -236,7 +238,6 @@ const RegisterLeadViaPhone = () => {
                                                     <Grid item>
                                                         <TextField
                                                             error={otp.length === 0}
-                                                            helperText={!otp.length ? 'OTP is required' : ''}
                                                             label="OTP"
                                                             value={otp}
                                                             onChange={handleOtpChange}
