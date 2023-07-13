@@ -9,21 +9,22 @@ import { toast } from 'react-toastify';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import VerifyUser from '../popups/VerifyUser';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 console.log(BASE_URL);
 
-const RegisterLeadViaMobile = () => {
+const RegisterLeadViaPhone = () => {
     const data = JSON.parse(localStorage.getItem('berry-account'));
     const [mobileNumber, setMobileNumber] = useState('');
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
-    const [showPopup, setShowPopup] = useState(false);
+    const [showPopup, setShowPopup] = useState(true);
     const [DOB, setDOB] = useState();
-    const [verifyForm, setVerifyForm] = useState(false);
-    const [isDobVerified, setIsDobVerified] = useState(false)
+    const [verifyForm, setVerifyForm] = useState(true);
+    const [showDobPopup, setShowDobPopup] = useState(false)
     const { t } = useTranslation();
 
     const handleMobileNumberChange = (phoneNumber) => {
@@ -169,7 +170,7 @@ const RegisterLeadViaMobile = () => {
                     if (response.data.status) {
                         setShowPopup(false);
                         toast.success(response.data.message);
-                        isDobVerified(true)
+                        return <Redirect to="/lead/verify-phonenumber" />;
                     }
                 });
             } catch (err) {
@@ -180,11 +181,7 @@ const RegisterLeadViaMobile = () => {
 
     return (
         <>
-            {isDobVerified ?
-                <VerifyUser showPopup={isDobVerified} setShowPopup={setIsDobVerified} />
-                : ""
-            }
-
+            {/* <VerifyUser showPopup={showDobPopup} setShowPopup={setShowDobPopup} /> */}
 
             <Grid open={verifyForm}>
                 {verifyForm ? (
@@ -263,11 +260,11 @@ const RegisterLeadViaMobile = () => {
                         </Grid>
                     </MainCard>
                 ) : (
-                  ""
+                    ""
                 )}
             </Grid>
         </>
     );
 };
 
-export default RegisterLeadViaMobile;
+export default RegisterLeadViaPhone;

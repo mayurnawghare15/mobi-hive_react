@@ -20,17 +20,17 @@ export const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'Create New Lead',
+            title: 'Verify Phone Number',
             type: 'item',
-            url: '/NewLead/OTPVerify/',
+            url: '/lead/verify-phonenumber',
             icon: icons['IconeCreateLead'],
             breadcrumbs: true
         },
         {
             id: 'util-color',
-            title: 'Color',
+            title: 'Create Lead',
             type: 'item',
-            url: '/utils/util-color',
+            url: '/lead/createlead',
             icon: icons['IconPalette'],
             breadcrumbs: false
         },
