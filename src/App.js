@@ -5,6 +5,10 @@ import './app.css';
 import { ThemeProvider } from '@material-ui/core/styles';
 import { CssBaseline, StyledEngineProvider } from '@material-ui/core';
 
+// for Translation
+import { I18nextProvider } from 'react-i18next';
+import './i18nextInit';
+
 // routing
 import Routes from './routes';
 
@@ -14,7 +18,7 @@ import theme from './themes';
 // project imports
 import NavigationScroll from './layout/NavigationScroll';
 
-import './i18nextInit';
+//Toasts
 import { ToastContainer, Slide } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
