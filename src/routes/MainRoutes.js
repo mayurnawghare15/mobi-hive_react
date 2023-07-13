@@ -5,12 +5,13 @@ import { Route, Switch, useLocation } from 'react-router-dom';
 import MainLayout from './../layout/MainLayout';
 import Loadable from '../ui-component/Loadable';
 import AuthGuard from './../utils/route-guard/AuthGuard';
+import LeadCreateForm from '../views/utilities/leadFormEss/LeadCreateForm';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('../views/utilities/OTPForm')));
+const RegisterLeadViaMobile = Loadable(lazy(() => import('../views/utilities/RegisterLeadViaMobile')));
 const UtilsColor = Loadable(lazy(() => import('../views/utilities/Color')));
 const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
 const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
@@ -42,8 +43,8 @@ const MainRoutes = () => {
                 <Switch location={location} key={location.pathname}>
                     <AuthGuard>
                         <Route path="/dashboard/default" component={DashboardDefault} />
-
-                        <Route path="/NewLead/OTPVerify/" component={UtilsTypography} />
+                        <Route path="/lead/OTPVerify/" component={RegisterLeadViaMobile} />
+                        <Route path="/lead/createlead/" component={LeadCreateForm} />
                         <Route path="/utils/util-color" component={UtilsColor} />
                         <Route path="/utils/util-shadow" component={UtilsShadow} />
                         <Route path="/icons/tabler-icons" component={UtilsTablerIcons} />

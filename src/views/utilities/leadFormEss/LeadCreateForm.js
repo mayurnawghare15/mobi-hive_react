@@ -28,104 +28,61 @@ import MuiPhoneNumber from 'material-ui-phone-number';
 import UploadProfilePhoto from './uploadProfilePhoto';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 
-const RegisterForm = () => {
-    const [selectTittleValue, setselectTittleValue] = useState('');
-    const [anchorEl, setAnchorEl] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [sex, setSex] = useState('');
-    const [maritalStatus, setMaritalStatus] = useState('');
-    const [edu, setEducation] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
-    const [email, setEmail] = useState('');
-    const [whatsappNo, setWhatsappNo] = useState('');
-    const [countryCode, setCountryCode] = useState('IN');
-    const [alterName, setalterName] = useState('');
-    const [relation, setRelationStatus] = useState('');
-    const [localPhoneNo, setLocalPhoneNo] = useState('');
-    const [cureentEmployer, setCureentEmployer] = useState('');
-    const [employeeSince, setemployeeSince] = useState('');
-    const [occupation, setOccupation] = useState('');
-    const [employeeType, setEmployeeType] = useState('');
-    const [incomeMonthly, setIncomeMonthly] = useState('');
-    const [dependents, setDependents] = useState('');
-    const [existingLoan, setExistingLoan] = useState('');
-    const [saving, setSaving] = useState('');
-    const [city, setCity] = useState('');
-    const [locality, setLocality] = useState('');
-    const [currentAdd, setCurrentAdd] = useState('');
-
-    const [dateOfBirth, setDateOfBirth] = useState('');
+const LeadCreateForm = () => {
     const { t } = useTranslation();
-
-    const [open, setOpen] = useState(false);
-
-    const handleTittleClick = (event) => {
-        setAnchorEl(event.target.value);
-        setOpen(true);
-    };
-
-    const handleSexValue = (event) => {
-        setSex(event.target.value);
-    };
-    const handleMaritalStatus = (event) => {
-        setMaritalStatus(event.target.value);
-    };
-    const handleEducation = (event) => {
-        setEducation(event.target.value);
-    };
-    const handleMobileNumberChange = (phoneNumber) => {
-        setMobileNumber(phoneNumber);
-    };
-    const handleRelationStatus = (event) => {
-        setRelationStatus(event.target.value);
-    };
-    const handleOccupationChange = (event) => {
-        setOccupation(event.target.value);
-    };
-    const handleEmployeeTypeChange = (event) => {
-        setEmployeeType(event.target.value);
-    };
-    const handleCityChange = (event) => {
-        setCity(event.target.value);
-    };
-    const handleCureentEmployer = (event) => {
-        setCureentEmployer(event.target.value);
-    };
+    const [countryCode, setCountryCode] = useState("")
+    const [createLeadForm, setCreateLeadForm] = useState({
+        photo: "",
+        saluation: "",
+        first_name: "",
+        middle_name: "",
+        last_name: "",
+        gender: "",
+        date_of_birth: "",
+        marital_status: "",
+        highest_education: "",
+        ph_number: "",
+        email: "",
+        whatsapp_number: "",
+        alt_number_name: "",
+        alt_number_relation: "",
+        alt_number: "",
+        current_employer: "",
+        employed_since: "",
+        occupation_sector: "",
+        employee_type: "",
+        monthly_income: "",
+        total_dependents: "",
+        monthly_saving: "",
+        current_address: '',
+        city: "",
+        locality: "",
+        existing_loan:""
+    })
+    const { photo, saluation, first_name, last_name, gender, middle_name, date_of_birth, marital_status,
+        highest_education, ph_number, email, whatsapp_number, alt_number_name, alt_number,
+        alt_number_relation, current_employer, employed_since, occupation_sector, employee_type, monthly_income,
+        total_dependents, monthly_saving, current_address, city, locality,existing_loan } = createLeadForm;
+    const onInputChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        setCreateLeadForm({
+            ...createLeadForm,
+            [name]: value
+        })
+    }
 
     const handleSubmit = () => {
-        console.log(anchorEl);
-        console.log(firstName);
-        console.log(middleName);
-        console.log(lastName);
-        console.log(sex);
-        console.log(dateOfBirth);
-        console.log(maritalStatus);
-        console.log(mobileNumber);
-        console.log(email);
-        // console.log(countryCode);
-        console.log(alterName);
-        console.log(relation);
-        console.log(employeeSince);
-        console.log(occupation);
-        console.log(employeeType);
-        console.log(incomeMonthly);
-        console.log(dependents);
-        console.log(existingLoan);
-        console.log(saving);
-        console.log(city);
-        console.log(locality);
-        console.log(currentAdd);
-    };
+
+    }
     return (
         <Container maxWidth="md">
             <form>
-                <MainCard className="maincard" title={t('Register_Form')}>
+                {/* <MainCard className="maincard" title={t('Register_Form')}>
                     <Grid container justifyContent="end" alignItems="end" marginTop={-10}>
-                        <UploadProfilePhoto />
+                        <UploadProfilePhoto photo={photo} />
                     </Grid>
-                </MainCard>
+                </MainCard> */}
 
                 <SubCard>
                     <h3>Personal Details</h3>
@@ -136,7 +93,7 @@ const RegisterForm = () => {
                                     <InputLabel className="label" id="tittle-label">
                                         Title
                                     </InputLabel>
-                                    <Select labelId="tittle-label" id="tittle" value={anchorEl} onChange={handleTittleClick}>
+                                    <Select labelId="tittle-label" id="tittle" value={saluation} onChange={onInputChange}>
                                         <MenuItem value={'Mr'}>Mr</MenuItem>
                                         <MenuItem value={'Mrs'}>Mrs</MenuItem>
                                         <MenuItem value={'Miss'}>Miss</MenuItem>
@@ -152,8 +109,9 @@ const RegisterForm = () => {
                                     type="text"
                                     variant="outlined"
                                     label="First Name"
-                                    value={firstName}
-                                    onChange={(e) => setFirstName(e.target.value)}
+                                    value={first_name}
+                                    name="first_name"
+                                    onChange={onInputChange}
                                     fullWidth
                                     required
                                 />
@@ -165,8 +123,9 @@ const RegisterForm = () => {
                                     variant="outlined"
                                     color="secondary"
                                     label="Middle Name"
-                                    value={middleName}
-                                    onChange={(e) => setMiddleName(e.target.value)}
+                                    value={middle_name}
+                                    name="middle_name"
+                                    onChange={onInputChange}
                                     fullWidth
                                     required
                                 />
@@ -178,8 +137,9 @@ const RegisterForm = () => {
                                     variant="outlined"
                                     color="secondary"
                                     label="Last Name"
-                                    value={lastName}
-                                    onChange={(e) => setLastName(e.target.value)}
+                                    value={last_name}
+                                    name="last_name"
+                                    onChange={onInputChange}
                                     fullWidth
                                     required
                                 />
@@ -191,7 +151,7 @@ const RegisterForm = () => {
                                     <FormLabel className="label" component="legend">
                                         Gender
                                     </FormLabel>
-                                    <RadioGroup aria-label="gender" name="gender" value={sex} onChange={handleSexValue}>
+                                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange}>
                                         <FormControlLabel value="female" control={<Radio />} label="Female" />
                                         <FormControlLabel value="male" control={<Radio />} label="Male" />
                                         <FormControlLabel value="other" control={<Radio />} label="Other" />
@@ -204,9 +164,10 @@ const RegisterForm = () => {
                                     className="textfield"
                                     type="date"
                                     variant="outlined"
+                                    name="date_of_birth"
                                     color="secondary"
-                                    value={dateOfBirth}
-                                    onChange={(e) => setDateOfBirth(e.target.value)}
+                                    value={date_of_birth}
+                                    onChange={onInputChange}
                                     fullWidth
                                     required
                                 />
@@ -219,8 +180,9 @@ const RegisterForm = () => {
                                     <Select
                                         labelId="marital-status-label"
                                         id="marital-status"
-                                        value={maritalStatus}
-                                        onChange={handleMaritalStatus}
+                                        value={marital_status}
+                                        name="marital_status"
+                                        onChange={onInputChange}
                                     >
                                         <MenuItem value="Single / Never Married">Single / Never Married</MenuItem>
                                         <MenuItem value="Married">Married</MenuItem>
@@ -235,7 +197,7 @@ const RegisterForm = () => {
                                     <InputLabel className="label" id="education-label">
                                         Highest Education
                                     </InputLabel>
-                                    <Select labelId="education-label" id="education" value={edu} onChange={handleEducation}>
+                                    <Select labelId="education-label" id="education" name="highest_education" value={highest_education} onChange={onInputChange}>
                                         <MenuItem value="Primary">Primary</MenuItem>
                                         <MenuItem value="Secondary">Secondary</MenuItem>
                                         <MenuItem value="Bachelors / Graduate">Bachelors / Graduate</MenuItem>
@@ -252,8 +214,9 @@ const RegisterForm = () => {
                                 className="label"
                                 defaultCountry={'in'}
                                 label="Mobile Number"
-                                value={mobileNumber}
-                                onChange={handleMobileNumberChange}
+                                name="ph_number"
+                                value={ph_number}
+                                onChange={onInputChange}
                                 fullWidth
                                 required
                                 variant="outlined"
@@ -266,6 +229,9 @@ const RegisterForm = () => {
                                 className="textfield"
                                 label="E-Mail"
                                 type="email"
+                                name="email"
+                                value={email}
+                                onChange={onInputChange}
                                 variant="outlined"
                                 InputProps={{
                                     startAdornment: (
@@ -275,8 +241,6 @@ const RegisterForm = () => {
                                     )
                                 }}
                                 fullWidth
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -293,8 +257,9 @@ const RegisterForm = () => {
                                     )
                                 }}
                                 fullWidth
-                                value={whatsappNo}
-                                onChange={(e) => setWhatsappNo(e.target.value)}
+                                value={whatsapp_number}
+                                name="whatsapp_number"
+                                onChange={onInputChange}
                             />
                         </Grid>
                     </Grid>
@@ -310,8 +275,9 @@ const RegisterForm = () => {
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                value={alterName}
-                                onChange={(e) => setalterName(e.target.value)}
+                                value={alt_number_name}
+                                name="alt_number_name"
+                                onChange={onInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -323,8 +289,9 @@ const RegisterForm = () => {
                                     labelId="relation-status-label"
                                     variant="outlined"
                                     id="relation-status"
-                                    value={relation}
-                                    onChange={handleRelationStatus}
+                                    value={alt_number_relation}
+                                    name="alt_number_relation"
+                                    onChange={onInputChange}
                                 >
                                     <MenuItem value="Father">Father</MenuItem>
                                     <MenuItem value="Mother">Mother</MenuItem>
@@ -351,8 +318,9 @@ const RegisterForm = () => {
                                     )
                                 }}
                                 fullWidth
-                                value={localPhoneNo}
-                                onChange={(e) => setLocalPhoneNo(e.target.value)}
+                                name="alt_number"
+                                value={alt_number}
+                                onChange={onInputChange}
                             />
                         </Grid>
                     </Grid>
@@ -369,8 +337,9 @@ const RegisterForm = () => {
                                 <Select
                                     labelId="relation-status-label"
                                     id="relation-status"
-                                    value={cureentEmployer}
-                                    onChange={handleCureentEmployer}
+                                    value={current_employer}
+                                    name="current_employer"
+                                    onChange={onInputChange}
                                 >
                                     <MenuItem value="Father">Father</MenuItem>
                                     <MenuItem value="Mother">Mother</MenuItem>
@@ -386,8 +355,9 @@ const RegisterForm = () => {
                                 className="textfield"
                                 type="date"
                                 variant="outlined"
-                                value={employeeSince}
-                                onChange={(e) => setemployeeSince(e.target.value)}
+                                value={employed_since}
+                                name="employed_since"
+                                onChange={onInputChange}
                                 fullWidth
                                 required
                             />
@@ -397,7 +367,7 @@ const RegisterForm = () => {
                                 <InputLabel className="label" id="occupation-label">
                                     Occupation
                                 </InputLabel>
-                                <Select labelId="occupation-label" id="occupation" value={occupation} onChange={handleOccupationChange}>
+                                <Select labelId="occupation-label" name="occupation" value={occupation_sector} onChange={onInputChange}>
                                     <MenuItem value="Engineer">Engineer</MenuItem>
                                     <MenuItem value="Doctor">Doctor</MenuItem>
                                     <MenuItem value="Teacher">Teacher</MenuItem>
@@ -411,7 +381,7 @@ const RegisterForm = () => {
                                 <InputLabel className="label" id="Employee-label">
                                     Employee Type
                                 </InputLabel>
-                                <Select labelId="occupation-label" id="occupation" value={employeeType} onChange={handleEmployeeTypeChange}>
+                                <Select labelId="occupation-label" id="occupation" value={employee_type} onChange={onInputChange}>
                                     <MenuItem value="Full Time">Full Time</MenuItem>
                                     <MenuItem value="Doctor">Part Time</MenuItem>
                                     <MenuItem value="Part Time">Freelancer</MenuItem>
@@ -430,8 +400,9 @@ const RegisterForm = () => {
                                         id="outlined-adornment-amount"
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                         label="Amount"
-                                        value={incomeMonthly}
-                                        onChange={(e) => setIncomeMonthly(e.target.value)}
+                                        value={monthly_income}
+                                        name="monthly_income"
+                                        onChange={onInputChange}
                                     />
                                 </Grid>
                             </FormControl>
@@ -446,8 +417,9 @@ const RegisterForm = () => {
                                         id="outlined-adornment-amount"
                                         startAdornment={<InputAdornment position="start"></InputAdornment>}
                                         label="Amount"
-                                        value={dependents}
-                                        onChange={(e) => setDependents(e.target.value)}
+                                        value={total_dependents}
+                                        name="total_dependents"
+                                        onChange={onInputChange}
                                     />
                                 </Grid>
                             </FormControl>
@@ -462,8 +434,9 @@ const RegisterForm = () => {
                                         id="outlined-adornment-amount"
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                         label="Amount"
-                                        value={existingLoan}
-                                        onChange={(e) => setExistingLoan(e.target.value)}
+                                        value={existing_loan}
+                                        name="existing_loan"
+                                        onChange={onInputChange}
                                     />
                                 </Grid>
                             </FormControl>
@@ -478,8 +451,9 @@ const RegisterForm = () => {
                                         id="outlined-adornment-amount"
                                         startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                         label="Amount"
-                                        value={saving}
-                                        onChange={(e) => setSaving(e.target.value)}
+                                        value={monthly_saving}
+                                        name="monthly_saving"
+                                        onChange={onInputChange}
                                     />
                                 </Grid>
                             </FormControl>
@@ -487,14 +461,14 @@ const RegisterForm = () => {
                     </Grid>
                 </SubCard>
                 <SubCard>
-                    <h3>Business / Employment Information</h3>
+                    <h3>Current Address</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" color="primary">
                                     <b>City*</b>
                                 </InputLabel>
-                                <Select labelId="occupation-label" id="occupation" value={city} onChange={handleCityChange}>
+                                <Select labelId="occupation-label" id="occupation" name="city" value={city} onChange={onInputChange}>
                                     <MenuItem value="Engineer">Engineer</MenuItem>
                                     <MenuItem value="Doctor">Doctor</MenuItem>
                                     <MenuItem value="Teacher">Teacher</MenuItem>
@@ -511,7 +485,8 @@ const RegisterForm = () => {
                                 variant="outlined"
                                 fullWidth
                                 value={locality}
-                                onChange={(e) => setLocality(e.target.value)}
+                                name="locality"
+                                onChange={onInputChange}
                             />
                         </Grid>
 
@@ -520,7 +495,7 @@ const RegisterForm = () => {
                                 <b>Current Address*</b>
                             </InputLabel>
                             <FormControl mt={1} fullWidth>
-                                <TextareaAutosize required value={currentAdd} onChange={(e) => setCurrentAdd(e.target.value)} minRows={5} />
+                                <TextareaAutosize required value={current_address} name="cuurent_address" onChange={onInputChange} minRows={5} />
                             </FormControl>
                         </Grid>
                     </Grid>
@@ -552,4 +527,4 @@ const RegisterForm = () => {
     );
 };
 
-export default RegisterForm;
+export default LeadCreateForm;
