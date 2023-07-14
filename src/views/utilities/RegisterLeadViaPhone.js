@@ -22,7 +22,7 @@ const RegisterLeadViaPhone = () => {
     const [otpSent, setOtpSent] = useState(false);
     const [countryCode, setCountryCode] = useState('IN');
     const [DOB, setDOB] = useState();
-    const [verifyForm, setVerifyForm] = useState(false);
+    const [verifyForm, setVerifyForm] = useState(true);
     const [showDobPopup, setShowDobPopup] = useState(false);
     const { t } = useTranslation();
 
@@ -133,13 +133,15 @@ const RegisterLeadViaPhone = () => {
             try {
                 axios.post(BASE_URL + 'v2/otp_verify/', body, headers).then(function (response) {
                     if (response.status) {
-                        setShowDobPopup(true);
+
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
                             console.log(response.data.data.user_found, 'Inside if');
                             return navigate('/lead/createlead');
+                        } else {
+                            setShowDobPopup(true);
                         }
                     } else {
                         toast.error(t('invalid_OTP'));
@@ -149,7 +151,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => {}, 2000);
+            setTimeout(() => { }, 2000);
         }
     };
 
@@ -173,7 +175,8 @@ const RegisterLeadViaPhone = () => {
                         setShowDobPopup(false);
                         setVerifyForm(true);
                         toast.success(response.data.message);
-                        return navigate('/lead/createlead');
+                        const resdata = response.data.data
+                        return navigate('/lead/createlead',{state:resdata});
                     }
                 });
             } catch (err) {
@@ -216,7 +219,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                        // Add any necessary props and event handlers for capturing the date of birth
+                                                    // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>

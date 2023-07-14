@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Container, Stack, MenuItem, Menu } from '@mui/material';
 
 import { TextareaAutosize } from '@mui/base';
@@ -10,7 +10,7 @@ import '../leadFormEss/style.css';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import {
     Box,
     FormControl,
@@ -27,12 +27,18 @@ import {
 import MuiPhoneNumber from 'material-ui-phone-number';
 import UploadProfilePhoto from './uploadProfilePhoto';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
+import OccupationsList from '../../../components/OccupationList';
+import EmployerList from '../../../components/EmployerList';
+import ChoiceListApi from '../../../apicalls/ChoiceListApi';
+import { toast } from 'react-toastify';
 
 const LeadCreateForm = () => {
     const { t } = useTranslation();
     const [countryCode, setCountryCode] = useState('');
+    const location = useLocation();
+    const { state } = location;
+    const [choiceList, setChoiceList] = useState([])
     const [createLeadForm, setCreateLeadForm] = useState({
-        photo: '',
         saluation: '',
         first_name: '',
         middle_name: '',
@@ -60,7 +66,6 @@ const LeadCreateForm = () => {
         existing_loan: ''
     });
     const {
-        photo,
         saluation,
         first_name,
         last_name,
@@ -96,7 +101,20 @@ const LeadCreateForm = () => {
         });
     };
 
-    const handleSubmit = () => {};
+    useEffect(() => {
+        if (state)
+            setCreateLeadForm(state)
+        const query = "IN"
+        ChoiceListApi(query).then(res => {
+            console.log(res.results,'----res.results')
+            setChoiceList(res.results)
+        }).catch(error=>{
+            return toast.error('Something went wrong , Please check your internet connection.')
+        })
+    }, [])
+
+
+    const handleSubmit = () => { };
     return (
         <Container maxWidth="md">
             <form>
@@ -115,7 +133,7 @@ const LeadCreateForm = () => {
                                     <InputLabel className="label" id="tittle-label">
                                         {t('title')}
                                     </InputLabel>
-                                    <Select labelId="tittle-label" id="tittle" value={saluation} onChange={onInputChange}>
+                                    <Select labelId="tittle-label" id="tittle" name="saluation" value={saluation} onChange={onInputChange}>
                                         <MenuItem value={'Mr'}>{t('Mr')}</MenuItem>
                                         <MenuItem value={'Mrs'}>{t('Mrs')}</MenuItem>
                                         <MenuItem value={'Miss'}>{t('Miss')}</MenuItem>
@@ -171,12 +189,13 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={2}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
-                                        {t('gender')}
+                                        {t('Gender')}
                                     </FormLabel>
-                                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange}>
-                                        <FormControlLabel value="female" control={<Radio />} label={t('female')} />
-                                        <FormControlLabel value="male" control={<Radio />} label={t('male')} />
-                                        <FormControlLabel value="other" control={<Radio />} label={t('other')} />
+                                    <RadioGroup aria-label="gender" name="gender" value="" onChange={onInputChange}>
+                                        {/* {choiceList.gender.map((item,index) => (
+                                            <FormControlLabel value={item.value} id={item.slug} control={<Radio />} label={item.name} />
+                                        ))} */}
+
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -358,22 +377,7 @@ const LeadCreateForm = () => {
                     <h3>{t('BusniessLabel')}</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={8} mt={2.5}>
-                            <FormControl fullWidth>
-                                <InputLabel className="label" id="relation-status-label">
-                                    {t('current_Employer')}
-                                </InputLabel>
-                                <Select
-                                    labelId="relation-status-label"
-                                    id="relation-status"
-                                    value={current_employer}
-                                    name="current_employer"
-                                    onChange={onInputChange}
-                                >
-                                    <MenuItem value="Father">{t('father')}</MenuItem>
-                                    <MenuItem value="Mother">{t('mother')}</MenuItem>
-                                    <MenuItem value="Son">{t('son')}</MenuItem>
-                                </Select>
-                            </FormControl>
+                            <EmployerList current_employer="" onInputChange={onInputChange} query="1" />
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <InputLabel className="label" color="primary">
@@ -391,23 +395,7 @@ const LeadCreateForm = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={6}>
-                            <FormControl fullWidth>
-                                <InputLabel className="label" id="occupation-label">
-                                    {t('occupation')}
-                                </InputLabel>
-                                <Select
-                                    labelId="occupation-label"
-                                    name="occupation_sector"
-                                    value={occupation_sector}
-                                    onChange={onInputChange}
-                                >
-                                    <MenuItem value="Engineer">{t('engineer')}</MenuItem>
-                                    <MenuItem value="Doctor">{t('doctor')}</MenuItem>
-                                    <MenuItem value="Teacher">{t('teacher')}</MenuItem>
-                                    <MenuItem value="Lawyer">{t('lawyer')}</MenuItem>
-                                    {/* Add more occupation options as needed */}
-                                </Select>
-                            </FormControl>
+                            <OccupationsList occupation_sector="" onInputChange={onInputChange} query="1" />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
