@@ -168,7 +168,7 @@ const LeadCreateForm = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={3}>
+                            <Grid item xs={12} sm={2}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
                                         {t('gender')}
@@ -180,7 +180,7 @@ const LeadCreateForm = () => {
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3} ml={-2}>
+                            <Grid item xs={12} sm={3.3} ml={-1} mt={-0.5}>
                                 <InputLabel>Date of Birth</InputLabel>
                                 <TextField
                                     className="textfield"
@@ -194,7 +194,7 @@ const LeadCreateForm = () => {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3} mt={2.5}>
+                            <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="marital-status-label">
                                         {t('marital_Status')}
@@ -214,7 +214,7 @@ const LeadCreateForm = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3} mt={2.5}>
+                            <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
                                         {t('highest_Education')}

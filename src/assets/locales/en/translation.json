@@ -10,7 +10,7 @@
     "dont_have_an_account" : "Don't have an account?",
     "username_required" : "Username is required",
     "password_required" : "Password is required",
-    "please_enter_a_mobile_number" : "Please enter mobile number",
+    "please_enter_a_mobile_number" : "Please enter mobile number",  
     "please_enter_a_valid_mobile_number" : "Please enter a valid mobile number",
     "verify_Mobile_Number": "Verify Mobile Number",
     "oTP_sent_successfully": "OTP Sent 'OTP sent successfully'",
@@ -78,7 +78,10 @@
     "current_Address" : "Current Address",
     "city" : "City",
     "customer_Locality" : "Customer Locality",
-    "Resend_OTP" : "Resend OTP"
+    "Resend_OTP" : "Resend OTP",
+    "please_Enter_Correct_Credentials" : "Please Enter Correct Credentials",
+    "login_Sucessfully" : "Login Successfully",
+    "login_Error" :  "Login Error"
     
 
 

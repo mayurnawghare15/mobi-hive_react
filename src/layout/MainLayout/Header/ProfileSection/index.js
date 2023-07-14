@@ -135,8 +135,10 @@ const ProfileSection = () => {
 
     const handleLogout = () => {
         console.log(account.token);
-        localStorage.clear();
-        window.location.reload();
+        if (account.token) {
+            localStorage.clear();
+            window.location.reload();
+        }
 
         // axios
         //     .post(configData.API_SERVER + 'users/logout', { token: `${account.token}` }, { headers: { Authorization: `${account.token}` } })

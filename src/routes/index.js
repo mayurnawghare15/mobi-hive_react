@@ -3,7 +3,6 @@ import { BrowserRouter, Routes } from 'react-router-dom';
 import Loadable from '../ui-component/Loadable';
 
 // routes
-// import MainRoutes from './MainRoutes';
 
 // project imports
 import PrivateRoute from './PrivateRoute';
@@ -31,12 +30,46 @@ const AllRoutes = () => {
                 <Routes>
                     {/* Routes for authentication pages */}
 
-                    <PrivateRoute path="/" element={<MinimalLayout><MainLayout>< DashboardDefault /></MainLayout></MinimalLayout>} />
-                    <PrivateRoute path="/lead/verify-phonenumber" element={<MainLayout>< RegisterLeadViaPhone /></MainLayout>} />
-                    <PrivateRoute path="/lead/createlead" element={<MinimalLayout><MainLayout>< LeadCreateForm /></MainLayout></MinimalLayout>} />
-                    <PublicRoute path="/login" element={<MinimalLayout><NavMotion><AuthLogin /></NavMotion></MinimalLayout>}/>
+                    <PrivateRoute
+                        path="/"
+                        element={
+                            <MinimalLayout>
+                                <MainLayout>
+                                    <DashboardDefault />
+                                </MainLayout>
+                            </MinimalLayout>
+                        }
+                    />
+                    <PrivateRoute
+                        path="/lead/verify-phonenumber"
+                        element={
+                            <MainLayout>
+                                <RegisterLeadViaPhone />
+                            </MainLayout>
+                        }
+                    />
+                    <PrivateRoute
+                        path="/lead/createlead"
+                        element={
+                            <MinimalLayout>
+                                <MainLayout>
+                                    <LeadCreateForm />
+                                </MainLayout>
+                            </MinimalLayout>
+                        }
+                    />
+                    <PublicRoute
+                        path="/login"
+                        element={
+                            <MinimalLayout>
+                                <NavMotion>
+                                    <AuthLogin />
+                                </NavMotion>
+                            </MinimalLayout>
+                        }
+                    />
                 </Routes>
-            </NavigationScroll >
+            </NavigationScroll>
         </BrowserRouter>
     );
 };
