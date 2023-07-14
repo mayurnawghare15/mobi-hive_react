@@ -29,10 +29,9 @@ const LoadEmployer = async (query) => {
             }
             else if (error.response.status === 401) {
                 toast.error("You are not authorized to view this page")
-                localStorage.clear()
-                sessionStorage.clear();
+                localStorage.setItem("berry-account","")
                 const timer = setTimeout(() => {
-                    window.location.href = ("/");
+                    window.location.href = ("/login");
                 }, 500);
                 return () => clearTimeout(timer)
             }

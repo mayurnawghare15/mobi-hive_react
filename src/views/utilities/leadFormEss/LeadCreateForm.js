@@ -37,7 +37,7 @@ const LeadCreateForm = () => {
     const [countryCode, setCountryCode] = useState('');
     const location = useLocation();
     const { state } = location;
-    const [choiceList, setChoiceList] = useState([]);
+    const [choiceList, setChoiceList] = useState({});
     const [createLeadForm, setCreateLeadForm] = useState({
         saluation: '',
         first_name: '',
@@ -106,8 +106,8 @@ const LeadCreateForm = () => {
         const query = 'IN';
         ChoiceListApi(query)
             .then((res) => {
-                console.log(res.results, '----res.results');
-                setChoiceList(res.results);
+                console.log(res, '----res.results');
+                setChoiceList(res);
             })
             .catch((error) => {
                 return toast.error('Something went wrong , Please check your internet connection.');
@@ -134,12 +134,13 @@ const LeadCreateForm = () => {
                                         {t('title')}
                                     </InputLabel>
                                     <Select labelId="tittle-label" id="tittle" name="saluation" value={saluation} onChange={onInputChange}>
-                                        <MenuItem value={'Mr'}>{t('Mr')}</MenuItem>
-                                        <MenuItem value={'Mrs'}>{t('Mrs')}</MenuItem>
-                                        <MenuItem value={'Miss'}>{t('Miss')}</MenuItem>
-                                        <MenuItem value={'Master'}>{t('Master')}</MenuItem>
-                                        <MenuItem value={'Dr'}>{t('Dr')}</MenuItem>
-                                        <MenuItem value={'Er'}>{t('Er')}</MenuItem>
+                                        {choiceList.length > 0
+                                            ? choiceList.user_salutation.map((item, index) => (
+                                                  <MenuItem value={item.name} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
+                                            : []}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -191,10 +192,17 @@ const LeadCreateForm = () => {
                                     <FormLabel className="label" component="legend">
                                         {t('Gender')}
                                     </FormLabel>
-                                    <RadioGroup aria-label="gender" name="gender" value="" onChange={onInputChange}>
-                                        {/* {choiceList.gender.map((item,index) => (
-                                            <FormControlLabel value={item.value} id={item.slug} control={<Radio />} label={item.name} />
-                                        ))} */}
+                                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange}>
+                                        {choiceList.length > 0
+                                            ? choiceList.gender.map((item, index) => (
+                                                  <FormControlLabel
+                                                      value={item.value}
+                                                      id={item.slug}
+                                                      control={<Radio />}
+                                                      label={item.name}
+                                                  />
+                                              ))
+                                            : []}
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -224,11 +232,13 @@ const LeadCreateForm = () => {
                                         name="marital_status"
                                         onChange={onInputChange}
                                     >
-                                        <MenuItem value="Single / Never Married">{t('single_/_Never_Married')}</MenuItem>
-                                        <MenuItem value="Married">{t('married')}</MenuItem>
-                                        <MenuItem value="Divorced">{t('divorced')}</MenuItem>
-                                        <MenuItem value="Seprated">{t('seprated')}</MenuItem>
-                                        <MenuItem value="Others">{t('others')}</MenuItem>
+                                        {choiceList.length > 0
+                                            ? choiceList.martial_status.map((item, index) => (
+                                                  <MenuItem id={item.slug} value={item.name}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
+                                            : []}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -244,11 +254,13 @@ const LeadCreateForm = () => {
                                         value={highest_education}
                                         onChange={onInputChange}
                                     >
-                                        <MenuItem value="Primary">{t('primary')}</MenuItem>
-                                        <MenuItem value="Secondary">{t('secondary')}</MenuItem>
-                                        <MenuItem value="Bachelors / Graduate">{t('bachelor_Graduate')}</MenuItem>
-                                        <MenuItem value="Post-Graduate / Masters">{t('post_Graduate')}</MenuItem>
-                                        <MenuItem value="PhD / Doctorate">{t('phd')}</MenuItem>
+                                        {choiceList.length > 0
+                                            ? choiceList.educational_qualification.map((item, index) => (
+                                                  <MenuItem value={item.name} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
+                                            : []}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -339,14 +351,13 @@ const LeadCreateForm = () => {
                                     name="alt_number_relation"
                                     onChange={onInputChange}
                                 >
-                                    <MenuItem value="Father">{t('father')}</MenuItem>
-                                    <MenuItem value="Mother">{t('mother')}</MenuItem>
-                                    <MenuItem value="Son">{t('son')}</MenuItem>
-                                    <MenuItem value="Wife">{t('wife')}</MenuItem>
-                                    <MenuItem value="Husband">{t('husband')}</MenuItem>
-                                    <MenuItem value="Brother">{t('brother')}</MenuItem>
-                                    <MenuItem value="Friend">{t('friend')}</MenuItem>
-                                    <MenuItem value="Others">{t('others')}</MenuItem>
+                                    {choiceList.length > 0
+                                        ? choiceList.user_realtions.map((item, index) => (
+                                              <MenuItem value={item.name} id={item.slug}>
+                                                  {item.name}
+                                              </MenuItem>
+                                          ))
+                                        : []}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -408,11 +419,13 @@ const LeadCreateForm = () => {
                                     name="employee_type"
                                     onChange={onInputChange}
                                 >
-                                    <MenuItem value="Full Time">{t('full_Time')}</MenuItem>
-                                    <MenuItem value="Part Time">{t('part_Time')}</MenuItem>
-                                    <MenuItem value="Freelancer">{t('freelancer')}</MenuItem>
-                                    <MenuItem value="Self Employed">{t('self_Employed')}</MenuItem>
-                                    {/* Add more employee type options as needed */}
+                                    {choiceList.length > 0
+                                        ? choiceList.user_realtions.map((item, index) => (
+                                              <MenuItem value={'item.name'} id={'item.slug'}>
+                                                  {'item.name'}
+                                              </MenuItem>
+                                          ))
+                                        : []}
                                 </Select>
                             </FormControl>
                         </Grid>

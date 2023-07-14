@@ -27,8 +27,11 @@ const OccupationsList = ({ occupation_sector, onInputChange, query }) => {
     useEffect(() => {
         // Apicall
         LoadOccupation(query).then(res => {
-            setOccupationItems(res.results)
-        }).catch(error=>{
+            if (res)
+                setOccupationItems(res.results)
+            else
+                setOccupationItems([])
+        }).catch(error => {
             return toast.error('Something went wrong , Please check your internet connection.')
         })
     }, [])
@@ -43,12 +46,12 @@ const OccupationsList = ({ occupation_sector, onInputChange, query }) => {
                     labelId="occupation-label"
                     name="occupation_sector"
                     value={occupation_sector}
-                    onChange={onInputChange}       
-           
+                    onChange={onInputChange}
+
                 >
-                    {occupationItems.map((item) => (
+                    {occupationItems.length > 0 ? occupationItems.map((item) => (
                         <MenuItem value={item.selected_text} id={item.id} >{item.text}</MenuItem>
-                    ))}
+                    )) : []}
 
 
                     {/* Add more occupation options as needed */}
