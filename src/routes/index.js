@@ -1,8 +1,6 @@
 import React, { lazy } from 'react';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter, Routes, Rou } from 'react-router-dom';
 import Loadable from '../ui-component/Loadable';
-
-// routes
 
 // project imports
 import PrivateRoute from './PrivateRoute';

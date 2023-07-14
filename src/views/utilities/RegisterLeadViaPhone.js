@@ -24,6 +24,7 @@ const RegisterLeadViaPhone = () => {
     const [DOB, setDOB] = useState();
     const [verifyForm, setVerifyForm] = useState(true);
     const [showDobPopup, setShowDobPopup] = useState(false);
+    const [verifyPopUp, setVerifyPopUp] = useState(false);
     const [recipent, setRecipent] = useState('');
     const { t } = useTranslation();
 
@@ -173,11 +174,12 @@ const RegisterLeadViaPhone = () => {
                 axios.post(BASE_URL + 'v2/dob_verify/', body, headers).then((response) => {
                     if (response.data.status) {
                         setShowDobPopup(false);
-                        setRecipent(response.data.data);
+                        console.log(response.data.data + 'DOB Submit Response');
+                        // setRecipent(response.data.data);
                         console.log(recipent);
                         toast.success(response.data.message);
                         const resdata = response.data.data;
-                        return navigate('/lead/createlead', { state: resdata });
+                        // return navigate('/lead/createlead', { state: resdata });
                     }
                 });
             } catch (err) {
@@ -188,7 +190,8 @@ const RegisterLeadViaPhone = () => {
 
     return (
         <>
-            <VerifyUser></VerifyUser>
+            {/* <VerifyUser open={verifyPopUp} recipent verifyPopUp setVerifyPopUp></VerifyUser> */}
+            {verifyPopUp && <VerifyUser open={verifyPopUp} recipient verifyPopUp setVerifyPopUp />}
 
             <Grid open={verifyForm}>
                 {verifyForm ? (
