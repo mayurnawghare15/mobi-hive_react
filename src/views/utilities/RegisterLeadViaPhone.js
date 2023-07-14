@@ -8,7 +8,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
-import VerifyUser from '../popups/VerifyUser';
+import VerifyUser from '../../components/VerifyUser';
 import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -24,6 +24,7 @@ const RegisterLeadViaPhone = () => {
     const [DOB, setDOB] = useState();
     const [verifyForm, setVerifyForm] = useState(true);
     const [showDobPopup, setShowDobPopup] = useState(false);
+    const [recipent, setRecipent] = useState('');
     const { t } = useTranslation();
 
     const handleMobileNumberChange = (phoneNumber) => {
@@ -133,7 +134,6 @@ const RegisterLeadViaPhone = () => {
             try {
                 axios.post(BASE_URL + 'v2/otp_verify/', body, headers).then(function (response) {
                     if (response.status) {
-
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
@@ -151,7 +151,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => { }, 2000);
+            setTimeout(() => {}, 2000);
         }
     };
 
@@ -173,10 +173,11 @@ const RegisterLeadViaPhone = () => {
                 axios.post(BASE_URL + 'v2/dob_verify/', body, headers).then((response) => {
                     if (response.data.status) {
                         setShowDobPopup(false);
-                        setVerifyForm(true);
+                        setRecipent(response.data.data);
+                        console.log(recipent);
                         toast.success(response.data.message);
-                        const resdata = response.data.data
-                        return navigate('/lead/createlead',{state:resdata});
+                        const resdata = response.data.data;
+                        return navigate('/lead/createlead', { state: resdata });
                     }
                 });
             } catch (err) {
@@ -187,6 +188,8 @@ const RegisterLeadViaPhone = () => {
 
     return (
         <>
+            <VerifyUser></VerifyUser>
+
             <Grid open={verifyForm}>
                 {verifyForm ? (
                     <MainCard title={t('Enter_Your_Mobile_Number_to_Continue')}>
@@ -219,7 +222,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                    // Add any necessary props and event handlers for capturing the date of birth
+                                                        // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>
