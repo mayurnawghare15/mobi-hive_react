@@ -176,7 +176,7 @@ const RegisterLeadViaPhone = () => {
                         setVerifyForm(true);
                         toast.success(response.data.message);
                         const resdata = response.data.data
-                        return navigate('/lead/createlead');
+                        return navigate('/lead/createlead',{state:resdata});
                     }
                 });
             } catch (err) {
