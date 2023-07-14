@@ -27,9 +27,11 @@ const EmployerList = ({ occupation_sector, onInputChange, query }) => {
 
     useEffect(() => {
         LoadEmployer(query).then(res => {
-            console.log(res.results,'LoadEmployer')
-            setEmployerItems(res.results)
-        }).catch(error=>{
+            if (res)
+                setEmployerItems(res.results)
+            else
+                setEmployerItems([])
+        }).catch(error => {
             return toast.error('Something went wrong , Please check your internet connection.')
         })
     }, [])
@@ -44,9 +46,9 @@ const EmployerList = ({ occupation_sector, onInputChange, query }) => {
                     name="occupation_sector"
                     value={occupation_sector}
                     onChange={onInputChange}>
-                    {employerItems.map((item) => (
+                    {employerItems.length > 0 ? employerItems.map((item) => (
                         <MenuItem value={item.employer_sector} id={item.id} >{item.business_name}</MenuItem>
-                    ))}
+                    )) : []}
                 </Select>
             </FormControl>
 
