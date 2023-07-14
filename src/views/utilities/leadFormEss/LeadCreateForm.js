@@ -37,7 +37,7 @@ const LeadCreateForm = () => {
     const [countryCode, setCountryCode] = useState('');
     const location = useLocation();
     const { state } = location;
-    const [choiceList, setChoiceList] = useState([])
+    const [choiceList, setChoiceList] = useState([]);
     const [createLeadForm, setCreateLeadForm] = useState({
         saluation: '',
         first_name: '',
@@ -102,19 +102,19 @@ const LeadCreateForm = () => {
     };
 
     useEffect(() => {
-        if (state)
-            setCreateLeadForm(state)
-        const query = "IN"
-        ChoiceListApi(query).then(res => {
-            console.log(res.results,'----res.results')
-            setChoiceList(res.results)
-        }).catch(error=>{
-            return toast.error('Something went wrong , Please check your internet connection.')
-        })
-    }, [])
+        if (state) setCreateLeadForm(state);
+        const query = 'IN';
+        ChoiceListApi(query)
+            .then((res) => {
+                console.log(res.results, '----res.results');
+                setChoiceList(res.results);
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
+    }, []);
 
-
-    const handleSubmit = () => { };
+    const handleSubmit = () => {};
     return (
         <Container maxWidth="md">
             <form>
@@ -195,7 +195,6 @@ const LeadCreateForm = () => {
                                         {/* {choiceList.gender.map((item,index) => (
                                             <FormControlLabel value={item.value} id={item.slug} control={<Radio />} label={item.name} />
                                         ))} */}
-
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>

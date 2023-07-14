@@ -1,11 +1,13 @@
 // assets
 import { IconBrandFramer, IconZoomCheck, IconPalette, IconShadow, IconWindmill, IconLayoutGridAdd } from '@tabler/icons';
+import CreateIcon from '@mui/icons-material/Create';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 
 // constant
 const icons = {
     IconeCreateLead: IconZoomCheck,
-    IconPalette: IconPalette,
-    IconShadow: IconShadow,
+    CreateIcon: CreateIcon,
+    DocumentScannerIcon: DocumentScannerIcon,
     IconWindmill: IconWindmill,
     IconBrandFramer: IconBrandFramer,
     IconLayoutGridAdd: IconLayoutGridAdd
@@ -31,15 +33,15 @@ export const utilities = {
             title: 'Create Lead',
             type: 'item',
             url: '/lead/createlead',
-            icon: icons['IconPalette'],
+            icon: icons['CreateIcon'],
             breadcrumbs: false
         },
         {
             id: 'util-shadow',
-            title: 'Shadow',
+            title: 'KYC',
             type: 'item',
-            url: '/utils/util-shadow',
-            icon: icons['IconShadow'],
+            url: '/lead/kyc',
+            icon: icons['DocumentScannerIcon'],
             breadcrumbs: false
         },
         {

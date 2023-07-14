@@ -56,6 +56,14 @@ const AllRoutes = () => {
                             </MinimalLayout>
                         }
                     />
+                    <PrivateRoute
+                        path="/lead/kyc"
+                        element={
+                            <MinimalLayout>
+                                <MainLayout>{/* <LeadCreateForm /> */}</MainLayout>
+                            </MinimalLayout>
+                        }
+                    />
                     <PublicRoute
                         path="/login"
                         element={
