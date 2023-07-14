@@ -5,10 +5,10 @@ import { TextareaAutosize } from '@mui/base';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import '../leadFormEss/style.css';
+import './style.css';
 
-import MainCard from '../../../ui-component/cards/MainCard';
-import SubCard from '../../../ui-component/cards/SubCard';
+import MainCard from '../../../../ui-component/cards/MainCard';
+import SubCard from '../../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -26,10 +26,10 @@ import {
 } from '@material-ui/core';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import UploadProfilePhoto from './uploadProfilePhoto';
-import AnimateButton from '../../../ui-component/extended/AnimateButton';
-import OccupationsList from '../../../components/OccupationList';
-import EmployerList from '../../../components/EmployerList';
-import ChoiceListApi from '../../../apicalls/ChoiceListApi';
+import AnimateButton from '../../../../ui-component/extended/AnimateButton';
+import OccupationsList from '../../../../components/OccupationList';
+import EmployerList from '../../../../components/EmployerList';
+import ChoiceListApi from '../../../../apicalls/ChoiceListApi';
 import { toast } from 'react-toastify';
 
 const LeadCreateForm = () => {
