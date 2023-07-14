@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RestLogin = (props, { ...others }) => {
     const { t } = useTranslation();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const classes = useStyles();
     const dispatcher = useDispatch();
     const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -132,7 +132,7 @@ const RestLogin = (props, { ...others }) => {
                             })
                             .then(function (response) {
                                 if (response.status) {
-                                    toast.success('Login Sucessfully');
+                                    toast.success(t('login_Sucessfully'));
                                     if (scriptedRef.current) {
                                         setStatus({ success: true });
                                         setSubmitting(false);
@@ -145,16 +145,17 @@ const RestLogin = (props, { ...others }) => {
                                             token: response.data.data.token
                                         }
                                     });
-                                    return navigate("/")
+                                    return navigate('/');
                                 } else {
-                                    toast.error('Please Enter Correct Credentials');
+                                    toast.error(t('please_Enter_Correct_Credentials'));
                                     setStatus({ success: false });
                                     setErrors({ submit: response.message });
                                     setSubmitting(false);
                                 }
+                                toast.error(response);
                             })
                             .catch(function (error) {
-                                toast.error('Please Enter Correct Credentials');
+                                toast.error(t('login_Error'));
                                 setStatus({ success: false });
                                 // setErrors({ submit: error.response.data.message });
                                 setSubmitting(false);

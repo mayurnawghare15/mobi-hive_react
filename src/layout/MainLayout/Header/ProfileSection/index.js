@@ -37,7 +37,6 @@ import { LOGOUT } from './../../../../store/actions';
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from './../../../../assets/images/users/user-round.svg';
-import { Redirect } from 'react-router';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -223,7 +222,7 @@ const ProfileSection = () => {
                                                 <Typography component="span" variant="h4" className={classes.name}></Typography>
                                             </Grid>
                                         </Grid>
-                                        {/* <OutlinedInput
+                                        <OutlinedInput
                                             className={classes.searchControl}
                                             id="input-search-profile"
                                             value={value}
@@ -238,7 +237,7 @@ const ProfileSection = () => {
                                             inputProps={{
                                                 'aria-label': 'weight'
                                             }}
-                                        /> */}
+                                        />
                                         <Divider />
                                         <PerfectScrollbar className={classes.ScrollHeight}>
                                             <Divider />
