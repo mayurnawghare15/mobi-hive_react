@@ -1,11 +1,13 @@
 // assets
 import { IconBrandFramer, IconZoomCheck, IconPalette, IconShadow, IconWindmill, IconLayoutGridAdd } from '@tabler/icons';
+import CreateIcon from '@mui/icons-material/Create';
+import DocumentScannerIcon from '@mui/icons-material/DocumentScanner';
 
 // constant
 const icons = {
     IconeCreateLead: IconZoomCheck,
-    IconPalette: IconPalette,
-    IconShadow: IconShadow,
+    CreateIcon: CreateIcon,
+    DocumentScannerIcon: DocumentScannerIcon,
     IconWindmill: IconWindmill,
     IconBrandFramer: IconBrandFramer,
     IconLayoutGridAdd: IconLayoutGridAdd
@@ -20,26 +22,30 @@ export const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'Create New Lead',
+            title: 'Verify Phone Number',
             type: 'item',
-            url: '/NewLead/OTPVerify/',
+            url: '/lead/verify-phonenumber',
             icon: icons['IconeCreateLead'],
             breadcrumbs: true
         },
         {
             id: 'util-color',
+<<<<<<< HEAD
             title: 'KYC ',
+=======
+            title: 'Create Lead',
+>>>>>>> 5fce6f9f8e5358a1507504b3dbd27ee719c5f8c5
             type: 'item',
-            url: '/utils/util-color',
-            icon: icons['IconPalette'],
+            url: '/lead/createlead',
+            icon: icons['CreateIcon'],
             breadcrumbs: false
         },
         {
             id: 'util-shadow',
-            title: 'Shadow',
+            title: 'KYC',
             type: 'item',
-            url: '/utils/util-shadow',
-            icon: icons['IconShadow'],
+            url: '/lead/kyc',
+            icon: icons['DocumentScannerIcon'],
             breadcrumbs: false
         },
         {

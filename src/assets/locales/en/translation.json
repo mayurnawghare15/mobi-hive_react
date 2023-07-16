@@ -10,11 +10,95 @@
     "dont_have_an_account" : "Don't have an account?",
     "username_required" : "Username is required",
     "password_required" : "Password is required",
-    "Verify_Mobile_Number": "Verify Mobile Number",
+    "please_enter_a_mobile_number" : "Please enter mobile number",  
+    "please_enter_a_valid_mobile_number" : "Please enter a valid mobile number",
+    "verify_Mobile_Number": "Verify Mobile Number",
+    "oTP_sent_successfully": "OTP Sent 'OTP sent successfully'",
+    "error_while_sending_OTP":"Error while sending OTP",
+    "oTP_Resend" : "Resend OTP",
+    "please_enter_OTP" : "Please enter OTP",
+    "oTP_Verified_successfully" : "OTP Verified successfully",
+    "invalid_OTP" : "Invalid OTP",
+    "please_enter_DOB" : "Please enter DOB",
     "Enter_Your_Mobile_Number_to_Continue" : "Enter mobile number to continue",
     "Send_OTP":"Send OTP",
     "Verify_OTP" : "Verify OTP",
-    "Resend_OTP" : "Resend OTP"
+    "mobile_Number" : "Mobile Number",
+    "email" : "E-mail",
+    "please_Enter_your_Date_of_Birth" : "Please enter you date of birth",
+    "submit" : "Submit",
+    "close" : "Close",
+    "title" : "Tittle",
+    "Mr":"Mr",
+    "Mrs" : "Mrs",
+    "Miss" : "Miss",
+    "Master" : "Master",
+    "Dr": "Dr",
+    "Er" : "Er",
+    "first_Name" : "First Name",
+    "middle_Name" : "Middle Name",
+    "last_name" : "Last Name",
+    "gender" : "Gender",
+    "female" : "Female",
+    "male" : "Male",
+    "other" : "Other",
+    "date_of_birth" : "Date of birth",
+    "marital_Status" : "Marital Status",
+    "single_/_Never_Married" : "Single / Never Married",
+    "married" : "Married",
+    "divorced" : "Divorced",
+    "seprated" : "Seprated",
+    "others" : "Others",
+    "highest_Education" : "Highest Education",
+    "primary" : "Primary",
+    "secondary" : "Secondary",
+    "bachelor_Graduate" : "Bachelors / Graduate",
+    "post_Graduate" : "Post-Graduate / Masters",
+    "phd" : "PhD / Doctorate",
+    "whatsapp" : "Whatsapp No",
+    "name" : "Name",
+    "relation" : "Relation",
+    "current_Employer" : "Current Employer",
+    "BusniessLabel;" : "Business / Employment Information",
+    "father" : "Father",
+    "mother" : "Mother",
+    "son" : "Son",
+    "employed_Since" : "Employed Since*",
+    "occupation" : "Occupation",
+    "employee_Type" : "Employee Type",
+    "full_Time" : "Full Time",
+    "part_Time" : "Part Time",
+    "freelancer" : "Freelancer",
+    "self_Employeed" : "Self Employeed",
+    "income_Monthly" : "Monthly Income",
+    "amount" : "Amount",
+    "total_Dependents" : "Total Dependents",
+    "existing_Loan" : "Existing Loan",
+    "monthly_Saving" : "Monthly Saving",
+    "current_Address" : "Current Address",
+    "city" : "City",
+    "customer_Locality" : "Customer Locality",
+    "Resend_OTP" : "Resend OTP",
+    "please_Enter_Correct_Credentials" : "Please Enter Correct Credentials",
+    "login_Sucessfully" : "Login Successfully",
+    "login_Error" :  "Login Error"
+    
+
+
+
+
+
+
+
+    
+
+
+
+
+
+
+
+
   
   
 

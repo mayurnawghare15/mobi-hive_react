@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     closeAvatar: {
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
-        background: theme.palette.orange.dark,
+        background: theme.palette.orange.light,
         color: theme.palette.orange.dark,
         '&:hover': {
             background: theme.palette.orange.dark,
@@ -153,7 +153,7 @@ const SearchSection = () => {
                                                             }}
                                                         />
                                                     </Grid>
-                                                </Grid>
+                                                </Grid> 
                                             </CardContent>
                                         </Card>
                                     </Transitions>

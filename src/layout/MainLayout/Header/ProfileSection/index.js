@@ -37,7 +37,6 @@ import { LOGOUT } from './../../../../store/actions';
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
 import User1 from './../../../../assets/images/users/user-round.svg';
-import { Redirect } from 'react-router';
 
 // style const
 const useStyles = makeStyles((theme) => ({
