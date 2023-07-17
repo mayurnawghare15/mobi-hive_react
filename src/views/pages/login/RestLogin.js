@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { Link as RouterLink } from 'react-router-dom';
 import { useLogin } from '../../../hooks/useLogin';
 
 // material-ui
@@ -83,7 +82,6 @@ const RestLogin = (props, { ...others }) => {
     const navigate = useNavigate();
     const classes = useStyles();
 
-
     // const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
     // const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
@@ -100,10 +98,10 @@ const RestLogin = (props, { ...others }) => {
 
     const userReq = <label>{t('username_required')}</label>;
     const passReq = <label>{t('password_required')}</label>;
-    const { login, error, isLoading } = useLogin()
+    const { login, error, isLoading } = useLogin();
     useEffect(() => {
-        toast.error(error)
-    }, [error])
+        toast.error(error);
+    }, [error]);
 
     return (
         <React.Fragment>
@@ -119,9 +117,9 @@ const RestLogin = (props, { ...others }) => {
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
                     if (!values.username) {
-                        return toast.error("Username req")
+                        return toast.error('Username req');
                     } else if (!values.password) {
-                        return toast.error("Password req")
+                        return toast.error('Password req');
                     } else {
                         login(values.username, values.password);
                     }

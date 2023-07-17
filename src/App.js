@@ -12,11 +12,8 @@ import './i18nextInit';
 // routing
 import AllRoutes from './routes';
 
-
 // defaultTheme
 import theme from './themes';
-
-
 
 //-----------------------|| APP ||-----------------------//
 
@@ -28,7 +25,7 @@ const App = () => {
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme(customization)}>
                     <CssBaseline />
-                        <AllRoutes />
+                    <AllRoutes />
                 </ThemeProvider>
             </StyledEngineProvider>
         </>
