@@ -121,7 +121,7 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
 
-    const logout = useLogout()
+    const {logout} = useLogout();
     const navigate = useNavigate()
     const [value, setValue] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(1);
@@ -130,8 +130,7 @@ const ProfileSection = () => {
     const anchorRef = React.useRef(null);
 
     const handleLogout = () => {
-        logout()
-        navigate("/login")
+        logout();
     };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);

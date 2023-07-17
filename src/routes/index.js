@@ -1,6 +1,7 @@
 import React, { lazy } from 'react';
-import { BrowserRouter, Routes, Rou } from 'react-router-dom';
+import { BrowserRouter, Routes, Rou, Navigate } from 'react-router-dom';
 import Loadable from '../ui-component/Loadable';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 // project imports
 import PrivateRoute from './PrivateRoute';
@@ -12,17 +13,15 @@ import KYCdocument from '../views/pages/ekYC/KYCdocument';
 import PublicRoute from './PublicRoute';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
-// const UtilsColor = Loadable(lazy(() => import('../views/utilities/Color')));
-// const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
-// const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
-// const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIcons')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
+
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 //-----------------------|| ROUTING RENDER ||-----------------------//
 
 const AllRoutes = () => {
+    const {user} = useAuthContext();
     return (
         <BrowserRouter>
             <NavigationScroll>
@@ -31,50 +30,65 @@ const AllRoutes = () => {
 
                     <PrivateRoute
                         path="/"
-                        element={
+                        element={user ?
                             <MinimalLayout>
                                 <MainLayout>
                                     <DashboardDefault />
                                 </MainLayout>
                             </MinimalLayout>
+                            :
+                            <Navigate to="/login" />
                         }
                     />
                     <PrivateRoute
                         path="/lead/verify-phonenumber"
-                        element={
-                            <MainLayout>
-                                <RegisterLeadViaPhone />
-                            </MainLayout>
+                        element={user ?
+                            <MinimalLayout>
+                                <MainLayout>
+                                    <RegisterLeadViaPhone />
+                                </MainLayout>
+                            </MinimalLayout>
+                            :
+                            <Navigate to="/login" />
                         }
                     />
                     <PrivateRoute
                         path="/lead/createlead"
                         element={
-                            <MinimalLayout>
-                                <MainLayout>
-                                    <LeadCreateForm />
-                                </MainLayout>
-                            </MinimalLayout>
+                            user ?
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <LeadCreateForm user={user} />
+                                    </MainLayout>
+                                </MinimalLayout>
+                                :
+                                <Navigate to="/login" />
                         }
                     />
                     <PrivateRoute
                         path="/lead/kyc"
                         element={
-                            <MinimalLayout>
-                                <MainLayout>
-                                    <KYCdocument />
-                                </MainLayout>
-                            </MinimalLayout>
+                            user ?
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <KYCdocument />
+                                    </MainLayout>
+                                </MinimalLayout>
+                                :
+                                <Navigate to="/login" />
                         }
                     />
                     <PublicRoute
                         path="/login"
                         element={
-                            <MinimalLayout>
-                                <NavMotion>
-                                    <AuthLogin />
-                                </NavMotion>
-                            </MinimalLayout>
+                            !user ?
+                                <MinimalLayout>
+                                    <NavMotion>
+                                        <AuthLogin />
+                                    </NavMotion>
+                                </MinimalLayout>
+                                :
+                                <Navigate to="/" />
                         }
                     />
                 </Routes>

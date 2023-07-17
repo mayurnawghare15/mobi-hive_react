@@ -29,7 +29,7 @@ const LoadOccupation = async (query) => {
             }
             else if (error.response.status === 401) {
                 toast.error("You are not authorized to view this page")
-                localStorage.setItem("berry-account","")
+                localStorage.setItem("user","")
                 const timer = setTimeout(() => {
                     window.location.href = ("/login");
                 }, 500);

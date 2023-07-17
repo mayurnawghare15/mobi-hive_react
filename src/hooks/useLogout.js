@@ -2,18 +2,18 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 import { Password } from '@material-ui/icons';
 import LoginApi from '../apicalls/LoginApi';
+import { useNavigate } from 'react-router-dom';
 
 export const useLogout = () => {
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(null);
     const { dispatch } = useAuthContext();
-
-    const logout = async (username, password) => {
+    const navigate = useNavigate()
+    const logout = async () => {
         
         // removeuser from localstorage
         localStorage.removeItem("user");
+        navigate("/login");
         // dispatch logout action
         dispatch({type:'LOGOUT'})
     }
-    return { logout, isLoading, error }
+    return { logout }
 }
