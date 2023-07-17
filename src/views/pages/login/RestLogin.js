@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
+import { useLogin } from '../../../hooks/useLogin';
 
 // material-ui
 import { makeStyles } from '@material-ui/styles';
@@ -28,14 +29,13 @@ import { Formik } from 'formik';
 import axios from 'axios';
 
 // project imports
-import useScriptRef from '../../../../hooks/useScriptRef';
-import AnimateButton from '../../../../ui-component/extended/AnimateButton';
-import { ACCOUNT_INITIALIZE } from './../../../../store/actions';
+import useScriptRef from '../../../hooks/useScriptRef';
+import AnimateButton from '../../../ui-component/extended/AnimateButton';
 
 // assets
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
-import { useState } from 'react';
+import { useEffect } from 'react';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -82,13 +82,12 @@ const RestLogin = (props, { ...others }) => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const classes = useStyles();
-    const dispatcher = useDispatch();
-    const BASE_URL = process.env.REACT_APP_BASE_URL;
 
-    const scriptedRef = useScriptRef();
+
+    // const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
-    const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
-    const [password, setPassword] = useState(localStorage.getItem('myapp-password') || '');
+    // const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
+    // const [password, setPassword] = useState(localStorage.getItem('myapp-password') || '');
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
@@ -101,15 +100,10 @@ const RestLogin = (props, { ...others }) => {
 
     const userReq = <label>{t('username_required')}</label>;
     const passReq = <label>{t('password_required')}</label>;
-
-    // function remember(){
-    //     if(rememberCheck.current.checked){
-    //       localStorage.setItem("myapp-email", email); localStorage.setItem("myapp-password", password)
-    //     }
-    //     else{
-    //       localStorage.setItem("myapp-email", ""); localStorage.setItem("myapp-password", "")
-    //     }
-    //   }
+    const { login, error, isLoading } = useLogin()
+    useEffect(() => {
+        toast.error(error)
+    }, [error])
 
     return (
         <React.Fragment>
@@ -124,51 +118,51 @@ const RestLogin = (props, { ...others }) => {
                     password: Yup.string().max(255).required(passReq)
                 })}
                 onSubmit={(values, { setErrors, setStatus, setSubmitting }) => {
-                    try {
-                        axios
-                            .post(BASE_URL + 'v2/token/auth/', {
-                                username: values.username,
-                                password: values.password
-                            })
-                            .then(function (response) {
-                                if (response.status) {
-                                    toast.success(t('login_Sucessfully'));
-                                    if (scriptedRef.current) {
-                                        setStatus({ success: true });
-                                        setSubmitting(false);
-                                    }
-                                    dispatcher({
-                                        type: ACCOUNT_INITIALIZE,
-                                        payload: {
-                                            isLoggedIn: true,
-                                            user: response.data.user,
-                                            token: response.data.data.token
-                                        }
-                                    });
-                                    return navigate('/');
-                                } else {
-                                    toast.error(t('please_Enter_Correct_Credentials'));
-                                    setStatus({ success: false });
-                                    setErrors({ submit: response.message });
-                                    setSubmitting(false);
-                                }
-                                toast.error(response);
-                            })
-                            .catch(function (error) {
-                                toast.error(t('login_Error'));
-                                setStatus({ success: false });
-                                // setErrors({ submit: error.response.data.message });
-                                setSubmitting(false);
-                            });
-                    } catch (err) {
-                        console.error(err);
-                        if (scriptedRef.current) {
-                            toast.error('Please Enter Correct Credentials');
-                            setStatus({ success: false });
-                            setErrors({ submit: err.message });
-                            setSubmitting(false);
-                        }
+                    if (!values.username) {
+                        return toast.error("Username req")
+                    } else if (!values.password) {
+                        return toast.error("Password req")
+                    } else {
+                        login(values.username, values.password);
                     }
+                    // try {
+                    //     axios
+                    //         .post(BASE_URL + 'v2/token/auth/', {
+                    //             username: values.username,
+                    //             password: values.password
+                    //         })
+                    //         .then(function (response) {
+                    //             if (response.status) {
+                    //                 toast.success(t('login_Sucessfully'));
+                    //                 if (scriptedRef.current) {
+                    //                     setStatus({ success: true });
+                    //                     setSubmitting(false);
+                    //                 }
+
+                    //                 return navigate('/');
+                    //             } else {
+                    //                 toast.error(t('please_Enter_Correct_Credentials'));
+                    //                 setStatus({ success: false });
+                    //                 setErrors({ submit: response.message });
+                    //                 setSubmitting(false);
+                    //             }
+                    //             toast.error(response);
+                    //         })
+                    //         .catch(function (error) {
+                    //             toast.error(t('login_Error'));
+                    //             setStatus({ success: false });
+                    //             // setErrors({ submit: error.response.data.message });
+                    //             setSubmitting(false);
+                    //         });
+                    // } catch (err) {
+                    //     console.error(err);
+                    //     if (scriptedRef.current) {
+                    //         toast.error('Please Enter Correct Credentials');
+                    //         setStatus({ success: false });
+                    //         setErrors({ submit: err.message });
+                    //         setSubmitting(false);
+                    //     }
+                    // }
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
@@ -272,7 +266,7 @@ const RestLogin = (props, { ...others }) => {
                             <AnimateButton>
                                 <Button
                                     disableElevation
-                                    disabled={isSubmitting}
+                                    disabled={isLoading}
                                     fullWidth
                                     size="large"
                                     type="submit"

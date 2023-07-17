@@ -17,9 +17,6 @@ import AllRoutes from './routes';
 import theme from './themes';
 
 
-//Toasts
-import { ToastContainer, Slide } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 //-----------------------|| APP ||-----------------------//
 
@@ -28,19 +25,6 @@ const App = () => {
 
     return (
         <>
-            <ToastContainer
-                transition={Slide}
-                position="top-center"
-                autoClose={1500}
-                hideProgressBar={false}
-                newestOnTop={true}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                limit={1}
-            />
             <StyledEngineProvider injectFirst>
                 <ThemeProvider theme={theme(customization)}>
                     <CssBaseline />

@@ -49,24 +49,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
     const theme = createTheme();
     const navigate = useNavigate()
-    // useEffect(() => {
-    //     const delay = 300; // Delay in milliseconds
-
-    //     const timer = setTimeout(() => {
-    //         const localStorageData = JSON.parse(JSON.stringify(localStorage.getItem("berry-account")));
-    //         const isAuthenticated = localStorageData.token ? true : false;
-    //         // Code to execute after the delay
-    //         if (!isAuthenticated) {
-    //             // Redirect to the login page
-
-    //             return navigate('/login');
-    //         }
-    //     }, delay);
-
-    //     // Cleanup the timer on component unmount
-    //     return () => clearTimeout(timer);
-    // }, [])
-
+    
 
     return (
         <React.Fragment>

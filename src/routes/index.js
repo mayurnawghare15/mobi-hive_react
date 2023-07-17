@@ -9,13 +9,13 @@ import NavMotion from '../layout/NavMotion';
 import NavigationScroll from '../layout/NavigationScroll';
 import MainLayout from '../layout/MainLayout';
 import PublicRoute from './PublicRoute';
-const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/utilities/RegisterLeadViaPhone')));
-const LeadCreateForm = Loadable(lazy(() => import('../views/utilities/leadFormEss/LeadCreateForm')));
+const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
+const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 // const UtilsColor = Loadable(lazy(() => import('../views/utilities/Color')));
 // const UtilsShadow = Loadable(lazy(() => import('../views/utilities/Shadow')));
 // const UtilsMaterialIcons = Loadable(lazy(() => import('../views/utilities/MaterialIcons')));
 // const UtilsTablerIcons = Loadable(lazy(() => import('../views/utilities/TablerIcons')));
-const AuthLogin = Loadable(lazy(() => import('../views/pages/authentication/login')));
+const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));

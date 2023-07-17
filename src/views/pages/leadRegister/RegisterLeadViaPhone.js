@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
-import SubCard from '../../ui-component/cards/SubCard';
-import MainCard from '../../ui-component/cards/MainCard';
-import { gridSpacing } from '../../store/constant';
+import SubCard from '../../../ui-component/cards/SubCard';
+import MainCard from '../../../ui-component/cards/MainCard';
+import { gridSpacing } from '../../../store/constant';
 import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
-import VerifyUser from '../../components/VerifyUser';
+import VerifyUser from '../../../components/VerifyUser';
 import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;

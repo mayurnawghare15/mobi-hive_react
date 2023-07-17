@@ -19,23 +19,44 @@ import config from './config';
 
 // style + assets
 import './assets/scss/style.scss';
+import { AuthContextProvider } from './context/AuthContext';
 
 //-----------------------|| REACT DOM RENDER  ||-----------------------//
+//Toasts
+import { ToastContainer, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 ReactDOM.render(
+    <>
+        <ToastContainer
+            transition={Slide}
+            position="top-center"
+            autoClose={1500}
+            hideProgressBar={false}
+            newestOnTop={true}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            limit={1}
+        />
+        <AuthContextProvider>
+            <I18nextProvider i18n={i18n}>
 
-    <I18nextProvider i18n={i18n}>
+                <Provider store={store}>
 
-        <Provider store={store}>
+                    <PersistGate loading={null} persistor={persister}>
+                        <App />
+                    </PersistGate>
 
-            <PersistGate loading={null} persistor={persister}>
-                <App />
-            </PersistGate>
+                </Provider>
 
-        </Provider>
-
-    </I18nextProvider>,
+            </I18nextProvider>
+        </AuthContextProvider>
+    </>
+    ,
 
     document.getElementById('root')
 

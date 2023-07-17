@@ -26,17 +26,16 @@ import ListItemButton from '@material-ui/core/ListItemButton';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import axios from 'axios';
 
 // project imports
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Transitions from '../../../../ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
-import { LOGOUT } from './../../../../store/actions';
+import { useLogout } from '../../../../hooks/useLogout';
 
 // assets
 import { IconLogout, IconSearch, IconSettings } from '@tabler/icons';
-import User1 from './../../../../assets/images/users/user-round.svg';
+import { useNavigate } from 'react-router-dom';
 
 // style const
 const useStyles = makeStyles((theme) => ({
@@ -121,35 +120,18 @@ const ProfileSection = () => {
     const classes = useStyles();
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const account = useSelector((state) => state.account);
-    const dispatcher = useDispatch();
 
-    const [sdm, setSdm] = React.useState(true);
+    const logout = useLogout()
+    const navigate = useNavigate()
     const [value, setValue] = React.useState('');
-    const [notification, setNotification] = React.useState(false);
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef(null);
 
     const handleLogout = () => {
-        console.log(account.token);
-        localStorage.clear();
-        window.location.reload();
-
-        // axios
-        //     .post(configData.API_SERVER + 'users/logout', { token: `${account.token}` }, { headers: { Authorization: `${account.token}` } })
-        //     .then(function (response) {
-        //         // Force the LOGOUT
-        //         //if (response.data.success) {
-        //         dispatcher({ type: LOGOUT });
-        //         //} else {
-        //         //    console.log('response - ', response.data.msg);
-        //         //}
-        //     })
-        //     .catch(function (error) {
-        //         console.log('error - ', error);
-        //     });
+        logout()
+        navigate("/login")
     };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
