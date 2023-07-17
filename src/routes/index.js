@@ -8,6 +8,7 @@ import MinimalLayout from '../layout/MinimalLayout';
 import NavMotion from '../layout/NavMotion';
 import NavigationScroll from '../layout/NavigationScroll';
 import MainLayout from '../layout/MainLayout';
+import KYCdocument from '../views/pages/ekYC/KYCdocument';
 import PublicRoute from './PublicRoute';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
@@ -60,7 +61,9 @@ const AllRoutes = () => {
                         path="/lead/kyc"
                         element={
                             <MinimalLayout>
-                                <MainLayout>{/* <LeadCreateForm /> */}</MainLayout>
+                                <MainLayout>
+                                    <KYCdocument />
+                                </MainLayout>
                             </MinimalLayout>
                         }
                     />

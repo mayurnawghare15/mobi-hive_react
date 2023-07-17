@@ -76,7 +76,7 @@ const RegisterLeadViaPhone = () => {
             }
             setTimeout(() => {
                 setOtpSent(true);
-            }, 1000);
+            });
         }
     };
     const handleResendOTP = () => {

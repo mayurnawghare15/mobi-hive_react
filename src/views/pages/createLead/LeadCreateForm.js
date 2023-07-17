@@ -5,9 +5,9 @@ import { TextareaAutosize } from '@mui/base';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-
-import MainCard from '../../../ui-component/cards/MainCard';
-import SubCard from '../../../ui-component/cards/SubCard';
+import './style.css';
+import MainCard from '../../../../ui-component/cards/MainCard';
+import SubCard from '../../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import {
@@ -28,6 +28,7 @@ import AnimateButton from '../../../ui-component/extended/AnimateButton';
 import OccupationsList from '../../../components/OccupationList';
 import EmployerList from '../../../components/EmployerList';
 import ChoiceListApi from '../../../apicalls/ChoiceListApi';
+import UploadProfilePhoto from './uploadProfilePhoto';
 import { toast } from 'react-toastify';
 
 const LeadCreateForm = () => {
