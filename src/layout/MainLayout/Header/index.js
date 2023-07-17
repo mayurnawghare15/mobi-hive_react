@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
     const theme = createTheme();
-    const navigate = useNavigate()
     
 
     return (

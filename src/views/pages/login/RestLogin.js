@@ -125,44 +125,6 @@ const RestLogin = (props, { ...others }) => {
                     } else {
                         login(values.username, values.password);
                     }
-                    // try {
-                    //     axios
-                    //         .post(BASE_URL + 'v2/token/auth/', {
-                    //             username: values.username,
-                    //             password: values.password
-                    //         })
-                    //         .then(function (response) {
-                    //             if (response.status) {
-                    //                 toast.success(t('login_Sucessfully'));
-                    //                 if (scriptedRef.current) {
-                    //                     setStatus({ success: true });
-                    //                     setSubmitting(false);
-                    //                 }
-
-                    //                 return navigate('/');
-                    //             } else {
-                    //                 toast.error(t('please_Enter_Correct_Credentials'));
-                    //                 setStatus({ success: false });
-                    //                 setErrors({ submit: response.message });
-                    //                 setSubmitting(false);
-                    //             }
-                    //             toast.error(response);
-                    //         })
-                    //         .catch(function (error) {
-                    //             toast.error(t('login_Error'));
-                    //             setStatus({ success: false });
-                    //             // setErrors({ submit: error.response.data.message });
-                    //             setSubmitting(false);
-                    //         });
-                    // } catch (err) {
-                    //     console.error(err);
-                    //     if (scriptedRef.current) {
-                    //         toast.error('Please Enter Correct Credentials');
-                    //         setStatus({ success: false });
-                    //         setErrors({ submit: err.message });
-                    //         setSubmitting(false);
-                    //     }
-                    // }
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (

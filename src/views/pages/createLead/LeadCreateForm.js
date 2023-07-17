@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Container, Stack, MenuItem, Menu } from '@mui/material';
-
 import { TextareaAutosize } from '@mui/base';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
-import './style.css';
-import MainCard from '../../../../ui-component/cards/MainCard';
-import SubCard from '../../../../ui-component/cards/SubCard';
+
+import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
     Box,
     FormControl,
@@ -21,22 +18,24 @@ import {
     OutlinedInput,
     Radio,
     RadioGroup,
-    Select
+    Select,
+    TextField, Button, Container, Stack, MenuItem, Menu
 } from '@material-ui/core';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 import OccupationsList from '../../../components/OccupationList';
 import EmployerList from '../../../components/EmployerList';
 import ChoiceListApi from '../../../apicalls/ChoiceListApi';
-import UploadProfilePhoto from './uploadProfilePhoto';
 import { toast } from 'react-toastify';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const LeadCreateForm = () => {
     const { t } = useTranslation();
+    const { user } = useAuthContext();
     const [countryCode, setCountryCode] = useState('');
     const location = useLocation();
     const { state } = location;
-    const [choiceList, setChoiceList] = useState({});
+    const [choiceList, setChoiceList] = useState(null);
     const [createLeadForm, setCreateLeadForm] = useState({
         saluation: '',
         first_name: '',
@@ -91,6 +90,7 @@ const LeadCreateForm = () => {
         locality,
         existing_loan
     } = createLeadForm;
+
     const onInputChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
@@ -103,25 +103,22 @@ const LeadCreateForm = () => {
     useEffect(() => {
         if (state) setCreateLeadForm(state);
         const query = 'IN';
-        ChoiceListApi(query)
-            .then((res) => {
-                console.log(res, '----res.results');
-                setChoiceList(res);
-            })
+        let token = null
+        if (user) {
+            token = user.token
+        }
+        ChoiceListApi(query, token).then((res) => {
+            setChoiceList(res);
+        })
             .catch((error) => {
                 return toast.error('Something went wrong , Please check your internet connection.');
             });
     }, []);
 
-    const handleSubmit = () => {};
+    const handleSubmit = () => { };
     return (
-        <Container maxWidth="md">
+        <Container fullWidth>
             <form>
-                {/* <MainCard className="maincard" title={t('Register_Form')}>
-                    <Grid container justifyContent="end" alignItems="end" marginTop={-10}>
-                        <UploadProfilePhoto photo={photo} />
-                    </Grid>
-                </MainCard> */}
 
                 <SubCard>
                     <h3>Personal Details</h3>
@@ -133,13 +130,13 @@ const LeadCreateForm = () => {
                                         {t('title')}
                                     </InputLabel>
                                     <Select labelId="tittle-label" id="tittle" name="saluation" value={saluation} onChange={onInputChange}>
-                                        {choiceList.length > 0
-                                            ? choiceList.user_salutation.map((item, index) => (
-                                                  <MenuItem value={item.name} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
-                                            : []}
+                                        {choiceList
+                                            ? choiceList.user_salutation.length > 0 ? choiceList.user_salutation.map((item, index) => (
+                                                <MenuItem value={item.name} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            )) : []
+                                            : null}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -192,16 +189,16 @@ const LeadCreateForm = () => {
                                         {t('Gender')}
                                     </FormLabel>
                                     <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange}>
-                                        {choiceList.length > 0
-                                            ? choiceList.gender.map((item, index) => (
-                                                  <FormControlLabel
-                                                      value={item.value}
-                                                      id={item.slug}
-                                                      control={<Radio />}
-                                                      label={item.name}
-                                                  />
-                                              ))
-                                            : []}
+                                        {choiceList
+                                            ? choiceList.gender.length > 0 ? choiceList.gender.map((item, index) => (
+                                                <FormControlLabel
+                                                    value={item.slug}
+                                                    id={item.slug}
+                                                    control={<Radio />}
+                                                    label={item.name}
+                                                />
+                                            )) : []
+                                            : null}
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
@@ -231,13 +228,13 @@ const LeadCreateForm = () => {
                                         name="marital_status"
                                         onChange={onInputChange}
                                     >
-                                        {choiceList.length > 0
-                                            ? choiceList.martial_status.map((item, index) => (
-                                                  <MenuItem id={item.slug} value={item.name}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
-                                            : []}
+                                        {choiceList
+                                            ? choiceList.martial_status.length > 0 ? choiceList.martial_status.map((item, index) => (
+                                                <MenuItem id={item.slug} value={item.name}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            )) : []
+                                            : null}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -253,13 +250,13 @@ const LeadCreateForm = () => {
                                         value={highest_education}
                                         onChange={onInputChange}
                                     >
-                                        {choiceList.length > 0
-                                            ? choiceList.educational_qualification.map((item, index) => (
-                                                  <MenuItem value={item.name} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
-                                            : []}
+                                        {choiceList
+                                            ? choiceList.educational_qualification.length > 0 ? choiceList.educational_qualification.map((item, index) => (
+                                                <MenuItem value={item.name} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            )) : []
+                                            : null}
                                     </Select>
                                 </FormControl>
                             </Grid>
@@ -350,13 +347,13 @@ const LeadCreateForm = () => {
                                     name="alt_number_relation"
                                     onChange={onInputChange}
                                 >
-                                    {choiceList.length > 0
-                                        ? choiceList.user_realtions.map((item, index) => (
-                                              <MenuItem value={item.name} id={item.slug}>
-                                                  {item.name}
-                                              </MenuItem>
-                                          ))
-                                        : []}
+                                    {choiceList
+                                        ? choiceList.user_realtions.length > 0 ? choiceList.user_realtions.map((item, index) => (
+                                            <MenuItem value={item.name} id={item.slug}>
+                                                {item.name}
+                                            </MenuItem>
+                                        )) : []
+                                        : null}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -418,13 +415,13 @@ const LeadCreateForm = () => {
                                     name="employee_type"
                                     onChange={onInputChange}
                                 >
-                                    {choiceList.length > 0
-                                        ? choiceList.user_realtions.map((item, index) => (
-                                              <MenuItem value={'item.name'} id={'item.slug'}>
-                                                  {'item.name'}
-                                              </MenuItem>
-                                          ))
-                                        : []}
+                                    {choiceList
+                                        ? choiceList.employee_type.length > 0 ? choiceList.employee_type.map((item, index) => (
+                                            <MenuItem value={item.name} id={item.slug}>
+                                                {item.name}
+                                            </MenuItem>
+                                        )) : []
+                                        : null}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -498,10 +495,14 @@ const LeadCreateForm = () => {
                                     <b>{t('city')}*</b>
                                 </InputLabel>
                                 <Select labelId="city-label" id="city" name="city" value={city} onChange={onInputChange}>
-                                    <MenuItem value="City 1">{t('city1')}</MenuItem>
-                                    <MenuItem value="City 2">{t('city2')}</MenuItem>
-                                    <MenuItem value="City 3">{t('city3')}</MenuItem>
-                                    {/* Add more city options as needed */}
+                                    {choiceList
+                                        ? choiceList.cities.length > 0 ? choiceList.cities.map((item, index) => (
+                                            <MenuItem value={item.name} id={item.slug}>
+                                                {item.name}
+                                            </MenuItem>
+                                        )) : []
+                                        : null}
+
                                 </Select>
                             </FormControl>
                         </Grid>
