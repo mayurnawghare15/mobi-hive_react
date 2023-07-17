@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import MainCard from '../../../ui-component/cards/MainCard';
-import FaceRecogination from '../../../components/faceApi/faceRecogination';
+import FaceRecogination from './faceApi/faceRecogination';
 
 function KYCdocument() {
     const [profilephoto, setProfilePhoto] = useState();
