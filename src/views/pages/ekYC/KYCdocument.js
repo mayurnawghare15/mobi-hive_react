@@ -2,37 +2,17 @@ import React, { useState } from 'react';
 import { Info as InfoIcon } from '@mui/icons-material';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
-import {
-    Box,
-    Typography,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Grid,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Radio,
-    RadioGroup,
-    Select,
-    TextField,
-    Button,
-    Container,
-    Stack,
-    MenuItem,
-    Menu
-} from '@material-ui/core';
-import AnimateButton from '../../../ui-component/extended/AnimateButton';
+import { Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
 import AlertDialog from '../../popups/UploadDoc';
+import WebcamCapture from '../../../components/webcamComp/WebcamCapture';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
     const [identificationProof, setIdentificationProof] = useState('');
     const [addressProof, setAddProof] = useState('');
     const [proofOfIncome, setProofOfImcome] = useState('');
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(true);
 
     const handleChangeIdentiProof = (event) => {
         setIdentificationProof(event.target.value);
@@ -61,9 +41,9 @@ function KYCDocumentPage() {
     };
     return (
         <>
-            {/* <WebcamCapture /> */}
+            <WebcamCapture open={open} setOpen={setOpen} />
             {/*For Identification proof */}
-            {open && <AlertDialog open={open} />}
+            {/* {open && <AlertDialog open={open} />} */}
             <Grid>
                 <MainCard>
                     <Grid container alignItems="center" ml={1} spacing={2}>
