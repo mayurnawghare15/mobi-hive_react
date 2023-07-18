@@ -32,7 +32,7 @@ const Login = () => {
                     <LanguageSelect color="red" />
                 </Grid>
                 <Grid item xs={12}>
-                    <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
+                    <Grid container justifyContent="center" alignItems="center" sx={{width:{xs:"100%",sm:"40%",}, minHeight: 'calc(100vh - 68px)',mx: 'auto', }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
                             <Grid container spacing={2} alignItems="center" justifyContent="center">
                                 <Grid item sx={{ mb: 3 }}>

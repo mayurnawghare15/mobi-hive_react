@@ -6,18 +6,15 @@ import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 
-const LoadOccupation = async (query) => {
-    const localStorageData = JSON.parse(localStorage.getItem("berry-account"));
-    const accessToken = localStorageData.token.replace(/"/g, '') ;
+const LoadOccupation = async (query,token) => {
     try {
         const headers = {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'authorization': "Token "+ accessToken
+                'authorization': "Token "+ token
             }
         }
-        console.log(headers,'--headers')
         const response = await axios.get(API_Base_Url + "v1/occupation/?page="+query, headers).then(response => {
             return response
         }

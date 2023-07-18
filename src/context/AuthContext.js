@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { createContext, useReducer } from 'react';
-import { toast } from 'react-toastify';
+import { useLogout } from '../hooks/useLogout';
 
 export const AuthContext = createContext();
 
