@@ -34,6 +34,7 @@
         "i18next-http-backend": "^2.2.1",
         "i18next-xhr-backend": "^3.2.2",
         "libphonenumber-js": "^1.10.37",
+        "material-ui-dropzone": "^3.5.0",
         "material-ui-phone-number": "^3.0.0",
         "material-ui-popup-state": "^1.8.0",
         "react": "^17.0.2",
