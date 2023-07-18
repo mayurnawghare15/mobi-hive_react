@@ -12,7 +12,6 @@ import './i18nextInit';
 // routing
 import AllRoutes from './routes';
 
-
 // defaultTheme
 import theme from './themes';
 import { ChoiceListProvider } from './context/ChoiceListContext';

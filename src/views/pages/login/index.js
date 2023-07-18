@@ -2,6 +2,7 @@ import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import LanguageSelect from '../../../ui-component/language/languageSelect';
+import './style.css';
 
 // material-ui
 import { useTheme } from '@material-ui/core';
@@ -33,47 +34,42 @@ const Login = () => {
                 <Grid item xs={12}>
                     <Grid container justifyContent="center" alignItems="center" sx={{width:{xs:"100%",sm:"40%",}, minHeight: 'calc(100vh - 68px)',mx: 'auto', }}>
                         <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
-           
-                                <Grid container spacing={2} alignItems="center" justifyContent="center">
-                                    <Grid item sx={{ mb: 3 }}>
-                                        <RouterLink to="#">
-                                            <Logo />
-                                        </RouterLink>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Grid
-                                            container
-                                            direction={matchDownSM ? 'column-reverse' : 'row'}
-                                            alignItems="center"
-                                            justifyContent="center"
-                                        >
-                                            <Grid item>
-                                                <Stack alignItems="center" justifyContent="center" spacing={1}>
-                                                    <Typography
-                                                        color={theme.palette.secondary.main}
-                                                        gutterBottom
-                                                        variant={matchDownSM ? 'h3' : 'h2'}
-                                                    >
-                                                        <label>{t('login')}</label>
-                                                    </Typography>
-                                                    <Typography
-                                                        variant="caption"
-                                                        fontSize="16px"
-                                                        textAlign={matchDownSM ? 'center' : ''}
-                                                    >
-                                                        <label>{t('enter_your_credentials_to_continue')}</label>
-                                                    </Typography>
-                                                </Stack>
-                                            </Grid>
+                            <Grid container spacing={2} alignItems="center" justifyContent="center">
+                                <Grid item sx={{ mb: 3 }}>
+                                    <RouterLink to="#">
+                                        <Logo />
+                                    </RouterLink>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Grid
+                                        container
+                                        direction={matchDownSM ? 'column-reverse' : 'row'}
+                                        alignItems="center"
+                                        justifyContent="center"
+                                    >
+                                        <Grid item>
+                                            <Stack alignItems="center" justifyContent="center" spacing={1}>
+                                                <Typography
+                                                    color={theme.palette.secondary.main}
+                                                    gutterBottom
+                                                    variant={matchDownSM ? 'h3' : 'h2'}
+                                                >
+                                                    <label>{t('login')}</label>
+                                                </Typography>
+                                                <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : ''}>
+                                                    <label>{t('enter_your_credentials_to_continue')}</label>
+                                                </Typography>
+                                            </Stack>
                                         </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <RestLogin />
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <Divider />
-                                    </Grid>
-                                    {/* <Grid item xs={12}>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <RestLogin />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider />
+                                </Grid>
+                                {/* <Grid item xs={12}>
                                             <Grid item container direction="column" alignItems="center" xs={12}>
                                                 <Typography
                                                     component={RouterLink}
@@ -85,8 +81,7 @@ const Login = () => {
                                                 </Typography>
                                             </Grid>
                                         </Grid> */}
-                                </Grid>
-                   
+                            </Grid>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -94,7 +89,6 @@ const Login = () => {
                     <AuthFooter />
                 </Grid>
             </Grid>
-
         </>
     );
 };

@@ -1,0 +1,17 @@
+.appvide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.appcanvas {
+    position: absolute;
+}
+
+.myapp {
+    display: flex;
+    width: 250px;
+    height: 250px;
+    justify-content: center;
+    align-items: center;
+}
