@@ -17,20 +17,31 @@ import { TextField, Button, Container, Stack, MenuItem, Menu } from '@mui/materi
 import { useTranslation } from 'react-i18next';
 import LoadEmployer from '../apicalls/LoadEmployer';
 import { toast } from 'react-toastify';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 
-const EmployerList = ({ occupation_sector, onInputChange, query }) => {
+const EmployerList = ({ current_employer, onInputChange, query }) => {
 
     const { t } = useTranslation();
-    const [isLoaded, setIsLoaded] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [employerItems, setEmployerItems] = useState([])
+    const { user } = useAuthContext();
+    let token = null
+        if (user) {
+            token = user.token
+        }
 
     useEffect(() => {
-        LoadEmployer(query).then(res => {
-            if (res)
+        setIsLoading(true)
+        LoadEmployer(query,token).then(res => {
+            if (res) {
                 setEmployerItems(res.results)
-            else
+                setIsLoading(false)
+            }
+            else {
+                setIsLoading(false)
                 setEmployerItems([])
+            }
         }).catch(error => {
             return toast.error('Something went wrong , Please check your internet connection.')
         })
@@ -43,10 +54,11 @@ const EmployerList = ({ occupation_sector, onInputChange, query }) => {
                 </InputLabel>
                 <Select
                     labelId="occupation-label"
-                    name="occupation_sector"
-                    value={occupation_sector}
+                    name="current_employer"
+                    id="current_employer"
+                    value={current_employer}
                     onChange={onInputChange}>
-                    {employerItems.length > 0 ? employerItems.map((item) => (
+                    {isLoading ? <>Loading...</> : employerItems.length > 0 ? employerItems.map((item) => (
                         <MenuItem value={item.employer_sector} id={item.id} >{item.business_name}</MenuItem>
                     )) : []}
                 </Select>
