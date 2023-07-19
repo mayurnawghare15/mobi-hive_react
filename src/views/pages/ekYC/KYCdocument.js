@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Info as InfoIcon, Label } from '@mui/icons-material';
+import { Info as InfoIcon } from '@mui/icons-material';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
-import { Grid, Typography, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import WebcamCapture from '../../../components/webcamComp/WebcamCapture';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { Button, Card, CardContent, IconButton } from '@mui/material';
+import { Button } from '@mui/material';
+import ViewKYCDetails from '../../../components/ViewKYCDetails';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
@@ -33,8 +34,9 @@ function KYCDocumentPage() {
         setIsVerified(true);
     };
     const handleAdd = () => {
+        setIsAdded(true);
+        setOpen(true);
         if (isAdded) {
-            setOpen(true);
         } else {
             console.log('Default onClick for isAdded false');
 
@@ -44,7 +46,8 @@ function KYCDocumentPage() {
 
     return (
         <>
-            <WebcamCapture open={open} setOpen={setOpen} />
+            <ViewKYCDetails open={open} setOpen={setOpen} frontSide={true} backSide={true} />
+            <WebcamCapture />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -70,7 +73,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -80,9 +83,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -103,7 +106,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -113,9 +116,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -129,7 +132,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -139,9 +142,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -155,7 +158,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -165,9 +168,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -188,7 +191,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -198,9 +201,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -214,7 +217,7 @@ function KYCDocumentPage() {
                                     size="large"
                                     color="primary"
                                     onClick={handleVerify}
-                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon color="success" /> : null}
+                                    startIcon={isVerified ? <CheckCircleOutlineTwoToneIcon fontSize="large" color="success" /> : null}
                                 >
                                     Verify
                                 </Button>
@@ -224,9 +227,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon fontSize="large" style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon fontSize="large" style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
@@ -250,9 +253,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon sx={{ fontSize: 40 }} style={{ color: 'pink' }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon sx={{ fontSize: 40 }} style={{ color: 'violet' }} />
                                         )
                                     }
                                 ></Button>
