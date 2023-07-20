@@ -49,9 +49,9 @@
         "react-router-dom": "^6.0.0",
         "react-scripts": "^5.0.1",
         "react-toastify": "^9.0.0",
+        "react-webcam": "^7.1.1",
         "redux": "^4.0.5",
         "redux-persist": "^6.0.0",
-        "webcam-easy": "^1.0.6",
         "yup": "^0.32.9"
     },
     "scripts": {
