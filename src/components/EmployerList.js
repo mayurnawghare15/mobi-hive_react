@@ -50,7 +50,7 @@ const EmployerList = ({ current_employer, onInputChange, query }) => {
         <>
             <FormControl fullWidth>
                 <InputLabel className="label" id="occupation-label">
-                    {t('Employer')}
+                    {t('Current Employer')}
                 </InputLabel>
                 <Select
                     labelId="occupation-label"

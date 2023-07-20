@@ -26,7 +26,7 @@
         "axios": "^0.21.1",
         "clsx": "^1.1.1",
         "dotenv": "^16.3.1",
-        "face-api.js": "^0.22.2",
+        "face-api.js": "^0.20.0",
         "formik": "^2.2.6",
         "framer-motion": "^4.1.13",
         "i18next": "^23.2.11",
@@ -46,10 +46,11 @@
         "react-redux": "^7.2.3",
         "react-router": "^6.0.0",
         "react-router-dom": "^6.0.0",
-        "react-scripts": "^4.0.3",
+        "react-scripts": "^5.0.1",
         "react-toastify": "^9.0.0",
         "redux": "^4.0.5",
         "redux-persist": "^6.0.0",
+        "webcam-easy": "^1.0.8",
         "yup": "^0.32.9"
     },
     "scripts": {

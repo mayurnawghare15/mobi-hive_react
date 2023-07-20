@@ -120,6 +120,18 @@ const LeadCreateForm = () => {
             ['ph_number']: e
         });
     };
+    const onWhatsappNumberChange = (e) => {
+        setCreateLeadForm({
+            ...createLeadForm,
+            ['whatsapp_number']: e
+        });
+    };
+    const onLocalNumberChange = (e) => {
+        setCreateLeadForm({
+            ...createLeadForm,
+            ['alt_number']: e
+        });
+    };
     const openCreateEmployerForm = () => {
         setShowEmployerForm(!showEmployerForm);
     }
@@ -221,7 +233,7 @@ const LeadCreateForm = () => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={3.3} ml={-1} mt={-0.5}>
-                                <InputLabel>Date of Birth</InputLabel>
+                                <InputLabel>Date of Birth *</InputLabel>
                                 <TextField
                                     className="textfield"
                                     type="date"
@@ -237,7 +249,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="marital-status-label">
-                                        {t('marital_Status')}
+                                        {t('Marital Status *')}
                                     </InputLabel>
                                     <Select
                                         labelId="marital-status-label"
@@ -259,7 +271,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
-                                        {t('highest_Education')}
+                                        {t('Highest Education *')}
                                     </InputLabel>
                                     <Select
                                         labelId="education-label"
@@ -299,7 +311,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label={t('email')}
+                                label={t('Email *')}
                                 type="email"
                                 name="email"
                                 value={email}
@@ -316,7 +328,7 @@ const LeadCreateForm = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
+                            {/* <TextField
                                 className="textfield"
                                 label={t('whatsapp')}
                                 type="whatsapp"
@@ -332,6 +344,19 @@ const LeadCreateForm = () => {
                                 value={whatsapp_number}
                                 name="whatsapp_number"
                                 onChange={onInputChange}
+                            /> */}
+                            <MuiPhoneNumber
+                                className="label"
+                                defaultCountry={'in'}
+                                label={t('whatsapp_number')}
+                                name="whatsapp_number"
+                                value={whatsapp_number}
+                                onChange={onWhatsappNumberChange}
+                                fullWidth
+                                required
+                                variant="outlined"
+                                countryCodeEditable
+                                onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
                             />
                         </Grid>
                     </Grid>
@@ -376,22 +401,18 @@ const LeadCreateForm = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <TextField
-                                className="textfield"
-                                label={t('Local_Phone_Number')}
-                                type="phone"
-                                variant="outlined"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <LocalPhoneIcon color="primary" />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                fullWidth
+                             <MuiPhoneNumber
+                                className="label"
+                                defaultCountry={'in'}
+                                label={t('local_number')}
                                 name="alt_number"
                                 value={alt_number}
-                                onChange={onInputChange}
+                                onChange={onLocalNumberChange}
+                                fullWidth
+                                required
+                                variant="outlined"
+                                countryCodeEditable
+                                onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
                             />
                         </Grid>
                     </Grid>
@@ -401,7 +422,7 @@ const LeadCreateForm = () => {
                 {<CreateEmployerPopup show={showEmployerForm} setShow={openCreateEmployerForm} />}
                 {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} />}
                 <SubCard>
-                    <h3>{t('BusniessLabel')}</h3>
+                    <h3>{t('Busniess / Employment Information')}</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={1} sm={1} mt={4}>
                             <Button
@@ -421,7 +442,7 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <InputLabel className="label" color="primary">
-                                <b>{t('employed_Since')}</b>
+                                {t('employed_Since')} *
                             </InputLabel>
                             <TextField
                                 className="textfield"
@@ -455,7 +476,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" id="employee-label">
-                                    {t('employee_Type')}
+                                    {t('employee_Type')} *
                                 </InputLabel>
                                 <Select
                                     labelId="employee-label"
@@ -477,7 +498,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" htmlFor="monthly-income">
-                                    {t('income_Monthly')}
+                                    {t('income_Monthly')} *
                                 </InputLabel>
                                 <OutlinedInput
                                     id="monthly-income"
@@ -492,7 +513,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" htmlFor="total-dependents">
-                                    {t('total_Dependents')}
+                                    {t('total_Dependents')} *
                                 </InputLabel>
                                 <OutlinedInput
                                     id="total-dependents"
@@ -500,13 +521,14 @@ const LeadCreateForm = () => {
                                     value={total_dependents}
                                     name="total_dependents"
                                     onChange={onInputChange}
+                                    required
                                 />
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" htmlFor="existing-loan">
-                                    {t('existing_Loan')}
+                                    {t('existing_Loan')} *
                                 </InputLabel>
                                 <OutlinedInput
                                     id="existing-loan"
@@ -521,7 +543,7 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={3}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" htmlFor="monthly-saving">
-                                    {t('monthly_Saving')}
+                                    {t('monthly_Saving')} *
                                 </InputLabel>
                                 <OutlinedInput
                                     id="monthly-saving"
@@ -536,12 +558,12 @@ const LeadCreateForm = () => {
                     </Grid>
                 </SubCard>
                 <SubCard>
-                    <h3>{t('current_Address')}</h3>
+                    <h3>{t('Address')}</h3>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" color="primary">
-                                    <b>{t('city')}*</b>
+                                    {t('city')} *
                                 </InputLabel>
                                 <Select labelId="city-label" id="city" name="city" value={city} onChange={onInputChange}>
                                     {data
@@ -565,11 +587,12 @@ const LeadCreateForm = () => {
                                 value={locality}
                                 name="locality"
                                 onChange={onInputChange}
+                                required
                             />
                         </Grid>
                         <Grid item xs={12} sm={8}>
                             <InputLabel className="label" color="primary">
-                                <b>{t('current_Address')}*</b>
+                                {t('current_Address')} *
                             </InputLabel>
                             <FormControl mt={1} fullWidth>
                                 <TextareaAutosize

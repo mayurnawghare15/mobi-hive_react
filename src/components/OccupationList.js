@@ -52,7 +52,7 @@ const OccupationsList = ({ occupation_type, onInputChange }) => {
         <>
             <FormControl fullWidth>
                 <InputLabel className="label" id="occupation-label">
-                    {t('Occupations')}
+                    {t('Occupations *')}
                 </InputLabel>
                 <Select
                     labelId="occupation-label"
