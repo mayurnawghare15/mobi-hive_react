@@ -17,11 +17,13 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
+import WebcamCapture from './webcamComp/WebcamCapture';
 
 function ViewKYCDetails({ open, setOpen, frontSide, backSide, documentType = 'BankStatement' }) {
     const [serialNumber, setSerialNumber] = useState('');
     const [issueBy, setIssueBy] = useState('');
     const [issueDate, setIssueDate] = useState('');
+    const [openCamera, setOpenCamera] = useState(false);
 
     // if (documentType === 'BankStatement') {
     //     backSide = false;
@@ -34,11 +36,17 @@ function ViewKYCDetails({ open, setOpen, frontSide, backSide, documentType = 'Ba
     const handleClose = () => {
         setOpen(false);
     };
+    const handleCamera = () => {
+        console.log(openCamera + 'Opencamera');
+        setOpenCamera(true);
+        console.log(openCamera + 'Opencamera');
+    };
 
     return (
         <>
             {/* Put Lead Details from Lead from */}
-            <Dialog fullScreen open={open} onClose={handleClose} maxWidth="md">
+            {openCamera && <WebcamCapture openCamera={openCamera} setOpenCamera={setOpenCamera} />}
+            <Dialog fullScreen open={open} onClose={handleClose} maxWidth="md" TransitionComponent={Transition}>
                 <AppBar sx={{ position: 'relative' }}>
                     <Toolbar>
                         <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
@@ -67,7 +75,13 @@ function ViewKYCDetails({ open, setOpen, frontSide, backSide, documentType = 'Ba
                                     borderColor="grey.400"
                                     borderRadius={8}
                                 >
-                                    <IconButton variant="contained" color="primary" disableElevation style={{ borderRadius: 100 }}>
+                                    <IconButton
+                                        onClick={handleCamera}
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        style={{ borderRadius: 100 }}
+                                    >
                                         <AddCircleOutlineRoundedIcon fontSize="large" />
                                     </IconButton>
                                 </Box>
@@ -89,7 +103,13 @@ function ViewKYCDetails({ open, setOpen, frontSide, backSide, documentType = 'Ba
                                     borderColor="grey.400"
                                     borderRadius={8}
                                 >
-                                    <IconButton variant="contained" color="primary" disableElevation style={{ borderRadius: 100 }}>
+                                    <IconButton
+                                        onClick={handleCamera}
+                                        variant="contained"
+                                        color="primary"
+                                        disableElevation
+                                        style={{ borderRadius: 100 }}
+                                    >
                                         <AddCircleOutlineRoundedIcon fontSize="large" />
                                     </IconButton>
                                 </Box>

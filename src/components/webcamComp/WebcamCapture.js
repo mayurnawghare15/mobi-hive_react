@@ -3,7 +3,7 @@ import Webcam from 'react-webcam';
 import { Button, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@material-ui/icons/Close';
 
-const WebcamCapture = ({ open, setOpen }) => {
+const WebcamCapture = ({ openCamera, setOpenCamera }) => {
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [mirrored, setMirrored] = useState(false);
@@ -19,7 +19,7 @@ const WebcamCapture = ({ open, setOpen }) => {
     };
 
     const handleClosePopup = () => {
-        setOpen(false);
+        setOpenCamera(false);
     };
 
     const handleConfirm = () => {
@@ -28,7 +28,7 @@ const WebcamCapture = ({ open, setOpen }) => {
     };
 
     return (
-        <Dialog open={open} maxWidth="sm" fullWidth>
+        <Dialog open={openCamera} maxWidth="sm" fullWidth>
             <DialogContent>
                 <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
                     <IconButton aria-label="close" onClick={handleClosePopup}>
