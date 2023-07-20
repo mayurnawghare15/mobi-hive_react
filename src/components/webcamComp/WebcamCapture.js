@@ -6,42 +6,24 @@ import { toast } from 'react-toastify';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useTranslation } from 'react-i18next';
 
-const WebcamCapture = ({ openCamera, setOpenCamera }) => {
+const WebcamCapture = ({ openCamera, setOpenCamera, handleImages }) => {
     const { t } = useTranslation();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [mirrored, setMirrored] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [uploadDocs, setUploadDocs] = useState([]);
-    const { user } = useAuthContext();
-    let token = null;
-    if (user) {
-        token = user.token;
-    }
 
     const handleConfirm = () => {
         // Handle confirm action
-        setIsLoading(true);
-        setUploadDocs(token)
-            .then((res) => {
-                if (res) {
-                    setUploadDocs(res.results);
-                    setIsLoading(false);
-                } else {
-                    setIsLoading(false);
-                    setUploadDocs([]);
-                }
-            })
-            .catch((error) => {
-                return toast.error('Something went wrong , Please check your internet connection.');
-            });
-
         console.log('Confirmed');
+
+        handleImages(imgSrc);
+        setOpenCamera(false);
     };
     const capture = useCallback(() => {
         const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
-        console.log(imgSrc);
     }, []);
 
     const retake = () => {
@@ -110,6 +92,5 @@ const WebcamCapture = ({ openCamera, setOpenCamera }) => {
             </DialogContent>
         </Dialog>
     );
-    return imgSrc;
 };
 export default WebcamCapture;

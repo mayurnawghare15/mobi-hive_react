@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const UploadDocs = async (query, token) => {
+const UploadDocs = async (query, token, leadId) => {
     try {
         const headers = {
             headers: {
@@ -21,7 +21,7 @@ const UploadDocs = async (query, token) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + 'v1/lead/468/upload_ekyc_document/' + query, headers)
+            .get(API_Base_Url + `v1/lead/${leadId}/upload_ekyc_document/` + query, headers)
             .then((response) => {
                 return response;
             })
