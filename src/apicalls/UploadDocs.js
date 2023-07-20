@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const BussinessSectorApi = async (token) => {
+const UploadDocs = async (query, token) => {
     try {
         const headers = {
             headers: {
@@ -21,11 +21,12 @@ const BussinessSectorApi = async (token) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + 'v1/bussiness_sector/', headers)
+            .get(API_Base_Url + 'v1/lead/468/upload_ekyc_document/' + query, headers)
             .then((response) => {
                 return response;
             })
             .catch((error) => {
+                console.log(error, '--------error');
                 if (error.response.status === 400) {
                     if (error.response.data.message !== undefined) {
                         return toast.error(error.response.data.message);
@@ -51,4 +52,4 @@ const BussinessSectorApi = async (token) => {
     }
 };
 
-export default BussinessSectorApi;
+export default UploadDocs;

@@ -81,7 +81,30 @@
     "Resend_OTP" : "Resend OTP",
     "please_Enter_Correct_Credentials" : "Please Enter Correct Credentials",
     "login_Sucessfully" : "Login Successfully",
-    "login_Error" :  "Login Error"
+    "login_Error" :  "Login Error",
+    "prospect_eKYC" : "Prospect eKYC",
+    "following_documents_are_required_to_complete_the_KYC" : "Follow document are required to complete the KYC",
+    "identification_Proof_(1)*-Choose_any_one_document" : "Identification Proof (1)* - Choose any one document",
+    "national_ID" : "National ID",
+    "address_Proof(3)*-Choose_any_one_document" : "Address Proof (3)* - Choose any one document",
+    "utility_Bill" : "Utility Bill",
+    "affidavit" : "Affidavit",
+    "bank_Statement" : "Bank Statement",
+    "proof_of_income(3)*-Choose_any_one_document" : "Proof of income (3)* - Choose any one document",
+    "salary_Slip" : "Salary Slip",
+    "employer_Certificate" : "Employer Certificate",
+    "save" : "Save",
+    "front_Side" : "Front Side",
+    "back_Side" : "Back Side",
+    "serial_No" : "Serial No",
+    "issue_By" : "Issue By",
+    "issue_Date" : "Issue Date",
+    "retake_Photo" : "Retake Photo",
+    "capture_Photo" : "Capture Photo",
+    "confirm" : "Confirm",
+    "switch_camera" : "Switch Camera"
+
+
     
 
 
