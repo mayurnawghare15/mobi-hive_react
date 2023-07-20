@@ -6,7 +6,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import {
     Box,
     FormControl,
@@ -38,17 +38,26 @@ import { useContext } from 'react';
 import { ChoiceListContext } from '../../../context/ChoiceListContext';
 import AddOccupationPopup from '../../popups/AddOccupation';
 import { ValidateNumber } from '../../../helper';
+import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
 
 const LeadCreateForm = () => {
     const { t } = useTranslation();
-    const [countryCode, setCountryCode] = useState('');
     const location = useLocation();
+    const navigate = useNavigate();
     const { state } = location;
     // const [choiceList, setChoiceList] = useState(null);
+    const [countryCode, setCountryCode] = useState('');
+    const [leadId, setLeadId] = useState(0);
+    // const [isLoading, setIsLoading] = useState(false);
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
+    const { user } = useAuthContext();
+    let token = null
+    if (user) {
+        token = user.token
+    }
     const [createLeadForm, setCreateLeadForm] = useState({
-        saluation: '',
+        title: '',
         first_name: '',
         middle_name: '',
         last_name: '',
@@ -69,13 +78,13 @@ const LeadCreateForm = () => {
         monthly_income: '',
         total_dependents: '',
         monthly_saving: '',
-        current_address: '',
+        customer_address: '',
         city: '',
-        locality: '',
+        customer_locality: '',
         existing_loan: ''
     });
     const {
-        saluation,
+        title,
         first_name,
         last_name,
         gender,
@@ -96,9 +105,9 @@ const LeadCreateForm = () => {
         monthly_income,
         total_dependents,
         monthly_saving,
-        current_address,
+        customer_address,
         city,
-        locality,
+        customer_locality,
         existing_loan
     } = createLeadForm;
 
@@ -109,13 +118,13 @@ const LeadCreateForm = () => {
             ...createLeadForm,
             [name]:
                 name === 'whatsapp_number' ||
-                name === 'alt_number' ||
-                name === 'monthly_income' ||
-                name === 'total_dependents' ||
-                name === 'existing_loan' ||
-                name === 'monthly_saving'
+                    name === 'alt_number' ||
+                    name === 'monthly_income' ||
+                    name === 'total_dependents' ||
+                    name === 'existing_loan' ||
+                    name === 'monthly_saving'
                     ? // If number value available then it wil put Zero index else ""
-                      ValidateNumber(value)
+                    ValidateNumber(value)
                         ? ValidateNumber(value)[0]
                         : ''
                     : value
@@ -152,8 +161,22 @@ const LeadCreateForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(countryCode, '--countryCode');
         console.log(createLeadForm, '0-----createLeadForm');
+        LeadCreateFormApi(createLeadForm, token).then(res => {
+            if (res) {
+                console.log(res.data, '--- res Lead create form ---')
+                setLeadId(res.data.id)
+                toast.success(res.message)
+                return navigate("/lead/kyc")
+            }
+            else {
+
+                // setIsLoading(false)
+                // setCreateLeadForm([])
+            }
+        }).catch(error => {
+            return toast.error('Something went wrong , Please check your internet connection.')
+        })
     };
     return (
         <Container fullWidth>
@@ -169,9 +192,9 @@ const LeadCreateForm = () => {
                                     </InputLabel>
                                     <Select
                                         labelId="saluation-label"
-                                        id="saluation"
-                                        name="saluation"
-                                        value={saluation}
+                                        id="title"
+                                        name="title"
+                                        value={title}
                                         onChange={onInputChange}
                                     >
                                         {isLoading ? (
@@ -289,7 +312,7 @@ const LeadCreateForm = () => {
                                         ) : data ? (
                                             data.martial_status.length > 0 ? (
                                                 data.martial_status.map((item, index) => (
-                                                    <MenuItem id={item.slug} value={item.name}>
+                                                    <MenuItem id={item.slug} value={item.slug}>
                                                         {item.name}
                                                     </MenuItem>
                                                 ))
@@ -317,7 +340,7 @@ const LeadCreateForm = () => {
                                         ) : data ? (
                                             data.educational_qualification.length > 0 ? (
                                                 data.educational_qualification.map((item, index) => (
-                                                    <MenuItem value={item.name} id={item.slug}>
+                                                    <MenuItem value={item.slug} id={item.slug}>
                                                         {item.name}
                                                     </MenuItem>
                                                 ))
@@ -433,7 +456,7 @@ const LeadCreateForm = () => {
                                     ) : data ? (
                                         data.user_realtions.length > 0 ? (
                                             data.user_realtions.map((item, index) => (
-                                                <MenuItem value={item.name} id={item.slug}>
+                                                <MenuItem value={item.slug} id={item.slug}>
                                                     {item.name}
                                                 </MenuItem>
                                             ))
@@ -445,7 +468,7 @@ const LeadCreateForm = () => {
                             </FormControl>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                             <MuiPhoneNumber
+                            <MuiPhoneNumber
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('local_number')}
@@ -540,7 +563,7 @@ const LeadCreateForm = () => {
                                     ) : data ? (
                                         data.employee_type.length > 0 ? (
                                             data.employee_type.map((item, index) => (
-                                                <MenuItem value={item.name} id={item.slug}>
+                                                <MenuItem value={item.slug} id={item.slug}>
                                                     {item.name}
                                                 </MenuItem>
                                             ))
@@ -625,10 +648,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                  <MenuItem value={item.name} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
+                                                <MenuItem value={item.id} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            ))
                                             : []
                                         : null}
                                 </Select>
@@ -641,8 +664,8 @@ const LeadCreateForm = () => {
                                 type="text"
                                 variant="outlined"
                                 fullWidth
-                                value={locality}
-                                name="locality"
+                                value={customer_locality}
+                                name="customer_locality"
                                 onChange={onInputChange}
                                 required
                             />
@@ -654,8 +677,8 @@ const LeadCreateForm = () => {
                             <FormControl mt={1} fullWidth>
                                 <TextareaAutosize
                                     required
-                                    value={current_address}
-                                    name="current_address"
+                                    value={customer_address}
+                                    name="customer_address"
                                     onChange={onInputChange}
                                     minRows={5}
                                 />

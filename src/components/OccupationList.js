@@ -63,7 +63,7 @@ const OccupationsList = ({ occupation_type, onInputChange }) => {
 
                 >
                     {isLoading ? <>Loading...</> : occupationItems.length > 0 ? occupationItems.map((item) => (
-                        <MenuItem value={item.selected_text} id={item.id} >{item.text}</MenuItem>
+                        <MenuItem value={item.id} id={item.id} >{item.text}</MenuItem>
                     )) : []}
 
 

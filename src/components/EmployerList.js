@@ -49,7 +49,7 @@ const EmployerList = ({ current_employer, onInputChange, query }) => {
                         <>Loading...</>
                     ) : employerItems.length > 0 ? (
                         employerItems.map((item) => (
-                            <MenuItem value={item.employer_sector} id={item.id}>
+                            <MenuItem value={item.id} id={item.id}>
                                 {item.business_name}
                             </MenuItem>
                         ))
