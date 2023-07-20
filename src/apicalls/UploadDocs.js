@@ -2,32 +2,34 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const LoginApi = async (body) => {
-    console.log(body, '--body');
+const UploadDocs = async (query, token) => {
     try {
         const headers = {
             headers: {
                 Accept: 'application/json',
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                authorization: 'Token ' + token
             }
         };
-        console.log(headers, '--headers');
+        if (!token) {
+            toast.error('You are not authorized to view this page');
+            localStorage.removeItem('user');
+            const timer = setTimeout(() => {
+                window.location.href = '/login';
+            }, 500);
+            return () => clearTimeout(timer);
+        }
+
         const response = await axios
-            .post(API_Base_Url + 'v2/token/auth/', body, headers)
+            .get(API_Base_Url + 'v1/lead/468/upload_ekyc_document/' + query, headers)
             .then((response) => {
                 return response;
             })
             .catch((error) => {
+                console.log(error, '--------error');
                 if (error.response.status === 400) {
                     if (error.response.data.message !== undefined) {
-                        const obj = error.response.data.message;
-                        console.log(obj, 'obj');
-                        for (const key of Object.keys(obj)) {
-                            console.log(key);
-                            console.log(obj[key]);
-                            console.log(obj[key][0]);
-                            return toast.error(key + ' : ' + obj[key][0]);
-                        }
+                        return toast.error(error.response.data.message);
                     }
                 } else if (error.response.status === 401) {
                     toast.error('You are not authorized to view this page');
@@ -50,4 +52,4 @@ const LoginApi = async (body) => {
     }
 };
 
-export default LoginApi;
+export default UploadDocs;

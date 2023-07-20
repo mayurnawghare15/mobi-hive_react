@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { createContext, useReducer } from 'react';
-import { useLogout } from '../hooks/useLogout';
 
 export const AuthContext = createContext();
 

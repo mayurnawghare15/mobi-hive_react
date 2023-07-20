@@ -45,27 +45,27 @@ function KYCDocumentPage() {
 
     return (
         <>
-            <ViewKYCDetails open={open} setOpen={setOpen} frontSide={true} backSide={true} />
+            <ViewKYCDetails open={open} setOpen={setOpen} frontSide={true} backSide={false} />
             <WebcamCapture />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
                     <Grid container alignItems="center" ml={1} spacing={2}>
                         <Grid item>
-                            <Typography variant="h1">Prospect eKYC</Typography>
+                            <Typography variant="h1">{t('prospect_eKYC')}</Typography>
                         </Grid>
                         <Grid item>
                             <InfoIcon fontSize="small" />
                         </Grid>
                         <Grid item xs={12}>
-                            <Typography variant="body1">Following documents are required to complete the KYC:</Typography>
+                            <Typography variant="body1">{t('following_documents_are_required_to_complete_the_KYC:')}</Typography>
                         </Grid>
                     </Grid>
                     <SubCard>
-                        <h3>Identification Proof (1)* - Choose any one document</h3>
+                        <h3>{t('identification_Proof_(1)*-Choose_any_one_document')}</h3>
                         <Grid ml={2} mt={3} container alignItems="center">
                             <Grid item xs={8}>
-                                <h4>National ID</h4>
+                                <h4>{t('national_ID')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -98,10 +98,10 @@ function KYCDocumentPage() {
                     {/*For Address proof */}
 
                     <SubCard>
-                        <h2>Address Proof (3)* - Choose any one document</h2>
+                        <h2>{t('address_Proof(3)*-Choose_any_one_document')}</h2>
                         <Grid ml={2} mt={3} container alignItems="center">
                             <Grid item xs={8}>
-                                <h4>Utility Bill</h4>
+                                <h4>{t('utility_Bill')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -130,7 +130,7 @@ function KYCDocumentPage() {
                             </Grid>
 
                             <Grid item xs={8}>
-                                <h4>Affidavit</h4>
+                                <h4>{t('affidavit')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -159,7 +159,7 @@ function KYCDocumentPage() {
                             </Grid>
 
                             <Grid item xs={8}>
-                                <h4>Bank Statement</h4>
+                                <h4>{t('bank_Statement')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -192,10 +192,10 @@ function KYCDocumentPage() {
                     {/*For Proof of income*/}
 
                     <SubCard>
-                        <h2>Proof of Income (3) * - Choose any one document</h2>
+                        <h2>{t('proof_of_income(3)*-Choose_any_one_document')}</h2>
                         <Grid ml={2} mt={3} container alignItems="center">
                             <Grid item xs={8}>
-                                <h4>Salary Slip</h4>
+                                <h4>{t('salary_Slip')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -224,7 +224,7 @@ function KYCDocumentPage() {
                             </Grid>
 
                             <Grid item xs={8}>
-                                <h4>Employer Certificate</h4>
+                                <h4>{t('employer_Certificate')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -253,7 +253,7 @@ function KYCDocumentPage() {
                             </Grid>
 
                             <Grid item xs={8}>
-                                <h4>Bank Statement</h4>
+                                <h4>{t('bank_Statement')}</h4>
                             </Grid>
                             <Grid item xs={4}>
                                 <Button
@@ -273,9 +273,9 @@ function KYCDocumentPage() {
                                     onClick={handleAdd}
                                     startIcon={
                                         isAdded ? (
-                                            <VisibilityTwoToneIcon sx={{ fontSize: 40 }} style={{ color: 'pink' }} />
+                                            <VisibilityTwoToneIcon style={{ color: 'pink', fontSize: 35 }} />
                                         ) : (
-                                            <AddCircleOutlineOutlinedIcon sx={{ fontSize: 40 }} style={{ color: 'violet' }} />
+                                            <AddCircleOutlineOutlinedIcon style={{ color: 'violet', fontSize: 35 }} />
                                         )
                                     }
                                 ></Button>

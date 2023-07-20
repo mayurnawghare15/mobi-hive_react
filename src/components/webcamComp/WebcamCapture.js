@@ -2,12 +2,42 @@ import { useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { Button, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@material-ui/icons/Close';
+import { toast } from 'react-toastify';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { useTranslation } from 'react-i18next';
 
 const WebcamCapture = ({ openCamera, setOpenCamera }) => {
+    const { t } = useTranslation();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
     const [mirrored, setMirrored] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [uploadDocs, setUploadDocs] = useState([]);
+    const { user } = useAuthContext();
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
 
+    const handleConfirm = () => {
+        // Handle confirm action
+        setIsLoading(true);
+        setUploadDocs(token)
+            .then((res) => {
+                if (res) {
+                    setUploadDocs(res.results);
+                    setIsLoading(false);
+                } else {
+                    setIsLoading(false);
+                    setUploadDocs([]);
+                }
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
+
+        console.log('Confirmed');
+    };
     const capture = useCallback(() => {
         const imgSrc = webcamRef.current.getScreenshot();
         setImgSrc(imgSrc);
@@ -20,11 +50,6 @@ const WebcamCapture = ({ openCamera, setOpenCamera }) => {
 
     const handleClosePopup = () => {
         setOpenCamera(false);
-    };
-
-    const handleConfirm = () => {
-        // Handle confirm action
-        console.log('Confirmed');
     };
 
     return (
@@ -54,18 +79,18 @@ const WebcamCapture = ({ openCamera, setOpenCamera }) => {
                             <Grid item xs={6}>
                                 {imgSrc ? (
                                     <Button onClick={retake} disableElevation fullWidth variant="contained" color="secondary">
-                                        Retake Photo
+                                        {t('retake_Photo')}
                                     </Button>
                                 ) : (
                                     <Button disableElevation fullWidth variant="contained" color="secondary" onClick={capture}>
-                                        Capture Photo
+                                        {t('capture_Photo')}
                                     </Button>
                                 )}
                             </Grid>
                             <Grid item xs={6}>
                                 {imgSrc ? (
                                     <Button disableElevation fullWidth variant="contained" color="success" onClick={handleConfirm}>
-                                        Confirm
+                                        {t('confirm')}
                                     </Button>
                                 ) : (
                                     <Button
@@ -75,7 +100,7 @@ const WebcamCapture = ({ openCamera, setOpenCamera }) => {
                                         variant={mirrored ? 'contained' : 'outlined'}
                                         onClick={() => setMirrored(!mirrored)}
                                     >
-                                        Switch Camera
+                                        {t('switch_camera')}
                                     </Button>
                                 )}
                             </Grid>
@@ -85,6 +110,6 @@ const WebcamCapture = ({ openCamera, setOpenCamera }) => {
             </DialogContent>
         </Dialog>
     );
+    return imgSrc;
 };
-
 export default WebcamCapture;
