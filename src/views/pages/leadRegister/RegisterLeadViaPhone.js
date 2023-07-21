@@ -80,6 +80,7 @@ const RegisterLeadViaPhone = () => {
         }
     };
     const handleResendOTP = () => {
+        console.log(data.token);
         try {
             const phoneNumber = parsePhoneNumber(mobileNumber, countryCode);
             console.log(phoneNumber, phoneNumber.country);
