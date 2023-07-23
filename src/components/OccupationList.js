@@ -1,76 +1,105 @@
-import { useEffect, useState } from 'react'
-import LoadOccupation from '../apicalls/LoadOccupation'
-import {
-    Box,
-    FormControl,
-    FormControlLabel,
-    FormLabel,
-    Grid,
-    InputAdornment,
-    InputLabel,
-    OutlinedInput,
-    Radio,
-    RadioGroup,
-    Select
-} from '@material-ui/core';
-import { TextField, Button, Container, Stack, MenuItem, Menu } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import LoadOccupation from '../apicalls/LoadOccupation';
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-
-const OccupationsList = ({ occupation_type, onInputChange }) => {
+const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
 
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false)
-    const [occupationItems, setOccupationItems] = useState([])
     const { user } = useAuthContext();
-    let token = null
+    const [singleSelections, setSingleSelections] = useState([]);
+    const storageData = localStorage.getItem("occupation_search")
+    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : []);
+    const [value, setValue] = useState("");
+    const [count, setCount] = useState(0)
+    const [inputValue, setInputValue] = useState('');
+    const [occupationItems, setOccupationItems] = useState([])
+    let timer;
+    let token = null;
     if (user) {
-        token = user.token
+        token = user.token;
     }
     useEffect(() => {
-        // Apicall
-        let query = 1;
-        setIsLoading(true)
-        LoadOccupation(query, token).then(res => {
-            if (res) {
-                console.log(res, '-----res')
-                setOccupationItems(res.results)
-                setIsLoading(false)
-            }
-            else {
-                setIsLoading(false)
-                setOccupationItems([])
-            }
-        }).catch(error => {
-            return toast.error('Something went wrong , Please check your internet connection.')
-        })
-    }, [])
+        if (value) {
+            setCreateLeadForm({
+                ...createLeadForm,
+                [name]: value.id
+            });
+        }
+    }, [value])
 
+    useEffect(() => {
+        if (storedData) {
+            setOccupationItems(storedData)
+        } else {
+            loadOccupationFunc()
+        }
+    }, []);
+
+    const loadOccupationFunc = () => {
+        LoadOccupation(inputValue, token)
+            .then((res) => {
+                if (res) {
+                    let searchdata = [...storedData]
+                    const resposedata = res.results
+                    for (let item of resposedata) {
+                        const isDuplicate = searchdata.some((dataItem) => dataItem.id === item.id);
+                        if (!isDuplicate) {
+                            let temp = {
+                                text: item.text,
+                                id: item.id
+                            };
+                            searchdata.push(temp);
+                        }
+                    }
+                    const occupation_search = JSON.stringify(searchdata)
+                    localStorage.setItem("occupation_search", occupation_search)
+                    const localData = JSON.parse(localStorage.getItem("occupation_search"))
+                    setOccupationItems(localData);
+                    setIsLoading(false);
+                } else {
+                    setIsLoading(false);
+                    setOccupationItems([]);
+                }
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
+    }
+    const handleInputChange = (event, newInputValue) => {
+        setInputValue(newInputValue);
+        clearTimeout(timer); // Clear the previous timer
+        timer = setTimeout(() => {
+            const lowerCaseQuery = inputValue.toLowerCase();
+            const searchedData = storedData.filter((item) => item.text.toLowerCase().includes(lowerCaseQuery));
+            if (searchedData.length === 0) {
+                setOccupationItems(searchedData)
+            } else {
+                setIsLoading(true);
+                loadOccupationFunc()
+            }
+        }, 500); // Set a 500ms delay before making the API call
+    }
     return (
         <>
-            <FormControl fullWidth>
-                <InputLabel className="label" id="occupation-label">
-                    {t('Occupations *')}
-                </InputLabel>
-                <Select
-                    labelId="occupation-label"
-                    name="occupation_type"
-                    id="occupation_type"
-                    value={occupation_type}
-                    onChange={onInputChange}
-
-                >
-                    {isLoading ? <>Loading...</> : occupationItems.length > 0 ? occupationItems.map((item) => (
-                        <MenuItem value={item.id} id={item.id} >{item.text}</MenuItem>
-                    )) : []}
-
-
-                    {/* Add more occupation options as needed */}
-                </Select>
-            </FormControl>
-
+            <Autocomplete
+                value={value}
+                onChange={(event: any, newValue: string | null) => {
+                    setValue(newValue);
+                }}
+                inputValue={inputValue}
+                onInputChange={handleInputChange}
+                id="controllable-states-demo"
+                options={occupationItems}
+                getOptionLabel={(option) => option.text}
+                sx={{ width: 300 }}
+                loading={isLoading}
+                renderInput={(params) => <TextField {...params} label={t('Occupations')} />}
+            />
         </>
     )
 }

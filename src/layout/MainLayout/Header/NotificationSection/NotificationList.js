@@ -1,7 +1,7 @@
 import React from 'react';
 
 // material-ui
-import { makeStyles } from '@material-ui/styles';
+import { makeStyles } from '@mui/styles';
 import {
     Avatar,
     Button,
@@ -17,7 +17,7 @@ import {
     ListItemText,
     Stack,
     Typography
-} from '@material-ui/core';
+} from '@mui/material';
 
 // assets
 import { IconBrandTelegram, IconBuildingStore, IconMailbox, IconPhoto } from '@tabler/icons';

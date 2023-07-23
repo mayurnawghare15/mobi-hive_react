@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
-import { Password } from '@material-ui/icons';
+import { Password } from '@mui/icons-material';
 import LoginApi from '../apicalls/LoginApi';
 import { useNavigate } from 'react-router-dom';
 

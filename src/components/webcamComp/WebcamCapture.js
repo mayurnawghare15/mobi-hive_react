@@ -1,7 +1,7 @@
-import { useRef, useState, useCallback } from 'react';
+import React,{ useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { Button, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useTranslation } from 'react-i18next';

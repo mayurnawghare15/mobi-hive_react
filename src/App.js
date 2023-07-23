@@ -2,8 +2,8 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import './app.css';
 
-import { ThemeProvider } from '@material-ui/core/styles';
-import { CssBaseline, StyledEngineProvider } from '@material-ui/core';
+import { ThemeProvider } from '@mui/material/styles';
+import { CssBaseline, StyledEngineProvider } from '@mui/material';
 
 // for Translation
 import { I18nextProvider } from 'react-i18next';

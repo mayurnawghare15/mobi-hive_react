@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import configData from '../../../../config';
 
 // material-ui
-import { makeStyles, useTheme } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import {
     Avatar,
     Card,
@@ -21,8 +21,8 @@ import {
     Popper,
     Switch,
     Typography
-} from '@material-ui/core';
-import ListItemButton from '@material-ui/core/ListItemButton';
+} from '@mui/material';
+import ListItemButton from '@mui/material/ListItemButton';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';

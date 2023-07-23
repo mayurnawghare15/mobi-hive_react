@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 // material-ui
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { makeStyles, ThemeProvider } from '@mui/styles';
 import { createTheme } from '@mui/material/styles';
 
-import { Avatar, Box, ButtonBase } from '@material-ui/core';
+import { Avatar, Box, ButtonBase } from '@mui/material';
 
 // project imports
 import LogoSection from '../LogoSection';

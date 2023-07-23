@@ -45,6 +45,14 @@ export const utilities = {
             breadcrumbs: false
         },
         {
+            id: 'util-Devices',
+            title: 'Eligible Devices',
+            type: 'item',
+            url: '/eligibledevices',
+            icon: icons['DocumentScannerIcon'],
+            breadcrumbs: false
+        },
+        {
             id: 'icons',
             title: 'Icons',
             type: 'collapse',

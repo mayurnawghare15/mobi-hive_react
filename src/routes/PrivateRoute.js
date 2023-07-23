@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React,{ useState, useEffect } from 'react';
 import { useNavigate, Route } from 'react-router-dom';
 
 function PrivateRoute({ component: Component, ...rest }) {

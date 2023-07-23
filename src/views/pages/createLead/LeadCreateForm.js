@@ -25,7 +25,7 @@ import {
     Stack,
     MenuItem,
     Menu
-} from '@material-ui/core';
+} from '@mui/material';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 import OccupationsList from '../../../components/OccupationList';
@@ -162,21 +162,38 @@ const LeadCreateForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(createLeadForm, '0-----createLeadForm');
-        LeadCreateFormApi(createLeadForm, token).then(res => {
-            if (res) {
-                console.log(res.data, '--- res Lead create form ---')
-                setLeadId(res.data.id)
-                toast.success(res.message)
-                return navigate("/lead/kyc")
-            }
-            else {
+        if (!title)
+            return toast.error("Title required")
+        else if (!first_name)
+            return toast.error("First name required")
+        else if (!middle_name)
+            return toast.error("Middle name required")
+        else if (!last_name)
+            return toast.error("Last name required")
+        else if (!gender)
+            return toast.error("Gender required")
+        else if (!date_of_birth)
+            return toast.error("Date of birth required")
+        else if (!marital_status)
+            return toast.error("Martial Status required")
+        else {
+            LeadCreateFormApi(createLeadForm, token).then(res => {
+                if (res) {
+                    console.log(res.data, '--- res Lead create form ---')
+                    setLeadId(res.data.id)
+                    toast.success(res.message)
+                    return navigate("/lead/kyc")
+                }
+                else {
 
-                // setIsLoading(false)
-                // setCreateLeadForm([])
-            }
-        }).catch(error => {
-            return toast.error('Something went wrong , Please check your internet connection.')
-        })
+                    // setIsLoading(false)
+                    // setCreateLeadForm([])
+                }
+            }).catch(error => {
+                return toast.error('Something went wrong , Please check your internet connection.')
+            })
+        }
+
     };
     return (
         <Container fullWidth>
@@ -508,9 +525,9 @@ const LeadCreateForm = () => {
                         <Grid item xs={11} sm={7} mt={2.5}>
                             <EmployerList
                                 name="current_employer"
-                                current_employer={current_employer}
-                                onInputChange={onInputChange}
-                                query="1"
+                                createLeadForm={createLeadForm}
+                                setCreateLeadForm={setCreateLeadForm}
+                            // onInputChange={onInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
@@ -543,7 +560,7 @@ const LeadCreateForm = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={11} sm={5}>
-                            <OccupationsList occupation_type={occupation_type} onInputChange={onInputChange} />
+                            <OccupationsList name="occupation_type" createLeadForm={createLeadForm} setCreateLeadForm={setCreateLeadForm} />
                         </Grid>
 
                         <Grid item xs={12} sm={6}>

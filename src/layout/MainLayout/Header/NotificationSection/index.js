@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 // material-ui
-import { makeStyles, useTheme } from '@material-ui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import {
     Avatar,
     Box,
@@ -20,7 +20,7 @@ import {
     TextField,
     Typography,
     useMediaQuery
-} from '@material-ui/core';
+} from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';

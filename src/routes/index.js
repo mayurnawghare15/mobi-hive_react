@@ -11,6 +11,7 @@ import NavigationScroll from '../layout/NavigationScroll';
 import MainLayout from '../layout/MainLayout';
 import KYCdocument from '../views/pages/ekYC/KYCdocument';
 import PublicRoute from './PublicRoute';
+import EligibleDevices from '../views/pages/EligibleDevices';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
@@ -72,6 +73,19 @@ const AllRoutes = () => {
                                 <MinimalLayout>
                                     <MainLayout>
                                         <KYCdocument />
+                                    </MainLayout>
+                                </MinimalLayout>
+                                :
+                                <Navigate to="/login" />
+                        }
+                    />
+                    <PrivateRoute
+                        path="/eligibledevices"
+                        element={
+                            user ?
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <EligibleDevices />
                                     </MainLayout>
                                 </MinimalLayout>
                                 :

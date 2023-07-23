@@ -6,16 +6,20 @@ import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 
-const LoadOccupation = async (query,token) => {
+const LoadOccupation = async (query, token) => {
     try {
         const headers = {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'authorization': "Token "+ token
+                'authorization': "Token " + token
             }
         }
-        const response = await axios.get(API_Base_Url + "v1/occupation/?page="+query, headers).then(response => {
+        let url = "v1/occupation/?page=1"
+        if (query) {
+            url = "v1/occupation/?text=" + query
+        }
+        const response = await axios.get(API_Base_Url + url, headers).then(response => {
             return response
         }
         ).catch(error => {
@@ -26,7 +30,7 @@ const LoadOccupation = async (query,token) => {
             }
             else if (error.response.status === 401) {
                 toast.error("You are not authorized to view this page")
-                localStorage.setItem("user","")
+                localStorage.setItem("user", "")
                 const timer = setTimeout(() => {
                     window.location.href = ("/login");
                 }, 500);

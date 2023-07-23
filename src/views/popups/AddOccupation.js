@@ -11,7 +11,7 @@ import {
     Select,
     MenuItem,
     TextareaAutosize
-} from '@material-ui/core';
+} from '@mui/material';
 import SubCard from '../../ui-component/cards/SubCard';
 
 import { useTranslation } from 'react-i18next';

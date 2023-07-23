@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { Grid, TextField, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import SubCard from '../../../ui-component/cards/SubCard';
 import MainCard from '../../../ui-component/cards/MainCard';
 import { gridSpacing } from '../../../store/constant';

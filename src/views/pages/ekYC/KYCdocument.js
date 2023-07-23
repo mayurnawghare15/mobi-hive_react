@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Info as InfoIcon } from '@mui/icons-material';
 import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
-import { Grid, Typography } from '@material-ui/core';
+import { Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 import WebcamCapture from '../../../components/webcamComp/WebcamCapture';
 import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';

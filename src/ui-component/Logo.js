@@ -1,7 +1,7 @@
 import React from 'react';
 import LogoImage from '../assets/images/CreditHive-logo.png';
 // material-ui
-import { useTheme } from '@material-ui/styles';
+import { useTheme } from '@mui/material/styles';
 
 /**
  * if you want to use image instead of <svg> uncomment following.

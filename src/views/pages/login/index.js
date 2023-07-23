@@ -5,8 +5,8 @@ import LanguageSelect from '../../../ui-component/language/languageSelect';
 import './style.css';
 
 // material-ui
-import { useTheme } from '@material-ui/core';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@material-ui/core';
+import { useTheme } from '@mui/material';
+import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
 import Logo from './../../../ui-component/Logo';
