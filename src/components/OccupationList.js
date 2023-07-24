@@ -13,7 +13,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const { user } = useAuthContext();
     const [singleSelections, setSingleSelections] = useState([]);
     const storageData = localStorage.getItem("occupation_search")
-    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : []);
+    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : null);
     const [value, setValue] = useState("");
     const [count, setCount] = useState(0)
     const [inputValue, setInputValue] = useState('');

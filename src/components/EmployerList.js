@@ -13,8 +13,12 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [employerItems, setEmployerItems] = useState([]);
     const [singleSelections, setSingleSelections] = useState([]);
-    const [storedData, setStoredData] = useState(JSON.parse(localStorage.getItem("business_search")));
+    // const [storedData, setStoredData] = useState(JSON.parse(localStorage.getItem("business_search")));
+    const storageData = localStorage.getItem("business_search")
+    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : null);
+
     const { user } = useAuthContext();
+
     const [value, setValue] = useState("");
     const [count, setCount] = useState(0)
     const [inputValue, setInputValue] = useState('');
