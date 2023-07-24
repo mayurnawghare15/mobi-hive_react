@@ -23,8 +23,27 @@ const AddOccupationPopup = ({ show, setShow }) => {
     const { t } = useTranslation();
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
 
+    const [occupationForm, setOccupationForm] = useState(
+        {
+            occupation: "",
+            employee_sector: ""
+        }
+    )
+
+    const { occupation, employee_sector } = occupationForm;
+    const onInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setOccupationForm({
+            ...occupationForm,
+            [name]: value
+        });
+    };
     const onSubmit = (e) => {
         e.preventDefault();
+        if(!employee_sector){
+            
+        }
     }
     return (
         <>
@@ -42,18 +61,18 @@ const AddOccupationPopup = ({ show, setShow }) => {
                                                 type="text"
                                                 variant="outlined"
                                                 label={t('Occupation')}
-                                                value={"first_name"}
-                                                name="first_name"
+                                                value={occupation}
+                                                name="occupation"
                                                 fullWidth
                                                 required
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6}>
                                             <FormControl fullWidth>
-                                                <InputLabel className="label" id="tittle-label">
+                                                <InputLabel className="label" id="employee_sector-label">
                                                     {t('EmployerSector')}
                                                 </InputLabel>
-                                                <Select labelId="tittle-label" id="EmployerSector" name="EmployerSector" value={"kk"}>
+                                                <Select labelId="tittle-label" id="employee_sector" name="employee_sector" value={employee_sector}>
                                                     {bussinessSectordataIsLoading ? <>Loading...</> : bussinessSectordata
                                                         ? bussinessSectordata.results.length > 0 ? bussinessSectordata.results.map((item, index) => (
                                                             <MenuItem value={item.text} id={item.id}>

@@ -18,15 +18,45 @@ import { useTranslation } from 'react-i18next';
 import { ChoiceListContext } from '../../context/ChoiceListContext';
 import { useContext } from 'react';
 import { BussinessSectorContext } from '../../context/BussinessSectorContext';
+import { ValidateNumber } from '../../helper';
 
 const CreateEmployerPopup = ({ show, setShow }) => {
     const { t } = useTranslation();
     const { data, isLoading } = useContext(ChoiceListContext);
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
 
+    
+    const [formEmployer, setFormEmployer] = useState({
+        business_name: "",
+        employee_sector: "",
+        email: "",
+        phone_number: "",
+        whatsapp_number: "",
+        city: "",
+        address: ""
+    })
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
+
+    const { business_name, employee_sector, email, phone_number, whatsapp_number, city, address } = formEmployer;
+
+    const onInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setFormEmployer({
+            ...formEmployer,
+            [name]:
+                name === 'whatsapp_number' ||
+                    name === 'phone_number'
+                    ? // If number value available then it wil put Zero index else ""
+                    ValidateNumber(value)
+                        ? ValidateNumber(value)[0]
+                        : ''
+                    : value
+        });
+    };
     const onSubmit = (e) => {
         e.preventDefault();
     }
@@ -48,8 +78,8 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 type="text"
                                                 variant="outlined"
                                                 label={t('Business Name')}
-                                                value={"first_name"}
-                                                name="first_name"
+                                                value={business_name}
+                                                name="business_name"
                                                 fullWidth
                                                 required
                                             />
@@ -59,7 +89,7 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 <InputLabel className="label" id="tittle-label">
                                                     {t('EmployerSector')}
                                                 </InputLabel>
-                                                <Select labelId="tittle-label" id="EmployerSector" name="EmployerSector" value={"kk"}>
+                                                <Select labelId="tittle-label" id="employee_sector" name="employee_sector" value={employee_sector}>
                                                     {bussinessSectordataIsLoading ? <>Loading...</> : bussinessSectordata
                                                         ? bussinessSectordata.results.length > 0 ? bussinessSectordata.results.map((item, index) => (
                                                             <MenuItem value={item.text} id={item.id}>
@@ -76,9 +106,8 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 type="text"
                                                 variant="outlined"
                                                 label={t('email')}
-                                                value={"first_name"}
-                                                name="first_name"
-
+                                                value={email}
+                                                name="email"
                                                 fullWidth
                                                 required
                                             />
@@ -90,8 +119,8 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 variant="outlined"
                                                 color="secondary"
                                                 label={t('phone_number')}
-                                                value={"middle_name"}
-                                                name="middle_name"
+                                                value={phone_number}
+                                                name="phone_number"
                                                 fullWidth
                                                 required
                                             />
@@ -103,8 +132,8 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 variant="outlined"
                                                 color="secondary"
                                                 label={t('whatsapp_number')}
-                                                value={"middle_name"}
-                                                name="middle_name"
+                                                value={whatsapp_number}
+                                                name="whatsapp_number"
                                                 fullWidth
                                                 required
                                             />
@@ -116,9 +145,9 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                             <FormControl mt={1} fullWidth>
                                                 <TextareaAutosize
                                                     required
-                                                    // value={current_address}
+                                                    value={address}
                                                     name="address"
-                                                    // onChange={onInputChange}
+                                                    onChange={onInputChange}
                                                     minRows={5}
                                                 />
                                             </FormControl>
@@ -128,7 +157,7 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                                                 <InputLabel className="label" id="tittle-label">
                                                     {t('City')}
                                                 </InputLabel>
-                                                <Select labelId="tittle-label" id="EmployerSector" name="EmployerSector" value={"kk"}>
+                                                <Select labelId="city-label" id="city" name="city" value={city}>
                                                     {isLoading ? <>Loading...</> : data
                                                         ? data.cities.length > 0 ? data.cities.map((item, index) => (
                                                             <MenuItem value={item.name} id={item.slug}>
