@@ -13,7 +13,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
     const { t } = useTranslation();
 
     const [openCamera, setOpenCamera] = useState(false);
-    const [imgType, setImgType] = useState('kyc_front');
+    var [imgType, setImgType] = useState('');
     const [addressProof, setAddressProof] = useState({ utility: null, affidavit: null, bankStatement: null });
     const [proofOfIncome, setProofOfIncome] = useState({ salarySlip: null, employerCertificate: null, bankStatement: null });
     const [loading, setIsLoading] = useState('');
@@ -47,18 +47,20 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
     };
 
     const handleImages = (value) => {
+        console.log('Inside handle image -------------->' + imgType);
         if (imgType === 'kyc_front') {
             setKycFormUpload({
                 ...kycFormUpload,
                 kyc_front: value
             });
-        } else {
+        } else if (imgType === 'kyc_back') {
             setKycFormUpload({
                 ...kycFormUpload,
                 kyc_back: value
             });
+        } else {
+            toast.error('Error While Uploading photo');
         }
-        console.log(imgType + 'Kyc ');
     };
     if (documentType === 'nationalId') {
         backSide = true;
