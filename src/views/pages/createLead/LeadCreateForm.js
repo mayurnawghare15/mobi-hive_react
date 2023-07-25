@@ -330,8 +330,6 @@ const LeadCreateForm = () => {
             } else if (formError.highest_education) {
                 if (highest_educationInputRef.current)
                     highest_educationInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (formError.ph_number) {
-                if (ph_numberInputRef.current) ph_numberInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.email) {
                 if (emailInputRef.current) emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.employed_since) {
@@ -377,7 +375,7 @@ const LeadCreateForm = () => {
         <Container fullWidth>
             <form onSubmit={handleSubmit}>
                 <SubCard>
-                    <h3>Personal Details</h3>
+                    <h3>{t('personal_details')}</h3>
                     <Stack spacing={1}>
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={3}>
@@ -463,7 +461,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={2}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
-                                        {t('Gender')}
+                                        {t('gender')}
                                     </FormLabel>
                                     <RadioGroup
                                         error={formError.gender}
@@ -495,7 +493,7 @@ const LeadCreateForm = () => {
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={3.3} ml={-1} mt={-0.5}>
-                                <InputLabel>Date of Birth *</InputLabel>
+                                <InputLabel>{t('date_of_birth')}</InputLabel>
                                 <TextField
                                     error={formError.date_of_birth}
                                     inputRef={date_of_birthInputRef}
@@ -514,7 +512,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="marital-status-label">
-                                        {t('Marital Status *')}
+                                        {t('marital_Status')}
                                     </InputLabel>
                                     <Select
                                         error={formError.marital_status}
@@ -546,7 +544,7 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
-                                        {t('Highest Education *')}
+                                        {t('highest_Education')}
                                     </InputLabel>
                                     <Select
                                         error={formError.highest_education}
@@ -637,7 +635,7 @@ const LeadCreateForm = () => {
                 </SubCard>
                 {/* Local Card-------------------- */}
                 <SubCard>
-                    <h3>Local / Alternate Contact</h3>
+                    <h3>{t('local_contact')}</h3>
                     <Grid container spacing={2} mt={1}>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -705,7 +703,7 @@ const LeadCreateForm = () => {
                 {<CreateEmployerPopup show={showEmployerForm} setShow={openCreateEmployerForm} />}
                 {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} setCallOccuptionApi={setCallOccuptionApi} />}
                 <SubCard>
-                    <h3>{t('Busniess / Employment Information')}</h3>
+                    <h3>{t('BusniessLabel')}</h3>
                     <Grid container spacing={3}>
                         <Grid item xs={12} sm={1} mt={4}>
                             <Button
