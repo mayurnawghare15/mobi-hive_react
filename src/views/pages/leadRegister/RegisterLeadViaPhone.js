@@ -10,13 +10,19 @@ import MuiPhoneNumber from 'material-ui-phone-number';
 import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import VerifyUser from '../../../components/VerifyUser';
 import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 console.log(BASE_URL);
 
 const RegisterLeadViaPhone = () => {
     const navigate = useNavigate();
-    const data = JSON.parse(localStorage.getItem('berry-account'));
+    const { user } = useAuthContext();
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
+
     const [mobileNumber, setMobileNumber] = useState('');
     const [otp, setOtp] = useState('');
     const [otpSent, setOtpSent] = useState(false);
@@ -56,9 +62,10 @@ const RegisterLeadViaPhone = () => {
                 };
                 const headers = {
                     headers: {
-                        Authorization: 'Token ' + data.token.replace(/"/g, '')
+                        Authorization: 'Token ' + token
                     }
                 };
+                console.log(token);
                 axios
                     .post(BASE_URL + 'v2/request_otp/', body, headers)
                     .then(function (response) {
@@ -80,7 +87,6 @@ const RegisterLeadViaPhone = () => {
         }
     };
     const handleResendOTP = () => {
-        console.log(data.token);
         try {
             const phoneNumber = parsePhoneNumber(mobileNumber, countryCode);
             console.log(phoneNumber, phoneNumber.country);
@@ -95,7 +101,7 @@ const RegisterLeadViaPhone = () => {
             console.log(body);
             const headers = {
                 headers: {
-                    Authorization: 'Token ' + data.token.replace(/"/g, '')
+                    Authorization: 'Token ' + token
                 }
             };
 
@@ -129,7 +135,7 @@ const RegisterLeadViaPhone = () => {
 
             const headers = {
                 headers: {
-                    Authorization: 'Token ' + data.token.replace(/"/g, '')
+                    Authorization: 'Token ' + token
                 }
             };
 
@@ -163,7 +169,7 @@ const RegisterLeadViaPhone = () => {
         } else {
             const headers = {
                 headers: {
-                    Authorization: 'Token ' + data.token.replace(/"/g, '')
+                    Authorization: 'Token ' + token
                 }
             };
             const body = {

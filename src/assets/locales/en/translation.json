@@ -58,6 +58,7 @@
     "whatsapp" : "Whatsapp No",
     "name" : "Name",
     "relation" : "Relation",
+    "local_number" : "Phone Number ( Local )",
     "current_Employer" : "Current Employer",
     "BusniessLabel;" : "Business / Employment Information",
     "father" : "Father",
