@@ -10,11 +10,11 @@ import { searchNumbers } from 'libphonenumber-js';
 const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
-    const [employerItems, setEmployerItems] = useState([]);
+    const [employerItems, setEmployerItems] = useState([{ business_name: 'select', id: 0 }]);
     const [singleSelections, setSingleSelections] = useState([]);
     // const [storedData, setStoredData] = useState(JSON.parse(localStorage.getItem("business_search")));
     const storageData = localStorage.getItem('business_search');
-    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : null);
+    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : []);
 
     const { user } = useAuthContext();
 
@@ -28,7 +28,7 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
     }
 
     useEffect(() => {
-        if (storedData) {
+        if (storageData && storedData.length > 0) {
             setEmployerItems(storedData);
         } else {
             loadEmployeeFun();
@@ -100,7 +100,7 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
                 onInputChange={handleInputChange}
                 id="controllable-states-demo"
                 options={employerItems}
-                getOptionLabel={(option) => option.business_name}
+                getOptionLabel={(option) => option.business_name || ''}
                 sx={{ width: 300 }}
                 loading={isLoading}
                 renderInput={(params) => <TextField {...params} label={t('Current Employer')} />}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { TextareaAutosize } from '@mui/base';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
@@ -37,8 +37,9 @@ import CreateEmployerPopup from '../../popups/AddEmployer';
 import { useContext } from 'react';
 import { ChoiceListContext } from '../../../context/ChoiceListContext';
 import AddOccupationPopup from '../../popups/AddOccupation';
-import { ValidateNumber } from '../../../helper';
+import { ValidateEmail, ValidateNumber } from '../../../helper';
 import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
+import { AltRoute } from '@mui/icons-material';
 
 const LeadCreateForm = () => {
     const { t } = useTranslation();
@@ -51,6 +52,7 @@ const LeadCreateForm = () => {
     // const [isLoading, setIsLoading] = useState(false);
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
+    const errorInputRef = useRef(null);
     const { user } = useAuthContext();
     let token = null;
     if (user) {
@@ -111,11 +113,102 @@ const LeadCreateForm = () => {
         existing_loan
     } = createLeadForm;
 
+    const [formError, setFormError] = useState({
+        title: false,
+        first_name: false,
+        middle_name: false,
+        last_name: false,
+        gender: false,
+        date_of_birth: false,
+        marital_status: false,
+        highest_education: false,
+        ph_number: false,
+        email: false,
+        whatsapp_number: false,
+        alt_number_name: false,
+        alt_number_relation: false,
+        alt_number: false,
+        current_employer: false,
+        employed_since: false,
+        occupation_type: false,
+        employee_type: false,
+        monthly_income: false,
+        total_dependents: false,
+        monthly_saving: false,
+        customer_address: false,
+        city: false,
+        customer_locality: false,
+        existing_loan: false
+    });
+
+    const titleInputRef = useRef(null);
+    const emailInputRef = useRef(null);
+    const first_nameInputRef = useRef(null);
+    const last_nameInputRef = useRef(null);
+    const genderInputRef = useRef(null);
+    const date_of_birthInputRef = useRef(null);
+    const marital_statusInputRef = useRef(null);
+    const highest_educationInputRef = useRef(null);
+    const ph_numberInputRef = useRef(null);
+    const current_employerInputRef = useRef(null);
+    const employed_sinceInputRef = useRef(null);
+    const employee_typeInputRef = useRef(null);
+    const monthly_incomeInputRef = useRef(null);
+    const monthly_savingInputRef = useRef(null);
+    const total_dependentsInputRef = useRef(null);
+    const existing_loanInputRef = useRef(null);
+    const customer_addressInputRef = useRef(null);
+    const cityInputRef = useRef(null);
+    const customer_localityInputRef = useRef(null);
+
+    const validateFields = () => {
+        let hasError = false;
+        const newFormErrors = {
+            title: false,
+            first_name: false,
+            middle_name: false,
+            last_name: false,
+            gender: false,
+            date_of_birth: false,
+            marital_status: false,
+            highest_education: false,
+            ph_number: false,
+            email: false,
+            whatsapp_number: false,
+            alt_number_name: false,
+            alt_number_relation: false,
+            alt_number: false,
+            current_employer: false,
+            employed_since: false,
+            occupation_type: false,
+            employee_type: false,
+            monthly_income: false,
+            total_dependents: false,
+            monthly_saving: false,
+            customer_address: false,
+            city: false,
+            customer_locality: false,
+            existing_loan: false
+        };
+
+        if (createLeadForm.first_name.trim() === '') {
+            newFormErrors.first_name = true;
+            hasError = true;
+        }
+
+        if (createLeadForm.email.trim() === '') {
+            newFormErrors.email = true;
+            hasError = true;
+        }
+        setFormError(newFormErrors);
+        return hasError;
+    }
+
     const onInputChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+        const { name, value } = e.target;
         setCreateLeadForm({
             ...createLeadForm,
+<<<<<<< HEAD
             [name]:
                 name === 'whatsapp_number' ||
                 name === 'alt_number' ||
@@ -128,6 +221,9 @@ const LeadCreateForm = () => {
                         ? ValidateNumber(value)[0]
                         : ''
                     : value
+=======
+            [name]: value
+>>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
         });
     };
     const onPhoneNumberChange = (e) => {
@@ -161,6 +257,7 @@ const LeadCreateForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+<<<<<<< HEAD
         console.log(createLeadForm, '0-----createLeadForm');
         if (!title) return toast.error('Title required');
         else if (!first_name) return toast.error('First name required');
@@ -185,6 +282,36 @@ const LeadCreateForm = () => {
                 .catch((error) => {
                     return toast.error('Something went wrong , Please check your internet connection.');
                 });
+=======
+        const hasError = validateFields();
+        if (hasError) {
+            if (formError.first_name) {
+                if (first_nameInputRef.current)
+                    first_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            else if (formError.email) {
+                if (emailInputRef.current)
+                    emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            // Scroll to the error input field
+        } else {
+            LeadCreateFormApi(createLeadForm, token).then(res => {
+                if (res) {
+                    console.log(res.data, '--- res Lead create form ---')
+                    setLeadId(res.data.id)
+                    toast.success(res.message)
+                    return navigate("/lead/kyc")
+                }
+                else {
+
+                    // setIsLoading(false)
+                    // setCreateLeadForm([])
+                }
+            }).catch(error => {
+                return toast.error('Something went wrong , Please check your internet connection.')
+            })
+            // Continue with form submission or handle the valid data
+>>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
         }
     };
     return (
@@ -199,7 +326,19 @@ const LeadCreateForm = () => {
                                     <InputLabel className="label" id="tittle-label">
                                         {t('title')}
                                     </InputLabel>
+<<<<<<< HEAD
                                     <Select labelId="saluation-label" id="title" name="title" value={title} onChange={onInputChange}>
+=======
+                                    <Select
+                                        // error={formError.title}
+                                        // inputRef={titleInputRef}
+                                        labelId="saluation-label"
+                                        id="title"
+                                        name="title"
+                                        value={title}
+                                        onChange={onInputChange}
+                                    >
+>>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : data ? (
@@ -218,6 +357,8 @@ const LeadCreateForm = () => {
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <TextField
+                                    inputRef={first_nameInputRef}
+                                    error={formError.first_name}
                                     className="textfield"
                                     type="text"
                                     variant="outlined"
@@ -226,7 +367,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                    required
+                                // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3}>
@@ -375,10 +516,12 @@ const LeadCreateForm = () => {
                         <Grid item xs={12} sm={4}>
                             <TextField
                                 className="textfield"
-                                label={t('Email *')}
+                                label={t('email')}
                                 type="email"
                                 name="email"
                                 value={email}
+                                inputRef={emailInputRef}
+                                error={formError.email}
                                 onChange={onInputChange}
                                 variant="outlined"
                                 InputProps={{
@@ -566,6 +709,7 @@ const LeadCreateForm = () => {
                                     {t('income_Monthly')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    type='number'
                                     id="monthly-income"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
@@ -581,6 +725,7 @@ const LeadCreateForm = () => {
                                     {t('total_Dependents')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    type='number'
                                     id="total-dependents"
                                     label={t('amount')}
                                     value={total_dependents}
@@ -596,6 +741,7 @@ const LeadCreateForm = () => {
                                     {t('existing_Loan')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    type='number'
                                     id="existing-loan"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
@@ -611,6 +757,7 @@ const LeadCreateForm = () => {
                                     {t('monthly_Saving')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    type='number'
                                     id="monthly-saving"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}

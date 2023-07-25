@@ -33,7 +33,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
     }, [value])
 
     useEffect(() => {
-        if (storedData) {
+        if (storageData && storedData.length > 0) {
             setOccupationItems(storedData)
         } else {
             loadOccupationFunc()
@@ -95,7 +95,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
                 onInputChange={handleInputChange}
                 id="controllable-states-demo"
                 options={occupationItems}
-                getOptionLabel={(option) => option.text}
+                getOptionLabel={(option) => option.text||""}
                 sx={{ width: 300 }}
                 loading={isLoading}
                 renderInput={(params) => <TextField {...params} label={t('Occupations')} />}

@@ -19,6 +19,7 @@ function KYCDocumentPage() {
     const [open, setOpen] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
+    const [documentType, setDocumentType] = useState(false);
 
     const handleChangeIdentiProof = (event) => {
         setIdentificationProof(event.target.value);
@@ -33,7 +34,8 @@ function KYCDocumentPage() {
     const handleVerify = () => {
         setIsVerified(true);
     };
-    const handleAdd = () => {
+    const handleAdd = (type) => {
+        setDocumentType(type)
         setOpen(true);
         if (isAdded) {
         } else {
@@ -45,7 +47,6 @@ function KYCDocumentPage() {
 
     return (
         <>
-            <ViewKYCDetails open={open} setOpen={setOpen} frontSide={true} backSide={false} />
             <WebcamCapture />
             {/*For Identification proof */}
             <Grid>
@@ -82,7 +83,7 @@ function KYCDocumentPage() {
                                 <Button
                                     size="large"
                                     color="primary"
-                                    onClick={handleAdd}
+                                    onClick={() => handleAdd("national_id")}
                                     startIcon={
                                         isAdded ? (
                                             <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
@@ -94,7 +95,6 @@ function KYCDocumentPage() {
                             </Grid>
                         </Grid>
                     </SubCard>
-
                     {/*For Address proof */}
 
                     <SubCard>
