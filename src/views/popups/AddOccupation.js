@@ -19,13 +19,52 @@ import SubCard from '../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { BussinessSectorContext } from '../../context/BussinessSectorContext';
+import AddOccupationAPI from '../../apicalls/AddOccupationAPI';
+import { useAuthContext } from '../../hooks/useAuthContext';
+import { toast } from 'react-toastify';
 
 const AddOccupationPopup = ({ show, setShow }) => {
+    const { user } = useAuthContext();
     const { t } = useTranslation();
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
 
+    const [formOccupation, setFormOccupation] = useState({
+        text: '',
+        selected_text: ''
+    });
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
+
+    const { text, selected_text } = formOccupation;
+    const onInputChange = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+
+        console.log(name, value);
+
+        setFormOccupation({
+            ...formOccupation,
+            [name]: value
+        });
+    };
+
     const onSubmit = (e) => {
         e.preventDefault();
+
+        AddOccupationAPI(formOccupation, token)
+            .then((res) => {
+                if (res) {
+                    console.log(res + ' Res ');
+                } else {
+                    // setIsLoading(false)
+                    // setCreateLeadForm([])
+                }
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
     };
     return (
         <>
@@ -43,8 +82,9 @@ const AddOccupationPopup = ({ show, setShow }) => {
                                                 type="text"
                                                 variant="outlined"
                                                 label={t('Occupation')}
-                                                value={'first_name'}
-                                                name="first_name"
+                                                onChange={onInputChange}
+                                                value={text}
+                                                name="text"
                                                 fullWidth
                                                 required
                                             />
@@ -54,13 +94,20 @@ const AddOccupationPopup = ({ show, setShow }) => {
                                                 <InputLabel className="label" id="tittle-label">
                                                     {t('EmployerSector')}
                                                 </InputLabel>
-                                                <Select labelId="tittle-label" id="EmployerSector" name="EmployerSector" value={'kk'}>
+                                                <Select
+                                                    label={t('EmployerSector')}
+                                                    labelId="tittle-label"
+                                                    id="employee_sector"
+                                                    name="selected_text "
+                                                    onChange={onInputChange}
+                                                    value={selected_text}
+                                                >
                                                     {bussinessSectordataIsLoading ? (
                                                         <>Loading...</>
                                                     ) : bussinessSectordata ? (
                                                         bussinessSectordata.results.length > 0 ? (
                                                             bussinessSectordata.results.map((item, index) => (
-                                                                <MenuItem value={item.text} id={item.id}>
+                                                                <MenuItem value={item.id} id={item.id}>
                                                                     {item.text}
                                                                 </MenuItem>
                                                             ))

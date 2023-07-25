@@ -13,6 +13,7 @@ const SubCard = ({ children, content, contentClass, darkTitle, secondary, sx = {
     return (
         <Card
             sx={{
+                // background: '#d1ca6d',
                 border: '1px solid',
                 marginTop: '20px',
 

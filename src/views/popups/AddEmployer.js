@@ -79,10 +79,9 @@ const CreateEmployerPopup = ({ show, setShow }) => {
         AddEmployerAPI(formEmployer, token)
             .then((res) => {
                 if (res) {
+                    toast.success('Employer Added Successfully');
                     console.log(res);
                 } else {
-                    // setIsLoading(false)
-                    // setCreateLeadForm([])
                 }
             })
             .catch((error) => {

@@ -52,9 +52,9 @@ const LeadCreateForm = () => {
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
     const { user } = useAuthContext();
-    let token = null
+    let token = null;
     if (user) {
-        token = user.token
+        token = user.token;
     }
     const [createLeadForm, setCreateLeadForm] = useState({
         title: '',
@@ -118,13 +118,13 @@ const LeadCreateForm = () => {
             ...createLeadForm,
             [name]:
                 name === 'whatsapp_number' ||
-                    name === 'alt_number' ||
-                    name === 'monthly_income' ||
-                    name === 'total_dependents' ||
-                    name === 'existing_loan' ||
-                    name === 'monthly_saving'
+                name === 'alt_number' ||
+                name === 'monthly_income' ||
+                name === 'total_dependents' ||
+                name === 'existing_loan' ||
+                name === 'monthly_saving'
                     ? // If number value available then it wil put Zero index else ""
-                    ValidateNumber(value)
+                      ValidateNumber(value)
                         ? ValidateNumber(value)[0]
                         : ''
                     : value
@@ -162,38 +162,30 @@ const LeadCreateForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log(createLeadForm, '0-----createLeadForm');
-        if (!title)
-            return toast.error("Title required")
-        else if (!first_name)
-            return toast.error("First name required")
-        else if (!middle_name)
-            return toast.error("Middle name required")
-        else if (!last_name)
-            return toast.error("Last name required")
-        else if (!gender)
-            return toast.error("Gender required")
-        else if (!date_of_birth)
-            return toast.error("Date of birth required")
-        else if (!marital_status)
-            return toast.error("Martial Status required")
+        if (!title) return toast.error('Title required');
+        else if (!first_name) return toast.error('First name required');
+        else if (!middle_name) return toast.error('Middle name required');
+        else if (!last_name) return toast.error('Last name required');
+        else if (!gender) return toast.error('Gender required');
+        else if (!date_of_birth) return toast.error('Date of birth required');
+        else if (!marital_status) return toast.error('Martial Status required');
         else {
-            LeadCreateFormApi(createLeadForm, token).then(res => {
-                if (res) {
-                    console.log(res.data, '--- res Lead create form ---')
-                    setLeadId(res.data.id)
-                    toast.success(res.message)
-                    return navigate("/lead/kyc")
-                }
-                else {
-
-                    // setIsLoading(false)
-                    // setCreateLeadForm([])
-                }
-            }).catch(error => {
-                return toast.error('Something went wrong , Please check your internet connection.')
-            })
+            LeadCreateFormApi(createLeadForm, token)
+                .then((res) => {
+                    if (res) {
+                        console.log(res.data, '--- res Lead create form ---');
+                        setLeadId(res.data.id);
+                        toast.success(res.message);
+                        return navigate('/lead/kyc');
+                    } else {
+                        // setIsLoading(false)
+                        // setCreateLeadForm([])
+                    }
+                })
+                .catch((error) => {
+                    return toast.error('Something went wrong , Please check your internet connection.');
+                });
         }
-
     };
     return (
         <Container fullWidth>
@@ -207,13 +199,7 @@ const LeadCreateForm = () => {
                                     <InputLabel className="label" id="tittle-label">
                                         {t('title')}
                                     </InputLabel>
-                                    <Select
-                                        labelId="saluation-label"
-                                        id="title"
-                                        name="title"
-                                        value={title}
-                                        onChange={onInputChange}
-                                    >
+                                    <Select labelId="saluation-label" id="title" name="title" value={title} onChange={onInputChange}>
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : data ? (
@@ -406,27 +392,10 @@ const LeadCreateForm = () => {
                             />
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            {/* <TextField
-                                className="textfield"
-                                label={t('whatsapp')}
-                                type="whatsapp"
-                                variant="outlined"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <WhatsAppIcon color="success" />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                fullWidth
-                                value={whatsapp_number}
-                                name="whatsapp_number"
-                                onChange={onInputChange}
-                            /> */}
                             <MuiPhoneNumber
                                 className="label"
                                 defaultCountry={'in'}
-                                label={t('whatsapp_number')}
+                                label={t('whatsapp')}
                                 name="whatsapp_number"
                                 value={whatsapp_number}
                                 onChange={onWhatsappNumberChange}
@@ -507,8 +476,8 @@ const LeadCreateForm = () => {
                 {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} />}
                 <SubCard>
                     <h3>{t('Busniess / Employment Information')}</h3>
-                    <Grid container spacing={2}>
-                        <Grid item xs={1} sm={1} mt={4}>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} sm={1} mt={4}>
                             <Button
                                 disableElevation
                                 fullWidth
@@ -522,15 +491,15 @@ const LeadCreateForm = () => {
                                 <label>+</label>
                             </Button>
                         </Grid>
-                        <Grid item xs={11} sm={7} mt={2.5}>
+                        <Grid item xs={12} sm={4} mt={2.5}>
                             <EmployerList
                                 name="current_employer"
                                 createLeadForm={createLeadForm}
                                 setCreateLeadForm={setCreateLeadForm}
-                            // onInputChange={onInputChange}
+                                // onInputChange={onInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={7}>
                             <InputLabel className="label" color="primary">
                                 {t('employed_Since')} *
                             </InputLabel>
@@ -545,7 +514,7 @@ const LeadCreateForm = () => {
                                 required
                             />
                         </Grid>
-                        <Grid item xs={1} sm={1} mt={1}>
+                        <Grid item xs={12} sm={1} mt={1}>
                             <Button
                                 disableElevation
                                 fullWidth
@@ -559,11 +528,11 @@ const LeadCreateForm = () => {
                                 <label>+</label>
                             </Button>
                         </Grid>
-                        <Grid item xs={11} sm={5}>
+                        <Grid item xs={12} sm={4}>
                             <OccupationsList name="occupation_type" createLeadForm={createLeadForm} setCreateLeadForm={setCreateLeadForm} />
                         </Grid>
 
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={7}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" id="employee-label">
                                     {t('employee_Type')} *
@@ -665,10 +634,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                <MenuItem value={item.id} id={item.slug}>
-                                                    {item.name}
-                                                </MenuItem>
-                                            ))
+                                                  <MenuItem value={item.id} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
                                             : []
                                         : null}
                                 </Select>
@@ -692,13 +661,15 @@ const LeadCreateForm = () => {
                                 {t('current_Address')} *
                             </InputLabel>
                             <FormControl mt={1} fullWidth>
-                                <TextareaAutosize
+                                <TextField
                                     required
+                                    className="label"
                                     value={customer_address}
                                     name="customer_address"
                                     onChange={onInputChange}
                                     minRows={5}
                                 />
+                                {/* <TextareaAutosize /> */}
                             </FormControl>
                         </Grid>
                     </Grid>
