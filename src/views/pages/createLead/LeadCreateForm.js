@@ -202,28 +202,13 @@ const LeadCreateForm = () => {
         }
         setFormError(newFormErrors);
         return hasError;
-    }
+    };
 
     const onInputChange = (e) => {
         const { name, value } = e.target;
         setCreateLeadForm({
             ...createLeadForm,
-<<<<<<< HEAD
-            [name]:
-                name === 'whatsapp_number' ||
-                name === 'alt_number' ||
-                name === 'monthly_income' ||
-                name === 'total_dependents' ||
-                name === 'existing_loan' ||
-                name === 'monthly_saving'
-                    ? // If number value available then it wil put Zero index else ""
-                      ValidateNumber(value)
-                        ? ValidateNumber(value)[0]
-                        : ''
-                    : value
-=======
             [name]: value
->>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
         });
     };
     const onPhoneNumberChange = (e) => {
@@ -257,16 +242,15 @@ const LeadCreateForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-<<<<<<< HEAD
-        console.log(createLeadForm, '0-----createLeadForm');
-        if (!title) return toast.error('Title required');
-        else if (!first_name) return toast.error('First name required');
-        else if (!middle_name) return toast.error('Middle name required');
-        else if (!last_name) return toast.error('Last name required');
-        else if (!gender) return toast.error('Gender required');
-        else if (!date_of_birth) return toast.error('Date of birth required');
-        else if (!marital_status) return toast.error('Martial Status required');
-        else {
+        const hasError = validateFields();
+        if (hasError) {
+            if (formError.first_name) {
+                if (first_nameInputRef.current) first_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.email) {
+                if (emailInputRef.current) emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+            // Scroll to the error input field
+        } else {
             LeadCreateFormApi(createLeadForm, token)
                 .then((res) => {
                     if (res) {
@@ -282,36 +266,7 @@ const LeadCreateForm = () => {
                 .catch((error) => {
                     return toast.error('Something went wrong , Please check your internet connection.');
                 });
-=======
-        const hasError = validateFields();
-        if (hasError) {
-            if (formError.first_name) {
-                if (first_nameInputRef.current)
-                    first_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            else if (formError.email) {
-                if (emailInputRef.current)
-                    emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-            // Scroll to the error input field
-        } else {
-            LeadCreateFormApi(createLeadForm, token).then(res => {
-                if (res) {
-                    console.log(res.data, '--- res Lead create form ---')
-                    setLeadId(res.data.id)
-                    toast.success(res.message)
-                    return navigate("/lead/kyc")
-                }
-                else {
-
-                    // setIsLoading(false)
-                    // setCreateLeadForm([])
-                }
-            }).catch(error => {
-                return toast.error('Something went wrong , Please check your internet connection.')
-            })
             // Continue with form submission or handle the valid data
->>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
         }
     };
     return (
@@ -326,9 +281,6 @@ const LeadCreateForm = () => {
                                     <InputLabel className="label" id="tittle-label">
                                         {t('title')}
                                     </InputLabel>
-<<<<<<< HEAD
-                                    <Select labelId="saluation-label" id="title" name="title" value={title} onChange={onInputChange}>
-=======
                                     <Select
                                         // error={formError.title}
                                         // inputRef={titleInputRef}
@@ -338,7 +290,6 @@ const LeadCreateForm = () => {
                                         value={title}
                                         onChange={onInputChange}
                                     >
->>>>>>> 83943c3a6c27353908e82628254ca1c0ee7a5d6b
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : data ? (
@@ -367,7 +318,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                // required
+                                    // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3}>
@@ -709,7 +660,7 @@ const LeadCreateForm = () => {
                                     {t('income_Monthly')} *
                                 </InputLabel>
                                 <OutlinedInput
-                                    type='number'
+                                    type="number"
                                     id="monthly-income"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
@@ -725,7 +676,7 @@ const LeadCreateForm = () => {
                                     {t('total_Dependents')} *
                                 </InputLabel>
                                 <OutlinedInput
-                                    type='number'
+                                    type="number"
                                     id="total-dependents"
                                     label={t('amount')}
                                     value={total_dependents}
@@ -741,7 +692,7 @@ const LeadCreateForm = () => {
                                     {t('existing_Loan')} *
                                 </InputLabel>
                                 <OutlinedInput
-                                    type='number'
+                                    type="number"
                                     id="existing-loan"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
@@ -757,7 +708,7 @@ const LeadCreateForm = () => {
                                     {t('monthly_Saving')} *
                                 </InputLabel>
                                 <OutlinedInput
-                                    type='number'
+                                    type="number"
                                     id="monthly-saving"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}

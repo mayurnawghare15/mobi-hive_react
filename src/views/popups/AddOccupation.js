@@ -42,7 +42,7 @@ const AddOccupationPopup = ({ show, setShow }) => {
         const name = e.target.name;
         const value = e.target.value;
 
-        console.log(name, value);
+        console.log(name + ' ' + value);
 
         setFormOccupation({
             ...formOccupation,
@@ -98,9 +98,9 @@ const AddOccupationPopup = ({ show, setShow }) => {
                                                     label={t('EmployerSector')}
                                                     labelId="tittle-label"
                                                     id="employee_sector"
+                                                    value={selected_text}
                                                     name="selected_text "
                                                     onChange={onInputChange}
-                                                    value={selected_text}
                                                 >
                                                     {bussinessSectordataIsLoading ? (
                                                         <>Loading...</>
