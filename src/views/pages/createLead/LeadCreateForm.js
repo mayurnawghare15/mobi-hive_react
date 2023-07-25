@@ -52,12 +52,15 @@ const LeadCreateForm = () => {
     // const [isLoading, setIsLoading] = useState(false);
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
+    const [callOccuptionApi, setCallOccuptionApi] = useState(false);
     const errorInputRef = useRef(null);
     const { user } = useAuthContext();
     let token = null;
     if (user) {
         token = user.token;
     }
+
+
     const [createLeadForm, setCreateLeadForm] = useState({
         title: '',
         first_name: '',
@@ -318,7 +321,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                    // required
+                                // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3}>
@@ -567,7 +570,7 @@ const LeadCreateForm = () => {
                 {/* Business / Employment Information-------------------------- */}
 
                 {<CreateEmployerPopup show={showEmployerForm} setShow={openCreateEmployerForm} />}
-                {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} />}
+                {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} setCallOccuptionApi={setCallOccuptionApi} />}
                 <SubCard>
                     <h3>{t('Busniess / Employment Information')}</h3>
                     <Grid container spacing={3}>
@@ -590,7 +593,7 @@ const LeadCreateForm = () => {
                                 name="current_employer"
                                 createLeadForm={createLeadForm}
                                 setCreateLeadForm={setCreateLeadForm}
-                                // onInputChange={onInputChange}
+                            // onInputChange={onInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={7}>
@@ -623,7 +626,7 @@ const LeadCreateForm = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <OccupationsList name="occupation_type" createLeadForm={createLeadForm} setCreateLeadForm={setCreateLeadForm} />
+                            <OccupationsList name="occupation_type" createLeadForm={createLeadForm} setCreateLeadForm={setCreateLeadForm} callOccuptionApi={callOccuptionApi} />
                         </Grid>
 
                         <Grid item xs={12} sm={7}>
@@ -732,10 +735,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                  <MenuItem value={item.id} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
+                                                <MenuItem value={item.id} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            ))
                                             : []
                                         : null}
                                 </Select>

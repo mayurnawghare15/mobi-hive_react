@@ -23,7 +23,7 @@ import AddOccupationAPI from '../../apicalls/AddOccupationAPI';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 
-const AddOccupationPopup = ({ show, setShow }) => {
+const AddOccupationPopup = ({ show, setShow,setCallOccuptionApi }) => {
     const { user } = useAuthContext();
     const { t } = useTranslation();
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
@@ -39,8 +39,7 @@ const AddOccupationPopup = ({ show, setShow }) => {
 
     const { text, selected_text } = formOccupation;
     const onInputChange = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
+        const { name, value } = e.target;
 
         console.log(name + ' ' + value);
 
@@ -57,6 +56,14 @@ const AddOccupationPopup = ({ show, setShow }) => {
             .then((res) => {
                 if (res) {
                     console.log(res + ' Res ');
+                    setShow()
+                    setFormOccupation({
+                        text: '',
+                        selected_text: ''
+                    }
+                    )
+                    setCallOccuptionApi(true)
+                    toast.success("Occupation added successfully")
                 } else {
                     // setIsLoading(false)
                     // setCreateLeadForm([])
@@ -97,10 +104,10 @@ const AddOccupationPopup = ({ show, setShow }) => {
                                                 <Select
                                                     label={t('EmployerSector')}
                                                     labelId="tittle-label"
-                                                    id="employee_sector"
-                                                    value={selected_text}
-                                                    name="selected_text "
+                                                    id="employee_sector_selected_text"
+                                                    name="selected_text"
                                                     onChange={onInputChange}
+                                                    value={selected_text}
                                                 >
                                                     {bussinessSectordataIsLoading ? (
                                                         <>Loading...</>

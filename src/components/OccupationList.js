@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
+const OccupationsList = ({ name, createLeadForm, setCreateLeadForm, callOccuptionApi }) => {
 
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false)
@@ -39,6 +39,10 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
             loadOccupationFunc()
         }
     }, []);
+    useEffect(() => {
+        loadOccupationFunc()
+    }, [callOccuptionApi])
+
 
     const loadOccupationFunc = () => {
         LoadOccupation(inputValue, token)
@@ -95,7 +99,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
                 onInputChange={handleInputChange}
                 id="controllable-states-demo"
                 options={occupationItems}
-                getOptionLabel={(option) => option.text||""}
+                getOptionLabel={(option) => option.text || ""}
                 sx={{ width: 300 }}
                 loading={isLoading}
                 renderInput={(params) => <TextField {...params} label={t('Occupations')} />}
