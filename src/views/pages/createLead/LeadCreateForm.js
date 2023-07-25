@@ -60,7 +60,6 @@ const LeadCreateForm = () => {
         token = user.token;
     }
 
-
     const [createLeadForm, setCreateLeadForm] = useState({
         title: '',
         first_name: '',
@@ -194,13 +193,84 @@ const LeadCreateForm = () => {
             existing_loan: false
         };
 
+        if (createLeadForm.tittle === '') {
+            newFormErrors.title = true;
+            hasError = true;
+        }
         if (createLeadForm.first_name.trim() === '') {
             newFormErrors.first_name = true;
             hasError = true;
         }
-
+        if (createLeadForm.last_name.trim() === '') {
+            newFormErrors.last_name = true;
+            hasError = true;
+        }
+        if (createLeadForm.gender === '') {
+            newFormErrors.gender = true;
+            hasError = true;
+        }
+        if (createLeadForm.date_of_birth === '') {
+            newFormErrors.date_of_birth = true;
+            hasError = true;
+        }
+        if (createLeadForm.marital_status === '') {
+            newFormErrors.marital_status = true;
+            hasError = true;
+        }
+        if (createLeadForm.highest_education === '') {
+            newFormErrors.highest_education = true;
+            hasError = true;
+        }
+        // if (createLeadForm.ph_number === '') {
+        //     newFormErrors.ph_number = true;
+        //     hasError = true;
+        // }
         if (createLeadForm.email.trim() === '') {
             newFormErrors.email = true;
+            hasError = true;
+        }
+        if (createLeadForm.employed_since.trim() === '') {
+            newFormErrors.employed_since = true;
+            hasError = true;
+        }
+        if (createLeadForm.occupation_type.trim() === '') {
+            newFormErrors.occupation_type = true;
+            hasError = true;
+        }
+        if (createLeadForm.employee_type.trim() === '') {
+            newFormErrors.employee_type = true;
+            hasError = true;
+        }
+        if (createLeadForm.monthly_income.trim() === '') {
+            newFormErrors.monthly_income = true;
+            hasError = true;
+        }
+        if (createLeadForm.total_dependents.trim() === '') {
+            newFormErrors.total_dependents = true;
+            hasError = true;
+        }
+        if (createLeadForm.existing_loan.trim() === '') {
+            newFormErrors.existing_loan = true;
+            hasError = true;
+        }
+        if (createLeadForm.monthly_saving.trim() === '') {
+            newFormErrors.monthly_income = true;
+            hasError = true;
+        }
+        if (createLeadForm.occupation_type.trim() === '') {
+            newFormErrors.occupation_type = true;
+            hasError = true;
+        }
+        if (createLeadForm.customer_address.trim() === '') {
+            newFormErrors.customer_address = true;
+            hasError = true;
+        }
+        if (createLeadForm.city === '') {
+            newFormErrors.city = true;
+            hasError = true;
+        }
+        if (createLeadForm.customer_locality.trim() === '') {
+            newFormErrors.customer_locality = true;
             hasError = true;
         }
         setFormError(newFormErrors);
@@ -249,8 +319,39 @@ const LeadCreateForm = () => {
         if (hasError) {
             if (formError.first_name) {
                 if (first_nameInputRef.current) first_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.last_name) {
+                if (last_nameInputRef.current) last_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.gender) {
+                if (genderInputRef.current) genderInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.date_of_birth) {
+                if (date_of_birthInputRef.current) date_of_birthInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.marital_status) {
+                if (marital_statusInputRef.current) marital_statusInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.highest_education) {
+                if (highest_educationInputRef.current)
+                    highest_educationInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.ph_number) {
+                if (ph_numberInputRef.current) ph_numberInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.email) {
                 if (emailInputRef.current) emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.employed_since) {
+                if (employed_sinceInputRef.current) employed_sinceInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.employee_type) {
+                if (employee_typeInputRef.current) employee_typeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.monthly_income) {
+                if (monthly_incomeInputRef.current) monthly_incomeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.total_dependents) {
+                if (total_dependentsInputRef.current)
+                    total_dependentsInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.existing_loan) {
+                if (existing_loanInputRef.current) existing_loanInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.monthly_saving) {
+                if (monthly_savingInputRef.current) monthly_savingInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.city) {
+                if (cityInputRef.current) cityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.customer_locality) {
+                if (customer_localityInputRef.current)
+                    customer_localityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
             // Scroll to the error input field
         } else {
@@ -285,8 +386,9 @@ const LeadCreateForm = () => {
                                         {t('title')}
                                     </InputLabel>
                                     <Select
-                                        // error={formError.title}
-                                        // inputRef={titleInputRef}
+                                        error={formError.title}
+                                        inputRef={titleInputRef}
+                                        disabled={state ? (state.tittle ? true : false) : false}
                                         labelId="saluation-label"
                                         id="title"
                                         name="title"
@@ -311,6 +413,7 @@ const LeadCreateForm = () => {
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <TextField
+                                    disabled={state ? (state.first_name ? true : false) : false}
                                     inputRef={first_nameInputRef}
                                     error={formError.first_name}
                                     className="textfield"
@@ -321,11 +424,12 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                // required
+                                    // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <TextField
+                                    disabled={state ? (state.middle_name ? true : false) : false}
                                     className="textfield"
                                     type="text"
                                     variant="outlined"
@@ -339,6 +443,9 @@ const LeadCreateForm = () => {
                             </Grid>
                             <Grid item xs={12} sm={3}>
                                 <TextField
+                                    error={formError.last_name}
+                                    inputRef={last_nameInputRef}
+                                    disabled={state ? (state.last_name ? true : false) : false}
                                     className="textfield"
                                     type="text"
                                     variant="outlined"
@@ -358,7 +465,16 @@ const LeadCreateForm = () => {
                                     <FormLabel className="label" component="legend">
                                         {t('Gender')}
                                     </FormLabel>
-                                    <RadioGroup aria-label="gender" name="gender" value={gender} onChange={onInputChange} required>
+                                    <RadioGroup
+                                        error={formError.gender}
+                                        inputRef={genderInputRef}
+                                        disabled={state ? (state.gender ? true : false) : false}
+                                        aria-label="gender"
+                                        name="gender"
+                                        value={gender}
+                                        onChange={onInputChange}
+                                        required
+                                    >
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : data ? (
@@ -381,6 +497,9 @@ const LeadCreateForm = () => {
                             <Grid item xs={12} sm={3.3} ml={-1} mt={-0.5}>
                                 <InputLabel>Date of Birth *</InputLabel>
                                 <TextField
+                                    error={formError.date_of_birth}
+                                    inputRef={date_of_birthInputRef}
+                                    disabled={state ? (state.date_of_birth ? true : false) : false}
                                     className="textfield"
                                     type="date"
                                     variant="outlined"
@@ -398,6 +517,9 @@ const LeadCreateForm = () => {
                                         {t('Marital Status *')}
                                     </InputLabel>
                                     <Select
+                                        error={formError.marital_status}
+                                        inputRef={marital_statusInputRef}
+                                        disabled={state ? (state.marital_status ? true : false) : false}
                                         labelId="marital-status-label"
                                         id="marital-status"
                                         value={marital_status}
@@ -427,6 +549,9 @@ const LeadCreateForm = () => {
                                         {t('Highest Education *')}
                                     </InputLabel>
                                     <Select
+                                        error={formError.highest_education}
+                                        inputRef={highest_educationInputRef}
+                                        disabled={state ? (state.highest_education ? true : false) : false}
                                         labelId="education-label"
                                         id="education"
                                         name="highest_education"
@@ -454,6 +579,9 @@ const LeadCreateForm = () => {
                     <Grid container spacing={2} mt={1}>
                         <Grid item xs={12} sm={4}>
                             <MuiPhoneNumber
+                                error={formError.ph_number}
+                                inputRef={ph_numberInputRef}
+                                disabled={state ? (state.ph_number ? true : false) : false}
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('mobile_Number')}
@@ -469,6 +597,7 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
+                                disabled={state ? (state.email ? true : false) : false}
                                 className="textfield"
                                 label={t('email')}
                                 type="email"
@@ -490,6 +619,7 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <MuiPhoneNumber
+                                disabled={state ? (state.whatsapp_number ? true : false) : false}
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('whatsapp')}
@@ -511,6 +641,7 @@ const LeadCreateForm = () => {
                     <Grid container spacing={2} mt={1}>
                         <Grid item xs={12} sm={4}>
                             <TextField
+                                disabled={state ? (state.alt_number_name ? true : false) : false}
                                 className="textfield"
                                 label={t('name')}
                                 type="text"
@@ -527,6 +658,7 @@ const LeadCreateForm = () => {
                                     {t('relation')}
                                 </InputLabel>
                                 <Select
+                                    disabled={state ? (state.alt_number_relation ? true : false) : false}
                                     labelId="relation-status-label"
                                     variant="outlined"
                                     id="relation-status"
@@ -552,6 +684,7 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <MuiPhoneNumber
+                                disabled={state ? (state.alt_number ? true : false) : false}
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('local_number')}
@@ -590,10 +723,11 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4} mt={2.5}>
                             <EmployerList
+                                disabled={state ? (state.current_employer ? true : false) : false}
                                 name="current_employer"
                                 createLeadForm={createLeadForm}
                                 setCreateLeadForm={setCreateLeadForm}
-                            // onInputChange={onInputChange}
+                                // onInputChange={onInputChange}
                             />
                         </Grid>
                         <Grid item xs={12} sm={7}>
@@ -601,6 +735,9 @@ const LeadCreateForm = () => {
                                 {t('employed_Since')} *
                             </InputLabel>
                             <TextField
+                                error={formError.employed_since}
+                                inputRef={employed_sinceInputRef}
+                                disabled={state ? (state.employed_since ? true : false) : false}
                                 className="textfield"
                                 type="date"
                                 variant="outlined"
@@ -626,7 +763,13 @@ const LeadCreateForm = () => {
                             </Button>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <OccupationsList name="occupation_type" createLeadForm={createLeadForm} setCreateLeadForm={setCreateLeadForm} callOccuptionApi={callOccuptionApi} />
+                            <OccupationsList
+                                disabled={state ? (state.occupation_type ? true : false) : false}
+                                name="occupation_type"
+                                createLeadForm={createLeadForm}
+                                setCreateLeadForm={setCreateLeadForm}
+                                callOccuptionApi={callOccuptionApi}
+                            />
                         </Grid>
 
                         <Grid item xs={12} sm={7}>
@@ -635,6 +778,9 @@ const LeadCreateForm = () => {
                                     {t('employee_Type')} *
                                 </InputLabel>
                                 <Select
+                                    error={formError.employee_type}
+                                    inputRef={employee_typeInputRef}
+                                    disabled={state ? (state.employee_type ? true : false) : false}
                                     labelId="employee-label"
                                     id="employee"
                                     value={employee_type}
@@ -663,6 +809,9 @@ const LeadCreateForm = () => {
                                     {t('income_Monthly')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    error={formError.monthly_income}
+                                    inputRef={monthly_incomeInputRef}
+                                    disabled={state ? (state.monthly_income ? true : false) : false}
                                     type="number"
                                     id="monthly-income"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -679,6 +828,9 @@ const LeadCreateForm = () => {
                                     {t('total_Dependents')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    error={formError.total_dependents}
+                                    inputRef={total_dependentsInputRef}
+                                    disabled={state ? (state.total_dependents ? true : false) : false}
                                     type="number"
                                     id="total-dependents"
                                     label={t('amount')}
@@ -695,6 +847,9 @@ const LeadCreateForm = () => {
                                     {t('existing_Loan')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    error={formError.existing_loan}
+                                    inputRef={existing_loanInputRef}
+                                    disabled={state ? (state.existing_loan ? true : false) : false}
                                     type="number"
                                     id="existing-loan"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -711,6 +866,9 @@ const LeadCreateForm = () => {
                                     {t('monthly_Saving')} *
                                 </InputLabel>
                                 <OutlinedInput
+                                    error={formError.monthly_saving}
+                                    inputRef={monthly_savingInputRef}
+                                    disabled={state ? (state.monthly_saving ? true : false) : false}
                                     type="number"
                                     id="monthly-saving"
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
@@ -731,14 +889,23 @@ const LeadCreateForm = () => {
                                 <InputLabel className="label" color="primary">
                                     {t('city')} *
                                 </InputLabel>
-                                <Select labelId="city-label" id="city" name="city" value={city} onChange={onInputChange}>
+                                <Select
+                                    error={formError.city}
+                                    inputRef={cityInputRef}
+                                    disabled={state ? (state.city ? true : false) : false}
+                                    labelId="city-label"
+                                    id="city"
+                                    name="city"
+                                    value={city}
+                                    onChange={onInputChange}
+                                >
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                <MenuItem value={item.id} id={item.slug}>
-                                                    {item.name}
-                                                </MenuItem>
-                                            ))
+                                                  <MenuItem value={item.id} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
                                             : []
                                         : null}
                                 </Select>
@@ -746,6 +913,9 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={4}>
                             <TextField
+                                error={formError.customer_locality}
+                                inputRef={customer_localityInputRef}
+                                disabled={state ? (state.customer_locality ? true : false) : false}
                                 className="textfield"
                                 label={t('customer_Locality')}
                                 type="text"
@@ -763,6 +933,9 @@ const LeadCreateForm = () => {
                             </InputLabel>
                             <FormControl mt={1} fullWidth>
                                 <TextField
+                                    error={formError.customer_address}
+                                    inputRef={customer_addressInputRef}
+                                    disabled={state ? (state.customer_address ? true : false) : false}
                                     required
                                     className="label"
                                     value={customer_address}
