@@ -146,7 +146,6 @@ const RegisterLeadViaPhone = () => {
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
-                            console.log(response.data.data.user_found, 'Inside if');
                             return navigate('/lead/createlead');
                         } else {
                             setShowDobPopup(true);
