@@ -17,7 +17,6 @@ export const BussinessSectorProvider = ({ children }) => {
             token = user.token
         }
         BussinessSectorApi(token).then((res) => {
-            console.log(res, 'BussinessSectorApi')
             setBussinessSectordata(res);
             setIsLoading(false);
         })

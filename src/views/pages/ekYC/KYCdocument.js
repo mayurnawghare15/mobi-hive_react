@@ -10,6 +10,11 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { Button } from '@mui/material';
 import ViewKYCDetails from '../../../components/ViewKYCDetails';
+import { useEffect } from 'react';
+import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { toast } from 'react-toastify';
+import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
@@ -20,6 +25,11 @@ function KYCDocumentPage() {
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [documentType, setDocumentType] = useState(false);
+    const { user } = useAuthContext();
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
 
     const handleChangeIdentiProof = (event) => {
         setIdentificationProof(event.target.value);
@@ -44,6 +54,25 @@ function KYCDocumentPage() {
             // setIsAdded(true);
         }
     };
+
+    useEffect(() => {
+        const lead_id = 472
+        GetLeadDetailsApi(lead_id, token)
+            .then((res) => {
+                if (res) {
+                    console.log(res.data.ekyc_document, '---Lead Data  ---');
+                } else {
+                    // setIsLoading(false)
+                    // setCreateLeadForm([])
+                }
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
+    }, [])
+
+
+    // LeadCreateFormApi
 
     return (
         <>
