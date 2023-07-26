@@ -1,4 +1,4 @@
-import React,{ useRef, useState, useCallback } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import Webcam from 'react-webcam';
 import { Button, Dialog, DialogContent, Grid, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useTranslation } from 'react-i18next';
 
-const WebcamCapture = ({ openCamera, setOpenCamera, handleImages }) => {
+const WebcamCapture = ({ openCamera, setOpenCamera, document_type, front, back }) => {
     const { t } = useTranslation();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
@@ -17,8 +17,6 @@ const WebcamCapture = ({ openCamera, setOpenCamera, handleImages }) => {
     const handleConfirm = () => {
         // Handle confirm action
         console.log('Confirmed');
-
-        handleImages(imgSrc);
         setOpenCamera(false);
     };
     const capture = useCallback(() => {
