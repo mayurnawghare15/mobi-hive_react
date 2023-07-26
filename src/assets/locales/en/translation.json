@@ -106,7 +106,11 @@
     "confirm" : "Confirm",
     "switch_camera" : "Switch Camera",
     "personal_details" : "Personal Details",
-    "local_contact":"Local / Alternate Contact"
+    "local_contact":"Local / Alternate Contact",
+    "address" : "Address",
+    "occupations" : "Occupation",
+    "add_emp" : "Add Employer",
+    "add_occupation" : "Add Occupation"
 
 
 

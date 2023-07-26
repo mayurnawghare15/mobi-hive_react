@@ -103,7 +103,7 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
                 getOptionLabel={(option) => option.business_name || ''}
                 sx={{ width: 300 }}
                 loading={isLoading}
-                renderInput={(params) => <TextField {...params} label={t('Current Employer')} />}
+                renderInput={(params) => <TextField {...params} label={t('current_Employer')} />}
             />
         </>
     );
