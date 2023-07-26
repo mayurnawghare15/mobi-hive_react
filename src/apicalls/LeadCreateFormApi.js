@@ -21,7 +21,7 @@ const LeadCreateFormApi = async (body, token) => {
         }
 
         const response = await axios
-            .post(API_Base_Url + 'v1/prospect_lead/',body, headers)
+            .post(API_Base_Url + 'v2/prospect_lead/',body, headers)
             .then((response) => {
                 return response;
             })

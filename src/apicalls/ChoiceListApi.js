@@ -24,7 +24,7 @@ const ChoiceListApi = async (query, token) => {
             return () => clearTimeout(timer)
         }
 
-        const response = await axios.get(API_Base_Url + "v1/choice_list/?cc_code=" + query, headers).then(response => {
+        const response = await axios.get(API_Base_Url + "v2/choice_list/?cc_code=" + query, headers).then(response => {
             return response
         }
         ).catch(error => {

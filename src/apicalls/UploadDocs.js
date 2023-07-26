@@ -21,7 +21,7 @@ const UploadDocs = async (body, token, leadId) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + `v1/lead/${leadId}/upload_ekyc_document/`, body, headers)
+            .get(API_Base_Url + `v2/lead/${leadId}/upload_ekyc_document/`, body, headers)
             .then((response) => {
                 return response;
             })

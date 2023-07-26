@@ -15,9 +15,9 @@ const LoadOccupation = async (query, token) => {
                 'authorization': "Token " + token
             }
         }
-        let url = "v1/occupation/?page=1"
+        let url = "v2/occupation/?page=1"
         if (query) {
-            url = "v1/occupation/?text=" + query
+            url = "v2/occupation/?text=" + query
         }
         const response = await axios.get(API_Base_Url + url, headers).then(response => {
             return response
