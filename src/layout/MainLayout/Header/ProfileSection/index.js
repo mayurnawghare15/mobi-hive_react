@@ -30,7 +30,6 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project imports
 import MainCard from '../../../../ui-component/cards/MainCard';
 import Transitions from '../../../../ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
 import { useLogout } from '../../../../hooks/useLogout';
 
 // assets
@@ -121,8 +120,8 @@ const ProfileSection = () => {
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
 
-    const {logout} = useLogout();
-    const navigate = useNavigate()
+    const { logout } = useLogout();
+    const navigate = useNavigate();
     const [value, setValue] = React.useState('');
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
