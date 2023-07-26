@@ -19,11 +19,11 @@ import SubCard from '../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { BussinessSectorContext } from '../../context/BussinessSectorContext';
-import AddOccupationAPI from '../../apicalls/AddOccupationAPI';
+import cupationAPI from '../../apicalls/cupationAPI';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 
-const AddOccupationPopup = ({ show, setShow,setCallOccuptionApi }) => {
+const cupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
     const { user } = useAuthContext();
     const { t } = useTranslation();
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
@@ -52,18 +52,17 @@ const AddOccupationPopup = ({ show, setShow,setCallOccuptionApi }) => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        AddOccupationAPI(formOccupation, token)
+        cupationAPI(formOccupation, token)
             .then((res) => {
                 if (res) {
                     console.log(res + ' Res ');
-                    setShow()
+                    setShow();
                     setFormOccupation({
                         text: '',
                         selected_text: ''
-                    }
-                    )
-                    setCallOccuptionApi(true)
-                    toast.success("Occupation added successfully")
+                    });
+                    setCallOccuptionApi(true);
+                    toast.success('Occupation added successfully');
                 } else {
                     // setIsLoading(false)
                     // setCreateLeadForm([])
@@ -144,4 +143,4 @@ const AddOccupationPopup = ({ show, setShow,setCallOccuptionApi }) => {
     );
 };
 
-export default AddOccupationPopup;
+export default cupationPopup;

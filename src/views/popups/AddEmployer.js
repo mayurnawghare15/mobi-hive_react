@@ -79,8 +79,18 @@ const CreateEmployerPopup = ({ show, setShow }) => {
         AddEmployerAPI(formEmployer, token)
             .then((res) => {
                 if (res) {
-                    toast.success('Employer Added Successfully');
                     console.log(res);
+                    toast.success('Employer Added Successfully');
+                    setShow();
+                    setFormEmployer({
+                        business_name: '',
+                        employer_sector: '',
+                        email: '',
+                        ph_number: '',
+                        whatsapp_number: '',
+                        city: '',
+                        address: ''
+                    });
                 } else {
                 }
             })
@@ -91,6 +101,18 @@ const CreateEmployerPopup = ({ show, setShow }) => {
     if (isLoading) {
         return <div>Loading...</div>;
     }
+    const handleClose = () => {
+        setShow();
+        setFormEmployer({
+            business_name: '',
+            employer_sector: '',
+            email: '',
+            ph_number: '',
+            whatsapp_number: '',
+            city: '',
+            address: ''
+        });
+    };
 
     return (
         <>
@@ -243,7 +265,7 @@ const CreateEmployerPopup = ({ show, setShow }) => {
                     </Container>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={setShow} color="warning" alignItems="end" size="large" type="submit" variant="contained">
+                    <Button onClick={handleClose} color="warning" alignItems="end" size="large" type="submit" variant="contained">
                         {t('Close')}
                     </Button>
                     <Button onClick={onSubmit} color="primary" alignItems="end" size="large" type="submit" variant="contained">

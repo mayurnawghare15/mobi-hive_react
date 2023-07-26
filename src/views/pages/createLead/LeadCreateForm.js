@@ -6,7 +6,7 @@ import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import {
     Box,
     FormControl,
@@ -43,6 +43,9 @@ import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
 import { AltRoute } from '@mui/icons-material';
 
 const LeadCreateForm = () => {
+    const { mobile_Number } = useParams();
+
+    console.log(mobile_Number + 'match-------');
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
@@ -222,10 +225,7 @@ const LeadCreateForm = () => {
             newFormErrors.highest_education = true;
             hasError = true;
         }
-        // if (createLeadForm.ph_number === '') {
-        //     newFormErrors.ph_number = true;
-        //     hasError = true;
-        // }
+
         if (createLeadForm.email.trim() === '') {
             newFormErrors.email = true;
             hasError = true;
@@ -312,6 +312,13 @@ const LeadCreateForm = () => {
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
         if (state) setCreateLeadForm(state);
+        // if (mobile_Number) {
+        //     setCreateLeadForm({
+        //         ...createLeadForm,
+        //         ['ph_number']: [mobile_Number]
+        //     });
+        // }
+        if (!mobile_Number) toast.error('Please enter Phone Number');
     }, []);
 
     const handleSubmit = (e) => {
@@ -584,12 +591,12 @@ const LeadCreateForm = () => {
                             <MuiPhoneNumber
                                 error={formError.ph_number}
                                 inputRef={ph_numberInputRef}
-                                disabled={state ? (state.ph_number ? true : false) : false}
+                                disabled={mobile_Number ? true : false}
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('mobile_Number')}
                                 name="ph_number"
-                                value={ph_number}
+                                value={mobile_Number}
                                 onChange={onPhoneNumberChange}
                                 fullWidth
                                 required
