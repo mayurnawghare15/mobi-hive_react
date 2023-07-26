@@ -146,7 +146,7 @@ const RegisterLeadViaPhone = () => {
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
-                            return navigate('/lead/createlead');
+                            return navigate('/lead/createlead', { state: phoneNumber.number });
                         } else {
                             setShowDobPopup(true);
                         }
@@ -158,7 +158,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => {}, 2000);
+            setTimeout(() => { }, 2000);
         }
     };
 
@@ -226,7 +226,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                        // Add any necessary props and event handlers for capturing the date of birth
+                                                    // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>

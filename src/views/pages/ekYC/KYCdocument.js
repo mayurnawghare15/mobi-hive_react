@@ -61,6 +61,7 @@ function KYCDocumentPage() {
             .then((res) => {
                 if (res) {
                     console.log(res.data.ekyc_document, '---Lead Data  ---');
+                    setDocumentType(res.data.ekyc_document)
                 } else {
                     // setIsLoading(false)
                     // setCreateLeadForm([])
@@ -91,39 +92,44 @@ function KYCDocumentPage() {
                             <Typography variant="body1">{t('following_documents_are_required_to_complete_the_KYC:')}</Typography>
                         </Grid>
                     </Grid>
-                    <SubCard>
-                        <h3>{t('identification_Proof_(1)*-Choose_any_one_document')}</h3>
-                        <Grid ml={2} mt={3} container alignItems="center">
-                            <Grid item xs={8}>
-                                <h4>{t('national_ID')}</h4>
+                    {documentType && documentType.length > 0 ? documentType.map(item => (
+                        <SubCard>
+                            <h3>{t('identification_Proof_(1)*-Choose_any_one_document')}</h3>
+                            <Grid ml={2} mt={3} container alignItems="center">
+                                <Grid item xs={8}>
+                                    <h4>{t('national_ID')}</h4>
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <Button
+                                        size="large"
+                                        color="primary"
+                                        startIcon={
+                                            <CheckCircleOutlineTwoToneIcon
+                                                style={{ fontSize: 35 }}
+                                                htmlColor={isVerified ? 'green' : 'inherit'}
+                                            />
+                                        }
+                                        title={isVerified ? 'Verified' : 'Verify'}
+                                    />
+                                    <Button
+                                        size="large"
+                                        color="primary"
+                                        onClick={() => handleAdd("national_id")}
+                                        startIcon={
+                                            isAdded ? (
+                                                <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
+                                            ) : (
+                                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
+                                            )
+                                        }
+                                    ></Button>
+                                </Grid>
                             </Grid>
-                            <Grid item xs={4}>
-                                <Button
-                                    size="large"
-                                    color="primary"
-                                    startIcon={
-                                        <CheckCircleOutlineTwoToneIcon
-                                            style={{ fontSize: 35 }}
-                                            htmlColor={isVerified ? 'green' : 'inherit'}
-                                        />
-                                    }
-                                    title={isVerified ? 'Verified' : 'Verify'}
-                                />
-                                <Button
-                                    size="large"
-                                    color="primary"
-                                    onClick={() => handleAdd("national_id")}
-                                    startIcon={
-                                        isAdded ? (
-                                            <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
-                                        ) : (
-                                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
-                                        )
-                                    }
-                                ></Button>
-                            </Grid>
-                        </Grid>
-                    </SubCard>
+                        </SubCard>
+                    ))
+                        : ""
+                    }
+
                     {/*For Address proof */}
 
                     <SubCard>
