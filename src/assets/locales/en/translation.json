@@ -7,6 +7,7 @@
     "rememeber_me":"Remember me",
     "forgot_password" : "Forgot Password ?",
     "sign_in" : "Sign In",
+    "date_of_birth" : "Date of birth",
     "dont_have_an_account" : "Don't have an account?",
     "username_required" : "Username is required",
     "password_required" : "Password is required",
@@ -43,13 +44,13 @@
     "male" : "Male",
     "other" : "Other",
     "date_of_birth" : "Date of birth",
-    "marital_Status" : "Marital Status",
+    "marital_Status" : "Marital Status *",
     "single_/_Never_Married" : "Single / Never Married",
     "married" : "Married",
     "divorced" : "Divorced",
     "seprated" : "Seprated",
     "others" : "Others",
-    "highest_Education" : "Highest Education",
+    "highest_Education" : "Highest Education *",
     "primary" : "Primary",
     "secondary" : "Secondary",
     "bachelor_Graduate" : "Bachelors / Graduate",
@@ -60,7 +61,7 @@
     "relation" : "Relation",
     "local_number" : "Phone Number ( Local )",
     "current_Employer" : "Current Employer",
-    "BusniessLabel;" : "Business / Employment Information",
+    "BusniessLabel" : "Business / Employment Information",
     "father" : "Father",
     "mother" : "Mother",
     "son" : "Son",
@@ -103,7 +104,14 @@
     "retake_Photo" : "Retake Photo",
     "capture_Photo" : "Capture Photo",
     "confirm" : "Confirm",
-    "switch_camera" : "Switch Camera"
+    "switch_camera" : "Switch Camera",
+    "personal_details" : "Personal Details",
+    "local_contact":"Local / Alternate Contact",
+    "address" : "Address",
+    "occupations" : "Occupation",
+    "add_emp" : "Add Employer",
+    "add_occupation" : "Add Occupation"
+
 
 
     

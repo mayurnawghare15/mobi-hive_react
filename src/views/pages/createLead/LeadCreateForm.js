@@ -24,7 +24,8 @@ import {
     Container,
     Stack,
     MenuItem,
-    Menu
+    Menu,
+    CardHeader
 } from '@mui/material';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
@@ -330,8 +331,6 @@ const LeadCreateForm = () => {
             } else if (formError.highest_education) {
                 if (highest_educationInputRef.current)
                     highest_educationInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            } else if (formError.ph_number) {
-                if (ph_numberInputRef.current) ph_numberInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.email) {
                 if (emailInputRef.current) emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.employed_since) {
@@ -377,15 +376,17 @@ const LeadCreateForm = () => {
         <Container fullWidth>
             <form onSubmit={handleSubmit}>
                 <SubCard>
-                    <h3>Personal Details</h3>
-                    <Stack spacing={1}>
-                        <Grid container spacing={2}>
-                            <Grid item xs={12} sm={3}>
+                    <CardHeader title={t('personal_details')} />
+                    <hr />
+                    <Stack spacing={1} ml={1}>
+                        <Grid container mt={1} spacing={2}>
+                            <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="tittle-label">
                                         {t('title')}
                                     </InputLabel>
                                     <Select
+                                        label={t('title')}
                                         error={formError.title}
                                         inputRef={titleInputRef}
                                         disabled={state ? (state.tittle ? true : false) : false}
@@ -411,7 +412,7 @@ const LeadCreateForm = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3}>
+                            <Grid item xs={12} sm={3.3}>
                                 <TextField
                                     disabled={state ? (state.first_name ? true : false) : false}
                                     inputRef={first_nameInputRef}
@@ -427,7 +428,7 @@ const LeadCreateForm = () => {
                                     // required
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3}>
+                            <Grid item xs={12} sm={3.3}>
                                 <TextField
                                     disabled={state ? (state.middle_name ? true : false) : false}
                                     className="textfield"
@@ -441,7 +442,7 @@ const LeadCreateForm = () => {
                                     fullWidth
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3}>
+                            <Grid item xs={12} sm={3.3}>
                                 <TextField
                                     error={formError.last_name}
                                     inputRef={last_nameInputRef}
@@ -460,10 +461,10 @@ const LeadCreateForm = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={2}>
+                            <Grid item xs={12} sm={1.8}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
-                                        {t('Gender')}
+                                        {t('gender')}
                                     </FormLabel>
                                     <RadioGroup
                                         error={formError.gender}
@@ -494,8 +495,8 @@ const LeadCreateForm = () => {
                                     </RadioGroup>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3.3} ml={-1} mt={-0.5}>
-                                <InputLabel>Date of Birth *</InputLabel>
+                            <Grid item xs={12} sm={3.3} mt={-0.5}>
+                                <InputLabel>{t('date_of_birth')}</InputLabel>
                                 <TextField
                                     error={formError.date_of_birth}
                                     inputRef={date_of_birthInputRef}
@@ -511,12 +512,13 @@ const LeadCreateForm = () => {
                                     required
                                 />
                             </Grid>
-                            <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
+                            <Grid item xs={12} sm={3.3} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="marital-status-label">
-                                        {t('Marital Status *')}
+                                        {t('marital_Status')}
                                     </InputLabel>
                                     <Select
+                                        label={t('marital_Status')}
                                         error={formError.marital_status}
                                         inputRef={marital_statusInputRef}
                                         disabled={state ? (state.marital_status ? true : false) : false}
@@ -543,12 +545,13 @@ const LeadCreateForm = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3.3} ml={-1} mt={2}>
+                            <Grid item xs={12} sm={3.3} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
-                                        {t('Highest Education *')}
+                                        {t('highest_Education')}
                                     </InputLabel>
                                     <Select
+                                        label={t('highest_Education')}
                                         error={formError.highest_education}
                                         inputRef={highest_educationInputRef}
                                         disabled={state ? (state.highest_education ? true : false) : false}
@@ -637,7 +640,8 @@ const LeadCreateForm = () => {
                 </SubCard>
                 {/* Local Card-------------------- */}
                 <SubCard>
-                    <h3>Local / Alternate Contact</h3>
+                    <CardHeader title={t('local_contact')} />
+                    <hr />
                     <Grid container spacing={2} mt={1}>
                         <Grid item xs={12} sm={4}>
                             <TextField
@@ -658,6 +662,7 @@ const LeadCreateForm = () => {
                                     {t('relation')}
                                 </InputLabel>
                                 <Select
+                                    label={t('relation')}
                                     disabled={state ? (state.alt_number_relation ? true : false) : false}
                                     labelId="relation-status-label"
                                     variant="outlined"
@@ -705,22 +710,42 @@ const LeadCreateForm = () => {
                 {<CreateEmployerPopup show={showEmployerForm} setShow={openCreateEmployerForm} />}
                 {<AddOccupationPopup show={showOccupationForm} setShow={openAddOccupationForm} setCallOccuptionApi={setCallOccuptionApi} />}
                 <SubCard>
-                    <h3>{t('Busniess / Employment Information')}</h3>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={1} mt={4}>
-                            <Button
-                                disableElevation
-                                fullWidth
-                                // alignItems="end"
-                                size="small"
-                                type="button"
-                                variant="contained"
-                                color="warning"
-                                onClick={openCreateEmployerForm}
-                            >
-                                <label>+</label>
-                            </Button>
-                        </Grid>
+                    <CardHeader
+                        title={t('BusniessLabel')}
+                        action={
+                            <>
+                                <Grid container spacing={2}>
+                                    <Grid item>
+                                        <Button
+                                            disableElevation
+                                            size="small"
+                                            type="button"
+                                            variant="contained"
+                                            color="warning"
+                                            onClick={openCreateEmployerForm}
+                                        >
+                                            <label>{t('add_emp')}</label>
+                                        </Button>
+                                    </Grid>
+                                    <Grid item>
+                                        <Button
+                                            disableElevation
+                                            size="small"
+                                            type="button"
+                                            variant="contained"
+                                            color="warning"
+                                            onClick={openAddOccupationForm}
+                                        >
+                                            <label>{t('add_occupation')}</label>
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </>
+                        }
+                    />
+                    <hr />
+
+                    <Grid container mt={1} spacing={3}>
                         <Grid item xs={12} sm={4} mt={2.5}>
                             <EmployerList
                                 disabled={state ? (state.current_employer ? true : false) : false}
@@ -732,7 +757,7 @@ const LeadCreateForm = () => {
                         </Grid>
                         <Grid item xs={12} sm={7}>
                             <InputLabel className="label" color="primary">
-                                {t('employed_Since')} *
+                                {t('employed_Since')}
                             </InputLabel>
                             <TextField
                                 error={formError.employed_since}
@@ -748,7 +773,7 @@ const LeadCreateForm = () => {
                                 required
                             />
                         </Grid>
-                        <Grid item xs={12} sm={1} mt={1}>
+                        {/* <Grid item xs={12} sm={1} mt={1}>
                             <Button
                                 disableElevation
                                 fullWidth
@@ -761,7 +786,7 @@ const LeadCreateForm = () => {
                             >
                                 <label>+</label>
                             </Button>
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={12} sm={4}>
                             <OccupationsList
                                 disabled={state ? (state.occupation_type ? true : false) : false}
@@ -774,14 +799,17 @@ const LeadCreateForm = () => {
 
                         <Grid item xs={12} sm={7}>
                             <FormControl fullWidth>
+                                {/* <InputLabel id="employement_select_label">{t('employee_Type')}</InputLabel>
+                                <Select labelId="employement_select_label" id="employee" label={t('employee_Type')}></Select> */}
                                 <InputLabel className="label" id="employee-label">
                                     {t('employee_Type')} *
                                 </InputLabel>
                                 <Select
+                                    className="label"
+                                    label={t('employee_Type')}
                                     error={formError.employee_type}
                                     inputRef={employee_typeInputRef}
                                     disabled={state ? (state.employee_type ? true : false) : false}
-                                    labelId="employee-label"
                                     id="employee"
                                     value={employee_type}
                                     name="employee_type"
@@ -832,6 +860,7 @@ const LeadCreateForm = () => {
                                     inputRef={total_dependentsInputRef}
                                     disabled={state ? (state.total_dependents ? true : false) : false}
                                     type="number"
+                                    startAdornment={<InputAdornment position="start"></InputAdornment>}
                                     id="total-dependents"
                                     label={t('amount')}
                                     value={total_dependents}
@@ -881,15 +910,19 @@ const LeadCreateForm = () => {
                         </Grid>
                     </Grid>
                 </SubCard>
+                {/* Address Card  */}
                 <SubCard>
-                    <h3>{t('Address')}</h3>
-                    <Grid container spacing={2}>
+                    <CardHeader title={t('address')} />
+                    <hr />
+
+                    <Grid container spacing={2} mt={2}>
                         <Grid item xs={12} sm={2}>
                             <FormControl fullWidth>
                                 <InputLabel className="label" color="primary">
                                     {t('city')} *
                                 </InputLabel>
                                 <Select
+                                    label={t('city')}
                                     error={formError.city}
                                     inputRef={cityInputRef}
                                     disabled={state ? (state.city ? true : false) : false}
@@ -966,7 +999,7 @@ const LeadCreateForm = () => {
                                 color="secondary"
                                 onClick={handleSubmit}
                             >
-                                <label>{t('Submit')}</label>
+                                <label>{t('submit')}</label>
                             </Button>
                         </AnimateButton>
                     </Grid>

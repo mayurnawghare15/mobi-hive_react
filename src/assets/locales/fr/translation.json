@@ -102,7 +102,13 @@
   "retake_Photo" : "Reprendre la photo",
   "capture_Photo" : "Prendre la photo",
   "confirm" : "Confirmer",
-  "switch_camera" : "Changer de caméra"
+  "switch_camera" : "Changer de caméra",
+  "personal_details": "Détails personnels",
+    "local_contact": "Contact local / alternatif",
+    "address": "Adresse",
+    "occupations": "Profession",
+    "add_emp": "Ajouter un employeur",
+    "add_occupation": "Ajouter une profession"
 
 
 }
