@@ -18,39 +18,36 @@ import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
-    const [identificationProof, setIdentificationProof] = useState('');
-    const [addressProof, setAddProof] = useState('');
-    const [proofOfIncome, setProofOfImcome] = useState('');
     const [open, setOpen] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [documentTypeData, setDocumentTypeData] = useState(false);
     const [docType, setDocType] = useState(false);
-    const [frontDoc, setFrontDoc] = useState(false);
-    const [backDoc, setBackDoc] = useState(false);
+    const [showFrontDoc, setShowFrontDoc] = useState(false);
+    const [showbackDoc, setShowbackDoc] = useState(false);
+    const [showValidTill, setShowValidTill] = useState(false);
+    const [showSerialNumber, setShowSerialNumber] = useState(false);
+    const [salarySlip, setSalarySlip] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [nationalId, setNationalId] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [drivingLicence, setDrivingLicence] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+
     const { user } = useAuthContext();
     let token = null;
     if (user) {
         token = user.token;
     }
 
-    const handleChangeIdentiProof = (event) => {
-        setIdentificationProof(event.target.value);
-        setOpen(true);
-    };
-    const handleChangeAddProof = (event) => {
-        setAddProof(event.target.value);
-    };
-    const handleChangeProofOfIncome = (event) => {
-        setProofOfImcome(event.target.value);
-    };
     const handleVerify = () => {
         setIsVerified(true);
     };
-    const handleAddButton = (type, front, back) => {
-        setFrontDoc(front)
-        setBackDoc(back)
+    const handleAddButton = (type, front, back, validtill, serialNo) => {
+        setShowFrontDoc(front)
+        setShowbackDoc(back)
         setDocType(type)
+        setShowSerialNumber(validtill)
+        setShowValidTill(serialNo)
         setOpen(true);
         if (isAdded) {
         } else {
@@ -82,7 +79,22 @@ function KYCDocumentPage() {
 
     return (
         <>
-            <ViewKYCDetails open={open} setOpen={setOpen} frontSide={frontDoc} backSide={backDoc} documentType={docType} />
+            <ViewKYCDetails open={open} setOpen={setOpen}
+                frontSide={showFrontDoc} backSide={showbackDoc}
+                dataDocuments={docType === "driving  licence" ?
+                    drivingLicence : docType === "PAN Card" ?
+                        panCard : docType === "Passport" ?
+                            nationalId : docType === "National ID" ?
+                                passport : docType === "Salary Slip" ? salarySlip : ""}
+
+                updateDataDocumentsFunc={docType === "driving  licence" ?
+                    setDrivingLicence : docType === "PAN Card" ?
+                        setPanCard : docType === "Passport" ?
+                            setNationalId : docType === "National ID" ?
+                                setPassport : docType === "Salary Slip" ? setSalarySlip : ""}
+
+                validTill={showValidTill}
+                serial_number={showSerialNumber} />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -99,7 +111,6 @@ function KYCDocumentPage() {
                     </Grid>
                     {documentTypeData && documentTypeData.length > 0 ? documentTypeData.map(item => (
                         <>
-
                             <SubCard>
                                 <>
                                     <h3>{item.label} {item.count} </h3>
@@ -125,7 +136,7 @@ function KYCDocumentPage() {
                                                 <Button
                                                     size="large"
                                                     color="primary"
-                                                    onClick={() => handleAddButton(itemData.document_type, itemData.req_front, itemData.req_back)}
+                                                    onClick={() => handleAddButton(itemData.document_type, itemData.req_front, itemData.req_back, itemData.req_serial_number, itemData.req_valid_till)}
                                                     startIcon={
                                                         isAdded ? (
                                                             <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />

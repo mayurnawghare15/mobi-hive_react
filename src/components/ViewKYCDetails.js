@@ -9,7 +9,7 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import UploadDocs from '../apicalls/UploadDocs';
 
-const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documentType = 'nationalId' }) => {
+const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documentType, validTill, serial_number,dataDocuments,updateDataDocumentsFunc }) => {
     const { t } = useTranslation();
 
     const [openCamera, setOpenCamera] = useState(false);
@@ -60,9 +60,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
         }
         console.log(imgType + 'Kyc ');
     };
-    if (documentType === 'nationalId') {
-        backSide = true;
-    }
+   
 
     const handleClose = () => {
         setOpen(false);
@@ -74,6 +72,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
         setOpenCamera(true);
     };
     const handleSubmit = () => {
+        
         const data = {
             kyc_front: kyc_front,
             kyc_back: kyc_back,
@@ -213,20 +212,25 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                             </Box>
                         </>
                     )}
-                    <h3>
-                        <b>{t('serial_No')}</b>
-                    </h3>
-                    <TextField
-                        className="textfield"
-                        type="text"
-                        id="kyc_serial_number"
-                        variant="outlined"
-                        value={kyc_serial_number}
-                        name="kyc_serial_number"
-                        onChange={onInputChange}
-                        fullWidth
-                        required
-                    />
+                    {serial_number &&
+                        <>
+                            <h3>
+                                <b>{t('serial_No')}</b>
+                            </h3>
+                            <TextField
+                                className="textfield"
+                                type="text"
+                                id="kyc_serial_number"
+                                variant="outlined"
+                                value={kyc_serial_number}
+                                name="kyc_serial_number"
+                                onChange={onInputChange}
+                                fullWidth
+                                required
+                            />
+                        </>
+                    }
+
                     <h3>
                         <b>{t('issue_By')}</b>
                     </h3>
@@ -253,6 +257,24 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                         onChange={onInputChange}
                         required
                     />
+                    {validTill &&
+                        <>
+                            <h3>
+                                <b>Valid Till</b>
+                            </h3>
+                            <TextField
+                                className="textfield"
+                                type="date"
+                                variant="outlined"
+                                id="issued_date"
+                                value={kyc_valid_till}
+                                name="kyc_valid_till"
+                                onChange={onInputChange}
+                                required
+                            />
+                        </>
+                    }
+
                 </MainCard>
             </DialogContent>
         </Dialog>
