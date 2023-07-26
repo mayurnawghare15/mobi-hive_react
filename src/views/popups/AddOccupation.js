@@ -19,11 +19,11 @@ import SubCard from '../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { useContext } from 'react';
 import { BussinessSectorContext } from '../../context/BussinessSectorContext';
-import cupationAPI from '../../apicalls/cupationAPI';
+import AddOcupationAPI from '../../apicalls/AddOccupationAPI';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 
-const cupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
+const AddOcupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
     const { user } = useAuthContext();
     const { t } = useTranslation();
     const { bussinessSectordata, bussinessSectordataIsLoading } = useContext(BussinessSectorContext);
@@ -52,7 +52,7 @@ const cupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        cupationAPI(formOccupation, token)
+        AddOcupationAPI(formOccupation, token)
             .then((res) => {
                 if (res) {
                     console.log(res + ' Res ');
@@ -143,4 +143,4 @@ const cupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
     );
 };
 
-export default cupationPopup;
+export default AddOcupationPopup;
