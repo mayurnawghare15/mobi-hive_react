@@ -80,21 +80,22 @@ function KYCDocumentPage() {
     return (
         <>
             <ViewKYCDetails open={open} setOpen={setOpen}
-                frontSide={showFrontDoc} backSide={showbackDoc}
-                dataDocuments={docType === "driving  licence" ?
-                    drivingLicence : docType === "PAN Card" ?
-                        panCard : docType === "Passport" ?
-                            nationalId : docType === "National ID" ?
-                                passport : docType === "Salary Slip" ? salarySlip : ""}
+                showFrontSide={showFrontDoc} showBackSide={showbackDoc}
+                slug={docType}
+                dataDocuments={docType === "aadhar_card" ?
+                    drivingLicence : docType === "pan_card" ?
+                        panCard : docType === "passport" ?
+                            nationalId : docType === "national_id" ?
+                                passport : docType === "salary_slip" ? salarySlip : ""}
 
-                updateDataDocumentsFunc={docType === "driving  licence" ?
-                    setDrivingLicence : docType === "PAN Card" ?
-                        setPanCard : docType === "Passport" ?
-                            setNationalId : docType === "National ID" ?
-                                setPassport : docType === "Salary Slip" ? setSalarySlip : ""}
+                updateDataDocumentsFunc={docType === "aadhar_card" ?
+                    setDrivingLicence : docType === "pan_card" ?
+                        setPanCard : docType === "passport" ?
+                            setNationalId : docType === "national_id" ?
+                                setPassport : docType === "salary_slip" ? setSalarySlip : ""}
 
-                validTill={showValidTill}
-                serial_number={showSerialNumber} />
+                showValidTill={showValidTill}
+                showSerialNumber={showSerialNumber} />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -136,7 +137,7 @@ function KYCDocumentPage() {
                                                 <Button
                                                     size="large"
                                                     color="primary"
-                                                    onClick={() => handleAddButton(itemData.document_type, itemData.req_front, itemData.req_back, itemData.req_serial_number, itemData.req_valid_till)}
+                                                    onClick={() => handleAddButton(itemData.document_slug, itemData.req_front, itemData.req_back, itemData.req_serial_number, itemData.req_valid_till)}
                                                     startIcon={
                                                         isAdded ? (
                                                             <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />

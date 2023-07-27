@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MainCard from '../ui-component/cards/MainCard';
 import { AppBar, Box, Button, Dialog, DialogContent, Grid, IconButton, Slide, TextField, Toolbar, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -9,56 +9,44 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import UploadDocs from '../apicalls/UploadDocs';
 
-const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documentType, validTill, serial_number,dataDocuments,updateDataDocumentsFunc }) => {
+const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide, slug, showValidTill, showSerialNumber,dataDocuments,updateDataDocumentsFunc }) => {
     const { t } = useTranslation();
 
     const [openCamera, setOpenCamera] = useState(false);
     const [imgType, setImgType] = useState('kyc_front');
-    const [addressProof, setAddressProof] = useState({ utility: null, affidavit: null, bankStatement: null });
-    const [proofOfIncome, setProofOfIncome] = useState({ salarySlip: null, employerCertificate: null, bankStatement: null });
-    const [loading, setIsLoading] = useState('');
-    const [uploadDocs, setUploadDocs] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const { user } = useAuthContext();
-    const query = 10;
-    const leadId = '468';
+    const leadId = 472;
     let token = null;
     if (user) {
         token = user.token;
     }
-    const [kycFormUpload, setKycFormUpload] = useState({
-        kyc_serial_number: '',
-        kyc_valid_till: '',
-        kyc_type: '',
-        issued_date: '',
-        issued_by: '',
-        kyc_front: '',
-        kyc_back: ''
-    });
-    const { kyc_serial_number, kyc_valid_till, kyc_type, issued_date, issued_by, kyc_front, kyc_back } = kycFormUpload;
+   
+    const { kyc_serial_number, kyc_valid_till, issued_date, issued_by, kyc_front, kyc_back } = dataDocuments;
 
     const onInputChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setKycFormUpload({
-            ...kycFormUpload,
+        updateDataDocumentsFunc({
+            ...dataDocuments,
             [name]: value
         });
     };
 
     const handleImages = (value) => {
         if (imgType === 'kyc_front') {
-            setKycFormUpload({
-                ...kycFormUpload,
+            updateDataDocumentsFunc({
+                ...dataDocuments,
                 kyc_front: value
             });
         } else {
-            setKycFormUpload({
-                ...kycFormUpload,
+            updateDataDocumentsFunc({
+                ...dataDocuments,
                 kyc_back: value
             });
         }
-        console.log(imgType + 'Kyc ');
+        console.log(imgType + 'Kyc handleImages');
     };
    
 
@@ -67,21 +55,20 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
     };
 
     const handleCamera = (imgType) => {
-        console.log(imgType);
         setImgType(imgType);
         setOpenCamera(true);
     };
+    
     const handleSubmit = () => {
-        
         const data = {
             kyc_front: kyc_front,
             kyc_back: kyc_back,
+            kyc_type:slug,
             kyc_serial_number: kyc_serial_number,
             issued_by: issued_by,
             issued_date: issued_date,
             kyc_valid_till: kyc_valid_till
         };
-        console.log(data);
         var form_data = new FormData();
 
         for (var key in data) {
@@ -92,11 +79,11 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
         UploadDocs(form_data, token, leadId)
             .then((res) => {
                 if (res) {
-                    setUploadDocs(res.results);
+                    console.log(res,'-----res')
                     setIsLoading(false);
                 } else {
                     setIsLoading(false);
-                    setUploadDocs([]);
+
                 }
             })
             .catch((error) => {
@@ -119,7 +106,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
             </AppBar>
             <DialogContent dividers>
                 <MainCard>
-                    {frontSide && (
+                    {showFrontSide && (
                         <>
                             <h3>
                                 <b> {t('front_Side')}</b>
@@ -167,7 +154,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                         </>
                     )}
 
-                    {backSide && (
+                    {showBackSide && (
                         <>
                             <h3>
                                 <b> {t('back_Side')}</b>
@@ -193,7 +180,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                                             border={2}
                                             borderColor="grey.400"
                                             borderRadius={8}
-                                            src={kyc_front}
+                                            src={kyc_back}
                                             alt="KYC Front"
                                         />
                                     </>
@@ -212,7 +199,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                             </Box>
                         </>
                     )}
-                    {serial_number &&
+                    {showSerialNumber &&
                         <>
                             <h3>
                                 <b>{t('serial_No')}</b>
@@ -257,7 +244,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, frontSide, backSide, documen
                         onChange={onInputChange}
                         required
                     />
-                    {validTill &&
+                    {showValidTill &&
                         <>
                             <h3>
                                 <b>Valid Till</b>

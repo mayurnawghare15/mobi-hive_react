@@ -2,13 +2,13 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const UploadDocs = async (body, token, leadId) => {
+const UploadDocs = async (formdata, token, leadId) => {
     try {
+        console.log(formdata,'--formdata')
         const headers = {
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                authorization: 'Token ' + token
+                'Content-Type': 'multipart/form-data',
+                'Authorization': 'Token ' + token
             }
         };
         if (!token) {
@@ -21,7 +21,8 @@ const UploadDocs = async (body, token, leadId) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + `v2/lead/${leadId}/upload_ekyc_document/`, body, headers)
+            // .post(API_Base_Url + `v2/lead/${leadId}/upload_ekyc_document/`, body, headers)
+            .post(`http://sandbox.credithive.co.uk:8090/webservices/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
             .then((response) => {
                 return response;
             })

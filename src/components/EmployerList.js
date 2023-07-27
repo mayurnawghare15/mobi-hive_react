@@ -101,7 +101,7 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
                 id="controllable-states-demo"
                 options={employerItems}
                 getOptionLabel={(option) => option.business_name || ''}
-                sx={{ width: 300 }}
+                sx={{ width: 400 }}
                 loading={isLoading}
                 renderInput={(params) => <TextField {...params} label={t('current_Employer')} />}
             />

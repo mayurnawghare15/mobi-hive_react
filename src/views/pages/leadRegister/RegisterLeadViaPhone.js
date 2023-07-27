@@ -79,7 +79,6 @@ const RegisterLeadViaPhone = () => {
                     });
             } catch (err) {
                 toast.error(t('error_while_sending_OTP'));
-                console.log(err);
             }
             setTimeout(() => {
                 setOtpSent(true);
