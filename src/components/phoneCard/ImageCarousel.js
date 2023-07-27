@@ -1,53 +1,54 @@
-import React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import { Button, CardActionArea, CardActions, CardHeader, Grid } from '@mui/material';
-import samA03 from '../../assets/images/samsungA03.png';
-import './style.css';
+import React, { useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import { Grid, Typography } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
-import ImageCarousel from './ImageCarousel';
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1
+    },
+    carouselImage: {
+        height: '300px',
+        objectFit: 'cover'
+    },
+    iconButton: {
+        cursor: 'pointer'
+    }
+}));
 
-export default function PhoneCard() {
-    const carouselImages = [samA03, samA03, samA03];
+const ImageCarousel = ({ images }) => {
+    const classes = useStyles();
+    const [currentImage, setCurrentImage] = useState(0);
+
+    const handleNext = () => {
+        setCurrentImage((prevIndex) => (prevIndex + 1) % images.length);
+    };
+
+    const handlePrev = () => {
+        setCurrentImage((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    };
 
     return (
-        <Card sx={{ maxWidth: 345, margin: 'auto' }}>
-            <CardHeader
-                title={
-                    <Typography variant="h3" component="div">
-                        SAMSUNG
+        <div className={classes.root}>
+            <Grid container spacing={2} alignItems="center" justifyContent="center">
+                <Grid item xs={12} md={8} lg={6}>
+                    <img src={images[currentImage]} alt={`Image ${currentImage + 1}`} className={classes.carouselImage} />
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography variant="body1" align="center">
+                        {`${currentImage + 1} / ${images.length}`}
                     </Typography>
-                }
-                action={
-                    <Grid>
-                        <Typography mr={2} variant="h4" component="div" textAlign="right">
-                            Cash
-                        </Typography>
-                        <Typography mt={1} mr={3} variant="h3" component="div" textAlign="right">
-                            $400
-                        </Typography>
-                    </Grid>
-                }
-            />
-            <hr />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ImageCarousel images={carouselImages} />
-            </div>
-
-            <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                    Lizard
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                    4GB Ram, 64GB Storage, Expandable up to 2GB, Battery 5000mAh, OS Android 13.
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button size="small" color="primary">
-                    Share
-                </Button>
-            </CardActions>
-        </Card>
+                </Grid>
+                <Grid item xs={6} md={4} lg={3} align="right">
+                    <ChevronLeftIcon className={classes.iconButton} onClick={handlePrev} />
+                </Grid>
+                <Grid item xs={6} md={4} lg={3} align="left">
+                    <ChevronRightIcon className={classes.iconButton} onClick={handleNext} />
+                </Grid>
+            </Grid>
+        </div>
     );
-}
+};
+
+export default ImageCarousel;

@@ -12,7 +12,7 @@ const BussinessSectorApi = async (token) => {
             }
         };
         if (!token) {
-            toast.error('You are not authorized to view this page');
+            // toast.error('You are not authorized to view this page');
             localStorage.removeItem('user');
             const timer = setTimeout(() => {
                 window.location.href = '/login';
@@ -29,7 +29,7 @@ const BussinessSectorApi = async (token) => {
                 if (error.response.status === 400) {
                     return toast.error('Something went wrong , Please contact to Admin.');
                 } else if (error.response.status === 401) {
-                    toast.error('You are not authorized to view this page');
+                    //toast.error('You are not authorized to view this page');
                     localStorage.setItem('user', '');
                     const timer = setTimeout(() => {
                         window.location.href = '/login';

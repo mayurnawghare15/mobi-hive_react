@@ -4,11 +4,11 @@ const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 const UploadDocs = async (formdata, token, leadId) => {
     try {
-        console.log(formdata,'--formdata')
+        console.log(formdata, '--formdata');
         const headers = {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': 'Token ' + token
+                Authorization: 'Token ' + token
             }
         };
         if (!token) {

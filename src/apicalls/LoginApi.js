@@ -3,7 +3,6 @@ import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 const LoginApi = async (body) => {
-    console.log(body, '--body');
     try {
         const headers = {
             headers: {
@@ -11,10 +10,11 @@ const LoginApi = async (body) => {
                 'Content-Type': 'application/json'
             }
         };
-        console.log(headers, '--headers');
+
         const response = await axios
             .post(API_Base_Url + 'v2/token/auth/', body, headers)
             .then((response) => {
+                toast.success('Login Successfull');
                 return response;
             })
             .catch((error) => {
@@ -26,7 +26,7 @@ const LoginApi = async (body) => {
                         }
                     }
                 } else if (error.response.status === 401) {
-                    toast.error('You are not authorized to view this page');
+                    // toast.error('You are not authorized to view this page');
                     localStorage.setItem('user', '');
                     const timer = setTimeout(() => {
                         window.location.href = '/login';

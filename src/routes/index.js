@@ -12,6 +12,9 @@ import MainLayout from '../layout/MainLayout';
 import KYCdocument from '../views/pages/ekYC/KYCdocument';
 import PublicRoute from './PublicRoute';
 import EligibleDevices from '../views/pages/EligibleDevices';
+import { BussinessSectorProvider } from '../context/BussinessSectorContext';
+import { ChoiceListProvider } from '../context/ChoiceListContext';
+
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
@@ -27,6 +30,20 @@ const AllRoutes = () => {
             <NavigationScroll>
                 <Routes>
                     {/* Routes for authentication pages */}
+                    <PublicRoute
+                        path="/login"
+                        element={
+                            !user ? (
+                                <MinimalLayout>
+                                    <NavMotion>
+                                        <AuthLogin />
+                                    </NavMotion>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/" />
+                            )
+                        }
+                    />
 
                     <PrivateRoute
                         path="/"
@@ -62,7 +79,11 @@ const AllRoutes = () => {
                             user ? (
                                 <MinimalLayout>
                                     <MainLayout>
-                                        <LeadCreateForm user={user} />
+                                        <ChoiceListProvider>
+                                            <BussinessSectorProvider>
+                                                <LeadCreateForm user={user} />
+                                            </BussinessSectorProvider>
+                                        </ChoiceListProvider>
                                     </MainLayout>
                                 </MinimalLayout>
                             ) : (
@@ -95,20 +116,6 @@ const AllRoutes = () => {
                                 </MinimalLayout>
                             ) : (
                                 <Navigate to="/login" />
-                            )
-                        }
-                    />
-                    <PublicRoute
-                        path="/login"
-                        element={
-                            !user ? (
-                                <MinimalLayout>
-                                    <NavMotion>
-                                        <AuthLogin />
-                                    </NavMotion>
-                                </MinimalLayout>
-                            ) : (
-                                <Navigate to="/" />
                             )
                         }
                     />

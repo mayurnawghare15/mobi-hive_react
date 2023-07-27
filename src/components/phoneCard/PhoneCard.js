@@ -31,9 +31,8 @@ export default function PhoneCard() {
                 }
             />
             <hr />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ImageCarousel images={carouselImages} />
-            </div>
+
+            <ImageCarousel className="image" images={carouselImages} />
 
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">

@@ -14,10 +14,6 @@ import AllRoutes from './routes';
 
 // defaultTheme
 import theme from './themes';
-import { ChoiceListProvider } from './context/ChoiceListContext';
-import { BussinessSectorProvider } from './context/BussinessSectorContext';
-
-
 
 //-----------------------|| APP ||-----------------------//
 
@@ -26,16 +22,12 @@ const App = () => {
 
     return (
         <>
-            <ChoiceListProvider>
-                <BussinessSectorProvider>
-                    <StyledEngineProvider injectFirst>
-                        <ThemeProvider theme={theme(customization)}>
-                            <CssBaseline />
-                            <AllRoutes />
-                        </ThemeProvider>
-                    </StyledEngineProvider>
-                </BussinessSectorProvider>
-            </ChoiceListProvider>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme(customization)}>
+                    <CssBaseline />
+                    <AllRoutes />
+                </ThemeProvider>
+            </StyledEngineProvider>
         </>
     );
 };

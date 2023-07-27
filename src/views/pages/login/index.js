@@ -14,7 +14,6 @@ import Logo from './../../../ui-component/Logo';
 import RestLogin from './RestLogin';
 import AuthFooter from './../../../ui-component/cards/AuthFooter';
 import { useEffect } from 'react';
-import SubCard from '../../../ui-component/cards/SubCard';
 import AuthWrapper1 from '../../../themes/AuthWrapper1';
 
 //================================|| LOGIN MAIN ||================================//

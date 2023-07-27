@@ -21,13 +21,12 @@ export const useLogin = () => {
         LoginApi(body)
             .then((res) => {
                 if (res) {
-                    toast.success('Login Successfull');
                     const userdata = res.data;
                     localStorage.setItem('user', JSON.stringify(userdata));
                     dispatch({ type: 'LOGIN', payload: userdata });
                     setIsLoading(false);
                     return navigate('/');
-                }else{
+                } else {
                     setIsLoading(false);
                 }
             })
