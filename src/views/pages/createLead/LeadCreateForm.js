@@ -362,10 +362,9 @@ const LeadCreateForm = () => {
             LeadCreateFormApi(createLeadForm, token)
                 .then((res) => {
                     if (res) {
-                        console.log(res.data, '--- res Lead create form ---');
                         setLeadId(res.data.id);
                         toast.success(res.message);
-                        return navigate('/lead/kyc');
+                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: {"ph_number":ph_number,"leadid":leadId} });
                     }
                 })
                 .catch((error) => {

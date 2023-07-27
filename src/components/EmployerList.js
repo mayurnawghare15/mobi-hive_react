@@ -1,28 +1,23 @@
-import React, { useEffect, useState,useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import LoadEmployer from '../apicalls/LoadEmployer';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { searchNumbers } from 'libphonenumber-js';
-import { EmployerListContext } from '../context/EmployerContext';
 
 
 const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const { t } = useTranslation();
-    const { employerListData, employerListDataIsLoading } = useContext(EmployerListContext);
+   
     const [isLoading, setIsLoading] = useState(false);
     const [employerItems, setEmployerItems] = useState([{ business_name: 'select', id: 0 }]);
-    const [singleSelections, setSingleSelections] = useState([]);
    
     const storageData = localStorage.getItem('business_search');
-    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : []);
+    const storedData = storageData && storageData.length > 0 ? JSON.parse(storageData) : [];
 
     const { user } = useAuthContext();
-
     const [value, setValue] = useState('');
-    const [count, setCount] = useState(0);
     const [inputValue, setInputValue] = useState('');
     let token = null;
     let timer;
@@ -85,7 +80,6 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
         timer = setTimeout(() => {
             const lowerCaseQuery = inputValue.toLowerCase();
             const searchedData = storedData.filter((item) => item.business_name.toLowerCase().includes(lowerCaseQuery));
-            // console.log(searchedData)
             if (searchedData.length === 0) {
                 setEmployerItems(searchedData);
                 setIsLoading(true);
