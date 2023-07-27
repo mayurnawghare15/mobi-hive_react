@@ -1,0 +1,25 @@
+.card {
+    max-width: 345px;
+}
+
+.cardMedia {
+    height: 140px;
+}
+
+.cardContent {
+    padding: 16px;
+}
+
+.cardTitle {
+    font-size: 1.5rem;
+}
+
+.cardDescription {
+    font-size: 1rem;
+    color: #6b6b6b;
+}
+
+.cardActions {
+    display: flex;
+    justify-content: flex-end;
+}
