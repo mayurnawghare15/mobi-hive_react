@@ -6,17 +6,15 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../hooks/useAuthContext';
 
-const OccupationsList = ({ name, createLeadForm, setCreateLeadForm, callOccuptionApi }) => {
+const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const { t } = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
     const { user } = useAuthContext();
-    const [singleSelections, setSingleSelections] = useState([]);
     const storageData = localStorage.getItem('occupation_search');
-    const [storedData, setStoredData] = useState(storageData && storageData.length > 0 ? JSON.parse(storageData) : null);
+    const storedData = storageData && storageData.length > 0 ? JSON.parse(storageData) : null;
     const [value, setValue] = useState('');
-    const [count, setCount] = useState(0);
     const [inputValue, setInputValue] = useState('');
-    const [occupationItems, setOccupationItems] = useState([]);
+    const [occupationItems, setOccupationItems] = useState([{ text: 'select', id: 0 }]);
     let timer;
     let token = null;
     if (user) {
@@ -38,11 +36,10 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm, callOccuptio
             loadOccupationFunc();
         }
     }, []);
-    useEffect(() => {
-        loadOccupationFunc();
-    }, [callOccuptionApi]);
+
 
     const loadOccupationFunc = () => {
+        setIsLoading(true)
         LoadOccupation(inputValue, token)
             .then((res) => {
                 if (res) {
@@ -77,6 +74,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm, callOccuptio
         clearTimeout(timer); // Clear the previous timer
         timer = setTimeout(() => {
             const lowerCaseQuery = inputValue.toLowerCase();
+            console.log(storedData,'--storedData')
             const searchedData = storedData.filter((item) => item.text.toLowerCase().includes(lowerCaseQuery));
             if (searchedData.length === 0) {
                 setOccupationItems(searchedData);
