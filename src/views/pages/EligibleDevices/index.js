@@ -1,15 +1,27 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+
+import { Grid } from '@mui/material';
+
 import PhoneCard from '../../../components/phoneCard/PhoneCard';
 
 const EligibleDevices = () => {
-    return <PhoneCard></PhoneCard>;
+    return (
+        <>
+            <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={4}>
+                    <PhoneCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                    <PhoneCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                    <PhoneCard />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                    <PhoneCard />
+                </Grid>
+            </Grid>
+        </>
+    );
 };
 export default EligibleDevices;

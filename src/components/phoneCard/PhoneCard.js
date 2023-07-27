@@ -1,10 +1,10 @@
 import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions, CardHeader, Grid } from '@mui/material';
 import samA03 from '../../assets/images/samsungA03.png';
+import './style.css';
 
 import ImageCarousel from './ImageCarousel';
 
@@ -31,8 +31,9 @@ export default function PhoneCard() {
                 }
             />
             <hr />
-
-            <ImageCarousel images={carouselImages} />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ImageCarousel images={carouselImages} />
+            </div>
 
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
