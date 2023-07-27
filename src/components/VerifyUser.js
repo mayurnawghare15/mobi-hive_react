@@ -7,12 +7,12 @@ const VerifyUser = ({ verifyPopUp, setVerifyPopUp, userData }) => {
     const navigate = useNavigate();
     const handleConfirm = () => {
         setVerifyPopUp(false);
-        return navigate('/lead/createlead', { state: userData });
+        return navigate(`/lead/createlead/:${userData.ph_number}`, { state: userData });
     };
     const handleClose = () => {
-        toast.error('This Mobile Number is Registered with Customer');
+        toast.error('This mobile number is already registered with customer');
         setVerifyPopUp(false);
-        return navigate('/lead/createlead');
+        return navigate('/lead/verify-phonenumber');
     };
     return (
         <>
