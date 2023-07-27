@@ -1,4 +1,4 @@
-import React,{ useEffect,createContext, useReducer } from 'react';
+import React, { useEffect, createContext, useReducer } from 'react';
 
 export const AuthContext = createContext();
 
@@ -19,9 +19,13 @@ export function AuthContextProvider({ children }) {
     });
     console.log('Authcontext state :', state);
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem('user'));
-        if (user) {
+        let user = localStorage.getItem('user') ? localStorage.getItem('user') : "";
+        if (user.trim() !== '') {
+            user = JSON.parse(user)
             dispatch({ type: 'LOGIN', payload: user });
+        }
+        else {
+            dispatch({ type: 'LOGOUT' });
         }
     }, []);
 

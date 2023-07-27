@@ -71,7 +71,7 @@ const AllRoutes = () => {
                         }
                     />
                     <PrivateRoute
-                        path="/lead/kyc"
+                        path="/lead/kyc/:mobile_Number"
                         element={
                             user ? (
                                 <MinimalLayout>

@@ -20,12 +20,16 @@ export const useLogin = () => {
         };
         LoginApi(body)
             .then((res) => {
-                toast.success('Login Successfull');
-                const userdata = res.data;
-                localStorage.setItem('user', JSON.stringify(userdata));
-                dispatch({ type: 'LOGIN', payload: userdata });
-                setIsLoading(false);
-                return navigate('/');
+                if (res) {
+                    toast.success('Login Successfull');
+                    const userdata = res.data;
+                    localStorage.setItem('user', JSON.stringify(userdata));
+                    dispatch({ type: 'LOGIN', payload: userdata });
+                    setIsLoading(false);
+                    return navigate('/');
+                }else{
+                    setIsLoading(false);
+                }
             })
             .catch((error) => {
                 setIsLoading(false);

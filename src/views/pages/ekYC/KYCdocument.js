@@ -15,9 +15,14 @@ import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
+import { useLocation, useNavigate, useParams } from 'react-router';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
+    const { mobile_Number } = useParams();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const { state } = location;
     const [open, setOpen] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
@@ -32,7 +37,6 @@ function KYCDocumentPage() {
     const [drivingLicence, setDrivingLicence] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-
     const { user } = useAuthContext();
     let token = null;
     if (user) {
@@ -58,6 +62,15 @@ function KYCDocumentPage() {
     };
 
     useEffect(() => {
+        if (!state) {
+            navigate('/lead/verify-phonenumber')
+            return toast.error('You can not direct authorized this page');
+        } else if (mobile_Number === state.ph_number) {
+            // if (state) setCreateLeadForm(state);
+        } else {
+            return toast.error('You are not authorized this page');
+        }
+
         const lead_id = 472
         GetLeadDetailsApi(lead_id, token)
             .then((res) => {

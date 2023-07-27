@@ -32,7 +32,7 @@ export const utilities = {
             id: 'util-color',
             title: 'Create Lead',
             type: 'item',
-            url: '/lead/createlead',
+            url: '/lead/createlead/:mobile_Number',
             icon: icons['CreateIcon'],
             breadcrumbs: false
         },

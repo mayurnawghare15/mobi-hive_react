@@ -85,9 +85,7 @@ const RestLogin = (props, { ...others }) => {
 
     // const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
-    // const [email, setEmail] = useState(localStorage.getItem('myapp-email') || '');
-    // const [password, setPassword] = useState(localStorage.getItem('myapp-password') || '');
-
+  
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);

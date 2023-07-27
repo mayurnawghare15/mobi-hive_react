@@ -11,9 +11,9 @@ import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 import VerifyUser from '../../../components/VerifyUser';
 import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import Cookies from 'js-cookie';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
-console.log(BASE_URL);
 
 const RegisterLeadViaPhone = () => {
     const navigate = useNavigate();
@@ -45,6 +45,17 @@ const RegisterLeadViaPhone = () => {
         setDOB(event.target.value);
     };
 
+    // const saveDataToCookie = () => {
+    //     const dataToSave = { mobilenumber:  }; // Replace this with your data to save
+    //     Cookies.set('myCookie', dataToSave, { expires: 7 }); // 'myCookie' is the name of the cookie
+    //   };
+
+    // Function to retrieve data from cookies
+    // const getDataFromCookie = () => {
+    //     const savedData = Cookies.getJSON('myCookie'); // Get data as JSON object
+    //     console.log(savedData); // Replace this with how you want to use the retrieved data
+    // };
+
     const handleSendOtp = () => {
         if (!mobileNumber) {
             toast.error(t('please_enter_a_mobile_number'));
@@ -70,19 +81,16 @@ const RegisterLeadViaPhone = () => {
                     .post(BASE_URL + 'v2/request_otp/', body, headers)
                     .then(function (response) {
                         toast.success(t('oTP_sent_successfully'));
-                        console.log(response.data, 'Data');
-                        console.log(response.data.status, 'Success');
+                        setTimeout(() => {
+                            setOtpSent(true);
+                        });
                     })
                     .catch(function (error) {
                         toast.error(t('error_while_sending_OTP'));
-                        console.log(error);
                     });
             } catch (err) {
                 toast.error(t('error_while_sending_OTP'));
             }
-            setTimeout(() => {
-                setOtpSent(true);
-            });
         }
     };
     const handleResendOTP = () => {
@@ -145,7 +153,7 @@ const RegisterLeadViaPhone = () => {
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
-                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`);
+                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, { state: {"ph_number":phoneNumber.number} });
                         } else {
                             setShowDobPopup(true);
                         }

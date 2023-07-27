@@ -46,15 +46,12 @@ const LeadCreateForm = () => {
     const { mobile_Number } = useParams();
 
     console.log(mobile_Number + 'match-------');
-    console.log(typeof mobile_Number + 'match-------');
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const { state } = location;
-    // const [choiceList, setChoiceList] = useState(null);
     const [countryCode, setCountryCode] = useState('');
     const [leadId, setLeadId] = useState(0);
-    // const [isLoading, setIsLoading] = useState(false);
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
     const [callOccuptionApi, setCallOccuptionApi] = useState(false);
@@ -312,14 +309,14 @@ const LeadCreateForm = () => {
     };
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
-        if (state) setCreateLeadForm(state);
-        if (mobile_Number) {
-            setCreateLeadForm({
-                ...createLeadForm,
-                ['ph_number']: mobile_Number
-            });
+        if (!state) {
+            navigate('/lead/verify-phonenumber')
+            return toast.error('You can not direct authorized this page');
+        } else if (mobile_Number === state.ph_number) {
+            if (state) setCreateLeadForm(state);
+        } else {
+            return toast.error('You are not authorized this page');
         }
-        if (!mobile_Number) toast.error('Please enter Phone Number');
     }, []);
 
     const handleSubmit = (e) => {
@@ -369,9 +366,6 @@ const LeadCreateForm = () => {
                         setLeadId(res.data.id);
                         toast.success(res.message);
                         return navigate('/lead/kyc');
-                    } else {
-                        // setIsLoading(false)
-                        // setCreateLeadForm([])
                     }
                 })
                 .catch((error) => {
@@ -592,12 +586,12 @@ const LeadCreateForm = () => {
                             <MuiPhoneNumber
                                 error={formError.ph_number}
                                 inputRef={ph_numberInputRef}
-                                disabled={mobile_Number ? true : false}
+                                disabled={ph_number ? true : false}
                                 className="label"
                                 defaultCountry={'in'}
                                 label={t('mobile_Number')}
                                 name="ph_number"
-                                value={mobile_Number}
+                                value={ph_number}
                                 onChange={onPhoneNumberChange}
                                 fullWidth
                                 required

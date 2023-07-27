@@ -27,9 +27,7 @@ const LeadCreateFormApi = async (body, token) => {
             })
             .catch((error) => {
                 if (error.response.status === 400) {
-                    if (error.response.data.message !== undefined) {
-                        return toast.error(error.response.data.message);
-                    }
+                    return toast.error('Something went wrong , Please contact to Admin.');
                 } else if (error.response.status === 401) {
                     toast.error('You are not authorized to view this page');
                     localStorage.setItem('user', '');
@@ -39,10 +37,8 @@ const LeadCreateFormApi = async (body, token) => {
                     return () => clearTimeout(timer);
                 } else if (error.response.status === 404) {
                     return toast.error('Url not found');
-                } else if (error.response.status === 500) {
-                    if (error.response.data.message !== undefined) {
-                        return toast.error(error.response.data.message);
-                    }
+                } else if (error.response.status >= 500) {
+                    return toast.error('Something went wrong , Please contact to Admin.');
                 }
             });
         return response.data;

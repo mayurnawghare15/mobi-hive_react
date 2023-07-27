@@ -21,11 +21,7 @@ const LoginApi = async (body) => {
                 if (error.response.status === 400) {
                     if (error.response.data.message !== undefined) {
                         const obj = error.response.data.message;
-                        console.log(obj, 'obj');
                         for (const key of Object.keys(obj)) {
-                            console.log(key);
-                            console.log(obj[key]);
-                            console.log(obj[key][0]);
                             return toast.error(key + ' : ' + obj[key][0]);
                         }
                     }
@@ -38,10 +34,8 @@ const LoginApi = async (body) => {
                     return () => clearTimeout(timer);
                 } else if (error.response.status === 404) {
                     return toast.error('Url not found');
-                } else if (error.response.status === 500) {
-                    if (error.response.data.message !== undefined) {
-                        return toast.error(error.response.data.message);
-                    }
+                } else if (error.response.status >= 500) {
+                    return toast.error('Something went wrong , Please contact to Admin.');
                 }
             });
         return response.data;

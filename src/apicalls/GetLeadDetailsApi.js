@@ -36,7 +36,7 @@ const GetLeadDetailsApi = async (leadid, token) => {
             else if (error.response.status === 404) {
                 return toast.error("Url not found")
             }
-            else if (error.response.status === 500) {
+            else if (error.response.status >= 500) {
                 if (error.response.data.message !== undefined) {
                     return toast.error(error.response.data.message)
                 }

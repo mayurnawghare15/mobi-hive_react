@@ -4,11 +4,11 @@ import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import BussinessSectorApi from '../apicalls/BussinessSector';
 
-export const BussinessSectorContext = createContext();
+export const EmployerListContext = createContext();
 
-export const BussinessSectorProvider = ({ children }) => {
-    const [bussinessSectordata, setBussinessSectordata] = useState(null);
-    const [bussinessSectordataIsLoading, setIsLoading] = useState(true);
+export const EmployerListProvider = ({ children }) => {
+    const [employerListData, setEmployerListData] = useState(null);
+    const [employerListDataIsLoading, setemployerListDataIsLoading] = useState(true);
     const { user } = useAuthContext();
     // Perform the API call
     useEffect(() => {
@@ -18,19 +18,19 @@ export const BussinessSectorProvider = ({ children }) => {
         }
         BussinessSectorApi(token).then((res) => {
             if(res){
-                setBussinessSectordata(res);
-                setIsLoading(false);
+                setEmployerListData(res);
+                setemployerListDataIsLoading(false);
             }
         })
             .catch((error) => {
-                setIsLoading(false);
+                setemployerListDataIsLoading(false);
                 return toast.error('Something went wrong , Please check your internet connection.');
             });
     }, []);
 
     return (
-        <BussinessSectorContext.Provider value={{ bussinessSectordata, bussinessSectordataIsLoading }}>
+        <EmployerListContext.Provider value={{ employerListData, employerListDataIsLoading }}>
             {children}
-        </BussinessSectorContext.Provider>
+        </EmployerListContext.Provider>
     );
 };

@@ -1,26 +1,24 @@
 // ApiContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import { useAuthContext } from '../hooks/useAuthContext';
-import ChoiceListApi from '../apicalls/ChoiceListApi';
 import { toast } from 'react-toastify';
+import BussinessSectorApi from '../apicalls/BussinessSector';
 
-export const ChoiceListContext = createContext();
+export const RegisterLeadMobileContext = createContext();
 
-export const ChoiceListProvider = ({ children }) => {
-    const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+export const RegisterLeadMobileProvider = ({ children }) => {
+    const [bussinessSectordata, setBussinessSectordata] = useState(null);
+    const [bussinessSectordataIsLoading, setIsLoading] = useState(true);
     const { user } = useAuthContext();
     // Perform the API call
     useEffect(() => {
-        const query = 'IN';
         let token = null
         if (user) {
             token = user.token
         }
-        ChoiceListApi(query, token).then((res) => {
+        BussinessSectorApi(token).then((res) => {
             if (res) {
-                console.log(res, 'Choice List')
-                setData(res);
+                setBussinessSectordata(res);
                 setIsLoading(false);
             }
         })
@@ -31,8 +29,8 @@ export const ChoiceListProvider = ({ children }) => {
     }, []);
 
     return (
-        <ChoiceListContext.Provider value={{ data, isLoading }}>
+        <RegisterLeadMobileContext.Provider value={{ bussinessSectordata, bussinessSectordataIsLoading }}>
             {children}
-        </ChoiceListContext.Provider>
+        </RegisterLeadMobileContext.Provider>
     );
 };
