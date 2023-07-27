@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { useAuthContext } from '../../hooks/useAuthContext';
 import { useTranslation } from 'react-i18next';
 
-const WebcamCapture = ({ openCamera, setOpenCamera, document_type, front, back }) => {
+const WebcamCapture = ({ openCamera, setOpenCamera,handleImages }) => {
     const { t } = useTranslation();
     const webcamRef = useRef(null);
     const [imgSrc, setImgSrc] = useState(null);
@@ -17,7 +17,9 @@ const WebcamCapture = ({ openCamera, setOpenCamera, document_type, front, back }
     const handleConfirm = () => {
         // Handle confirm action
         console.log('Confirmed');
+        console.log('imgSrc',imgSrc);
         setOpenCamera(false);
+        handleImages(imgSrc)
     };
     const capture = useCallback(() => {
         const imgSrc = webcamRef.current.getScreenshot();

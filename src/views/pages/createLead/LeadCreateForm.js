@@ -46,6 +46,7 @@ const LeadCreateForm = () => {
     const { mobile_Number } = useParams();
 
     console.log(mobile_Number + 'match-------');
+    console.log(typeof mobile_Number + 'match-------');
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
@@ -230,35 +231,35 @@ const LeadCreateForm = () => {
             newFormErrors.email = true;
             hasError = true;
         }
-        if (createLeadForm.employed_since.trim() === '') {
+        if (createLeadForm.employed_since === '') {
             newFormErrors.employed_since = true;
             hasError = true;
         }
-        if (createLeadForm.occupation_type.trim() === '') {
+        if (createLeadForm.occupation_type === '') {
             newFormErrors.occupation_type = true;
             hasError = true;
         }
-        if (createLeadForm.employee_type.trim() === '') {
+        if (createLeadForm.employee_type === '') {
             newFormErrors.employee_type = true;
             hasError = true;
         }
-        if (createLeadForm.monthly_income.trim() === '') {
+        if (createLeadForm.monthly_income === '') {
             newFormErrors.monthly_income = true;
             hasError = true;
         }
-        if (createLeadForm.total_dependents.trim() === '') {
+        if (createLeadForm.total_dependents === '') {
             newFormErrors.total_dependents = true;
             hasError = true;
         }
-        if (createLeadForm.existing_loan.trim() === '') {
+        if (createLeadForm.existing_loan === '') {
             newFormErrors.existing_loan = true;
             hasError = true;
         }
-        if (createLeadForm.monthly_saving.trim() === '') {
+        if (createLeadForm.monthly_saving === '') {
             newFormErrors.monthly_income = true;
             hasError = true;
         }
-        if (createLeadForm.occupation_type.trim() === '') {
+        if (createLeadForm.occupation_type === '') {
             newFormErrors.occupation_type = true;
             hasError = true;
         }
@@ -312,12 +313,12 @@ const LeadCreateForm = () => {
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
         if (state) setCreateLeadForm(state);
-        // if (mobile_Number) {
-        //     setCreateLeadForm({
-        //         ...createLeadForm,
-        //         ['ph_number']: [mobile_Number]
-        //     });
-        // }
+        if (mobile_Number) {
+            setCreateLeadForm({
+                ...createLeadForm,
+                ['ph_number']: mobile_Number
+            });
+        }
         if (!mobile_Number) toast.error('Please enter Phone Number');
     }, []);
 
@@ -432,7 +433,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                    // required
+                                // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3.3}>
@@ -753,16 +754,15 @@ const LeadCreateForm = () => {
                     <hr />
 
                     <Grid container mt={1} spacing={3}>
-                        <Grid item xs={12} sm={4} mt={2.5}>
+                        <Grid item xs={12} sm={6} mt={2.5}>
                             <EmployerList
                                 disabled={state ? (state.current_employer ? true : false) : false}
                                 name="current_employer"
                                 createLeadForm={createLeadForm}
                                 setCreateLeadForm={setCreateLeadForm}
-                                // onInputChange={onInputChange}
                             />
                         </Grid>
-                        <Grid item xs={12} sm={7}>
+                        <Grid item xs={12} sm={6}>
                             <InputLabel className="label" color="primary">
                                 {t('employed_Since')}
                             </InputLabel>
@@ -780,21 +780,7 @@ const LeadCreateForm = () => {
                                 required
                             />
                         </Grid>
-                        {/* <Grid item xs={12} sm={1} mt={1}>
-                            <Button
-                                disableElevation
-                                fullWidth
-                                // alignItems="end"
-                                size="small"
-                                type="button"
-                                variant="contained"
-                                color="warning"
-                                onClick={openAddOccupationForm}
-                            >
-                                <label>+</label>
-                            </Button>
-                        </Grid> */}
-                        <Grid item xs={12} sm={4}>
+                        <Grid item xs={12} sm={6}>
                             <OccupationsList
                                 disabled={state ? (state.occupation_type ? true : false) : false}
                                 name="occupation_type"
@@ -804,7 +790,7 @@ const LeadCreateForm = () => {
                             />
                         </Grid>
 
-                        <Grid item xs={12} sm={7}>
+                        <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 {/* <InputLabel id="employement_select_label">{t('employee_Type')}</InputLabel>
                                 <Select labelId="employement_select_label" id="employee" label={t('employee_Type')}></Select> */}
@@ -942,10 +928,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                  <MenuItem value={item.id} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
+                                                <MenuItem value={item.id} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            ))
                                             : []
                                         : null}
                                 </Select>

@@ -98,7 +98,7 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm, callOccuptio
                 id="controllable-states-demo"
                 options={occupationItems}
                 getOptionLabel={(option) => option.text || ''}
-                sx={{ width: 300 }}
+                sx={{ width: 400 }}
                 loading={isLoading}
                 renderInput={(params) => <TextField {...params} label={t('occupations')} />}
             />
