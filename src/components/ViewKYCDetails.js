@@ -60,6 +60,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
     };
     
     const handleSubmit = () => {
+        
         const data = {
             kyc_front: kyc_front,
             kyc_back: kyc_back,

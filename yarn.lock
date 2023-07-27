@@ -5342,6 +5342,11 @@
     "loader-utils" "^2.0.0"
     "schema-utils" "^3.0.0"
 
+"file-saver@^2.0.5":
+  "integrity" "sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA=="
+  "resolved" "https://registry.npmjs.org/file-saver/-/file-saver-2.0.5.tgz"
+  "version" "2.0.5"
+
 "file-selector@^0.1.12":
   "integrity" "sha512-kCWw3+Aai8Uox+5tHCNgMFaUdgidxvMnLWO6fM5sZ0hA2wlHP5/DHGF0ECe84BiB95qdJbKNEJhWKVDvMN+JDQ=="
   "resolved" "https://registry.npmjs.org/file-selector/-/file-selector-0.1.19.tgz"
@@ -6005,6 +6010,11 @@
   "version" "3.0.1"
   dependencies:
     "void-elements" "3.1.0"
+
+"html-to-image@^1.11.11":
+  "integrity" "sha512-9gux8QhvjRO/erSnDPv28noDZcPZmYE7e1vFsBLKLlRlKDSqNJYebj6Qz1TGd5lsRV+X+xYyjCKjuZdABinWjA=="
+  "resolved" "https://registry.npmjs.org/html-to-image/-/html-to-image-1.11.11.tgz"
+  "version" "1.11.11"
 
 "html-webpack-plugin@^5.5.0":
   "integrity" "sha512-6YrDKTuqaP/TquFH7h4srYWsZx+x6k6+FbsTm0ziCwGHDP78Unr1r9F/H4+sGmMbX08GQcJ+K64x55b+7VM/jg=="
