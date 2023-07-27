@@ -1,5 +1,5 @@
 import React, { lazy } from 'react';
-import { BrowserRouter, Routes, Rou, Navigate } from 'react-router-dom';
+import { BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import Loadable from '../ui-component/Loadable';
 import { useAuthContext } from '../hooks/useAuthContext';
 
