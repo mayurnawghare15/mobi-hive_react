@@ -22,7 +22,7 @@ const UploadDocs = async (formdata, token, leadId) => {
 
         const response = await axios
             // .post(API_Base_Url + `v2/lead/${leadId}/upload_ekyc_document/`, body, headers)
-            .post(`http://sandbox.credithive.co.uk:8090/webservices/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
+            .post(`http://sandbox.credithive.co.uk:8089/webservices/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
             .then((response) => {
                 return response;
             })

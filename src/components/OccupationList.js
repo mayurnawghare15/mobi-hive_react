@@ -40,47 +40,52 @@ const OccupationsList = ({ name, createLeadForm, setCreateLeadForm }) => {
 
     const loadOccupationFunc = () => {
         setIsLoading(true)
-        LoadOccupation(inputValue, token)
-            .then((res) => {
-                if (res) {
-                    let searchdata = [...storedData];
-                    const resposedata = res.results;
-                    for (let item of resposedata) {
-                        const isDuplicate = searchdata.some((dataItem) => dataItem.id === item.id);
-                        if (!isDuplicate) {
-                            let temp = {
-                                text: item.text,
-                                id: item.id
-                            };
-                            searchdata.push(temp);
-                        }
+        LoadOccupation(inputValue, token).then((res) => {
+  
+            if (res) {
+                const responsedata = res.results;
+                let searchdata = []
+                if (storedData)
+                    searchdata = [...storedData];
+                for (let item of responsedata) {
+                    const isDuplicate = searchdata.some((dataItem) => dataItem.id === item.id);
+                    if (!isDuplicate) {
+                        let temp = {
+                            text: item.text,
+                            id: item.id
+                        };
+                        searchdata.push(temp);
                     }
-                    const occupation_search = JSON.stringify(searchdata);
-                    localStorage.setItem('occupation_search', occupation_search);
-                    const localData = JSON.parse(localStorage.getItem('occupation_search'));
-                    setOccupationItems(localData);
-                    setIsLoading(false);
-                } else {
-                    setIsLoading(false);
-                    setOccupationItems([]);
                 }
-            })
-            .catch((error) => {
-                return toast.error('Something went wrong , Please check your internet connection.');
-            });
+                
+                const occupation_search = JSON.stringify(searchdata);
+                localStorage.setItem('occupation_search', occupation_search);
+                const localData = JSON.parse(localStorage.getItem('occupation_search'));
+                setOccupationItems(localData);
+                setIsLoading(false);
+            } else {
+                setIsLoading(false);
+                setOccupationItems([]);
+            }
+        })
+        .catch((error) => {
+            return toast.error('Something went wrong , Please try again.');
+        });
     };
     const handleInputChange = (event, newInputValue) => {
         setInputValue(newInputValue);
         clearTimeout(timer); // Clear the previous timer
         timer = setTimeout(() => {
             const lowerCaseQuery = inputValue.toLowerCase();
-            console.log(storedData,'--storedData')
-            const searchedData = storedData.filter((item) => item.text.toLowerCase().includes(lowerCaseQuery));
-            if (searchedData.length === 0) {
-                setOccupationItems(searchedData);
-            } else {
-                setIsLoading(true);
-                loadOccupationFunc();
+            console.log(storedData, '--storedData')
+            if (storedData.length > 0) {
+                const searchedData = storedData.filter((item) => item.text.toLowerCase().includes(lowerCaseQuery));
+                if (searchedData.length === 0) {
+                    setOccupationItems(searchedData);
+                } else {
+                    setIsLoading(true);
+                    loadOccupationFunc();
+                }
             }
         }, 500); // Set a 500ms delay before making the API call
     };

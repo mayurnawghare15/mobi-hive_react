@@ -9,10 +9,10 @@ import Autocomplete from '@mui/material/Autocomplete';
 
 const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
     const { t } = useTranslation();
-   
+
     const [isLoading, setIsLoading] = useState(false);
     const [employerItems, setEmployerItems] = useState([{ business_name: 'select', id: 0 }]);
-   
+
     const storageData = localStorage.getItem('business_search');
     const storedData = storageData && storageData.length > 0 ? JSON.parse(storageData) : [];
 
@@ -47,7 +47,9 @@ const EmployerList = ({ name, createLeadForm, setCreateLeadForm }) => {
         LoadEmployer(inputValue, token)
             .then((res) => {
                 if (res) {
-                    let searchdata = [...storedData];
+                    let searchdata = []
+                    if (storedData)
+                        searchdata = [...storedData];
                     const resposedata = res.results;
                     for (let item of resposedata) {
                         const isDuplicate = searchdata.some((dataItem) => dataItem.id === item.id);

@@ -153,7 +153,7 @@ const RegisterLeadViaPhone = () => {
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
-                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, { state: {"ph_number":phoneNumber.number} });
+                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, { state: { "ph_number": phoneNumber.number } });
                         } else {
                             setShowDobPopup(true);
                         }
@@ -165,7 +165,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => {}, 2000);
+            setTimeout(() => { }, 2000);
         }
     };
 
@@ -233,7 +233,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                        // Add any necessary props and event handlers for capturing the date of birth
+                                                    // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>
@@ -247,8 +247,13 @@ const RegisterLeadViaPhone = () => {
                                             </Dialog>
 
                                             {!otpSent ? (
-                                                <Grid item>
-                                                    <Button type="button" onClick={handleSendOtp}>
+                                                <Grid item mt={2}>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={handleSendOtp}
+                                                        size="large"
+                                                        variant="contained"
+                                                        color="secondary">
                                                         {t('Send_OTP')}
                                                     </Button>
                                                 </Grid>
@@ -267,8 +272,15 @@ const RegisterLeadViaPhone = () => {
                                                         />
                                                     </Grid>
                                                     <Grid item>
-                                                        <Button onClick={handleVerifyOtp}>{t('Verify_OTP')}</Button>
-                                                        <Button onClick={handleResendOTP}>{t('Resend_OTP')}</Button>
+                                                        <Button
+                                                            size="large"
+                                                            variant="contained"
+                                                            color="secondary"
+                                                            onClick={handleVerifyOtp}>{t('Verify_OTP')}</Button>
+                                                        <Button
+                                                            size="large"
+
+                                                            onClick={handleResendOTP}>{t('Resend_OTP')}</Button>
                                                     </Grid>
                                                 </React.Fragment>
                                             )}

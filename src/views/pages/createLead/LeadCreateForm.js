@@ -25,7 +25,8 @@ import {
     Stack,
     MenuItem,
     Menu,
-    CardHeader
+    CardHeader,
+    FormHelperText
 } from '@mui/material';
 import MuiPhoneNumber from 'material-ui-phone-number';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
@@ -44,19 +45,37 @@ import { AltRoute } from '@mui/icons-material';
 
 const LeadCreateForm = () => {
     const { mobile_Number } = useParams();
-
-    console.log(mobile_Number + 'match-------');
     const { t } = useTranslation();
     const location = useLocation();
     const navigate = useNavigate();
     const { state } = location;
+    const { user } = useAuthContext();
+    const title_InputRef = useRef(null);
+    const emailInputRef = useRef(null);
+    const first_nameInputRef = useRef(null);
+    const last_nameInputRef = useRef(null);
+    const genderInputRef = useRef(null);
+    const date_of_birthInputRef = useRef(null);
+    const marital_statusInputRef = useRef(null);
+    const highest_educationInputRef = useRef(null);
+    const ph_numberInputRef = useRef(null);
+    const current_employerInputRef = useRef(null);
+    const employed_sinceInputRef = useRef(null);
+    const employee_typeInputRef = useRef(null);
+    const monthly_incomeInputRef = useRef(null);
+    const monthly_savingInputRef = useRef(null);
+    const total_dependentsInputRef = useRef(null);
+    const existing_loanInputRef = useRef(null);
+    const customer_addressInputRef = useRef(null);
+    const cityInputRef = useRef(null);
+    const customer_localityInputRef = useRef(null);
     const [countryCode, setCountryCode] = useState('');
     const [leadId, setLeadId] = useState(0);
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
     const [callOccuptionApi, setCallOccuptionApi] = useState(false);
-    const errorInputRef = useRef(null);
-    const { user } = useAuthContext();
+    const todaydate = new Date()
+
     let token = null;
     if (user) {
         token = user.token;
@@ -145,25 +164,6 @@ const LeadCreateForm = () => {
         existing_loan: false
     });
 
-    const titleInputRef = useRef(null);
-    const emailInputRef = useRef(null);
-    const first_nameInputRef = useRef(null);
-    const last_nameInputRef = useRef(null);
-    const genderInputRef = useRef(null);
-    const date_of_birthInputRef = useRef(null);
-    const marital_statusInputRef = useRef(null);
-    const highest_educationInputRef = useRef(null);
-    const ph_numberInputRef = useRef(null);
-    const current_employerInputRef = useRef(null);
-    const employed_sinceInputRef = useRef(null);
-    const employee_typeInputRef = useRef(null);
-    const monthly_incomeInputRef = useRef(null);
-    const monthly_savingInputRef = useRef(null);
-    const total_dependentsInputRef = useRef(null);
-    const existing_loanInputRef = useRef(null);
-    const customer_addressInputRef = useRef(null);
-    const cityInputRef = useRef(null);
-    const customer_localityInputRef = useRef(null);
 
     const validateFields = () => {
         let hasError = false;
@@ -195,89 +195,113 @@ const LeadCreateForm = () => {
             existing_loan: false
         };
 
-        if (createLeadForm.tittle === '') {
+        if (!createLeadForm.title || createLeadForm.title === '') {
             newFormErrors.title = true;
             hasError = true;
         }
-        if (createLeadForm.first_name.trim() === '') {
+        if (!createLeadForm.first_name || createLeadForm.first_name.trim() === '') {
             newFormErrors.first_name = true;
             hasError = true;
         }
-        if (createLeadForm.last_name.trim() === '') {
+        if (!createLeadForm.last_name || createLeadForm.last_name.trim() === '') {
             newFormErrors.last_name = true;
             hasError = true;
         }
-        if (createLeadForm.gender === '') {
+        if (!createLeadForm.gender || createLeadForm.gender === '') {
             newFormErrors.gender = true;
-            hasError = true;
+            hasError = true
         }
-        if (createLeadForm.date_of_birth === '') {
+        if (!createLeadForm.date_of_birth || createLeadForm.date_of_birth === '') {
             newFormErrors.date_of_birth = true;
             hasError = true;
         }
-        if (createLeadForm.marital_status === '') {
+        if (date_of_birth) {
+            const birthDate = new Date(date_of_birth);
+            const ageDifference = todaydate - birthDate;
+            const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25;
+            const ageInYears = ageDifference / millisecondsPerYear;
+            if (ageInYears < 21) {
+                newFormErrors.date_of_birth_min_age = true;
+                hasError = true;
+            }
+            if (ageInYears >= 65) {
+                newFormErrors.date_of_birth_max_age = true;
+                hasError = true;
+            }
+        }
+        if (!createLeadForm.marital_status || createLeadForm.marital_status === '') {
             newFormErrors.marital_status = true;
             hasError = true;
         }
-        if (createLeadForm.highest_education === '') {
+        if (!createLeadForm.highest_education || createLeadForm.highest_education === '') {
             newFormErrors.highest_education = true;
             hasError = true;
         }
 
-        if (createLeadForm.email.trim() === '') {
+        if (!createLeadForm.email || createLeadForm.email.trim() === '') {
             newFormErrors.email = true;
             hasError = true;
         }
-        if (createLeadForm.employed_since === '') {
+        if (!createLeadForm.employed_since || createLeadForm.employed_since === '') {
             newFormErrors.employed_since = true;
             hasError = true;
         }
-        if (createLeadForm.occupation_type === '') {
+        if (employed_since) {
+            const employedsince = new Date(employed_since);
+            if (employedsince > todaydate) {
+                newFormErrors.employed_since_future = true;
+                hasError = true;
+            }
+
+        }
+        if (!createLeadForm.occupation_type || createLeadForm.occupation_type === '') {
             newFormErrors.occupation_type = true;
             hasError = true;
         }
-        if (createLeadForm.employee_type === '') {
+        if (!createLeadForm.employee_type || createLeadForm.employee_type === '') {
             newFormErrors.employee_type = true;
             hasError = true;
         }
-        if (createLeadForm.monthly_income === '') {
+        if (!createLeadForm.monthly_income || createLeadForm.monthly_income === '') {
             newFormErrors.monthly_income = true;
             hasError = true;
         }
-        if (createLeadForm.total_dependents === '') {
+        if (!createLeadForm.total_dependents || createLeadForm.total_dependents === '') {
             newFormErrors.total_dependents = true;
             hasError = true;
         }
-        if (createLeadForm.existing_loan === '') {
+        if (!createLeadForm.existing_loan || createLeadForm.existing_loan === '') {
             newFormErrors.existing_loan = true;
             hasError = true;
         }
-        if (createLeadForm.monthly_saving === '') {
+        if (!createLeadForm.monthly_saving || createLeadForm.monthly_saving === '') {
             newFormErrors.monthly_income = true;
             hasError = true;
         }
-        if (createLeadForm.occupation_type === '') {
+        if (!createLeadForm.occupation_type || createLeadForm.occupation_type === '') {
             newFormErrors.occupation_type = true;
             hasError = true;
         }
-        if (createLeadForm.customer_address.trim() === '') {
+        if (!createLeadForm.customer_address || createLeadForm.customer_address.trim() === '') {
             newFormErrors.customer_address = true;
             hasError = true;
         }
-        if (createLeadForm.city === '') {
+        if (!createLeadForm.city || createLeadForm.city === '') {
             newFormErrors.city = true;
             hasError = true;
         }
-        if (createLeadForm.customer_locality.trim() === '') {
+        if (!createLeadForm.customer_locality || createLeadForm.customer_locality.trim() === '') {
             newFormErrors.customer_locality = true;
             hasError = true;
         }
+
         setFormError(newFormErrors);
         return hasError;
     };
 
     const onInputChange = (e) => {
         const { name, value } = e.target;
+        console.log(name, value, 'name , Value')
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
@@ -322,6 +346,7 @@ const LeadCreateForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const hasError = validateFields();
+
         if (hasError) {
             if (formError.first_name) {
                 if (first_nameInputRef.current) first_nameInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -331,6 +356,10 @@ const LeadCreateForm = () => {
                 if (genderInputRef.current) genderInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.date_of_birth) {
                 if (date_of_birthInputRef.current) date_of_birthInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.date_of_birth_min_age) {
+                if (date_of_birthInputRef.current) date_of_birthInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.date_of_birth_max_age) {
+                if (date_of_birthInputRef.current) date_of_birthInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.marital_status) {
                 if (marital_statusInputRef.current) marital_statusInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.highest_education) {
@@ -339,6 +368,8 @@ const LeadCreateForm = () => {
             } else if (formError.email) {
                 if (emailInputRef.current) emailInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.employed_since) {
+                if (employed_sinceInputRef.current) employed_sinceInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            } else if (formError.employed_since_future) {
                 if (employed_sinceInputRef.current) employed_sinceInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             } else if (formError.employee_type) {
                 if (employee_typeInputRef.current) employee_typeInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -357,14 +388,14 @@ const LeadCreateForm = () => {
                 if (customer_localityInputRef.current)
                     customer_localityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-            // Scroll to the error input field
         } else {
+
             LeadCreateFormApi(createLeadForm, token)
                 .then((res) => {
                     if (res) {
                         setLeadId(res.data.id);
                         toast.success(res.message);
-                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: {"ph_number":ph_number,"leadid":leadId} });
+                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: { "ph_number": ph_number, "leadid": leadId } });
                     }
                 })
                 .catch((error) => {
@@ -373,6 +404,14 @@ const LeadCreateForm = () => {
             // Continue with form submission or handle the valid data
         }
     };
+    const onTitleChange = (e) => {
+        const { name, value } = e.target;
+        console.log(name, value, 'name , Value')
+        setCreateLeadForm({
+            ...createLeadForm,
+            [name]: value
+        });
+    }
     return (
         <Container fullWidth>
             <form onSubmit={handleSubmit}>
@@ -383,26 +422,26 @@ const LeadCreateForm = () => {
                         <Grid container mt={1} spacing={2}>
                             <Grid item xs={12} sm={2}>
                                 <FormControl fullWidth>
-                                    <InputLabel className="label" id="tittle-label">
+                                    <InputLabel className="label" id="title-label">
                                         {t('title')}
                                     </InputLabel>
                                     <Select
                                         label={t('title')}
                                         error={formError.title}
-                                        inputRef={titleInputRef}
-                                        disabled={state ? (state.tittle ? true : false) : false}
-                                        labelId="saluation-label"
-                                        id="title"
+                                        inputRef={title_InputRef}
+                                        disabled={state ? (state.title ? true : false) : false}
+                                        labelId="title-label"
+                                        id="title-1"
                                         name="title"
                                         value={title}
-                                        onChange={onInputChange}
+                                        onChange={onTitleChange}
                                     >
                                         {isLoading ? (
                                             <>Loading...</>
                                         ) : data ? (
                                             data.user_salutation.length > 0 ? (
                                                 data.user_salutation.map((item, index) => (
-                                                    <MenuItem value={item.name} id={item.slug}>
+                                                    <MenuItem key={item.slug + { index }} value={item.slug} id={item.slug}>
                                                         {item.name}
                                                     </MenuItem>
                                                 ))
@@ -462,7 +501,7 @@ const LeadCreateForm = () => {
                             </Grid>
                         </Grid>
                         <Grid container spacing={2}>
-                            <Grid item xs={12} sm={1.8}>
+                            <Grid item xs={12} sm={5}>
                                 <FormControl component="fieldset">
                                     <FormLabel className="label" component="legend">
                                         {t('gender')}
@@ -475,6 +514,7 @@ const LeadCreateForm = () => {
                                         name="gender"
                                         value={gender}
                                         onChange={onInputChange}
+                                        row
                                         required
                                     >
                                         {isLoading ? (
@@ -494,6 +534,9 @@ const LeadCreateForm = () => {
                                             )
                                         ) : null}
                                     </RadioGroup>
+                                    {formError.gender && (
+                                        <FormHelperText error>This field is required.</FormHelperText>
+                                    )}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={3.3} mt={-0.5}>
@@ -512,6 +555,12 @@ const LeadCreateForm = () => {
                                     fullWidth
                                     required
                                 />
+                                {formError.date_of_birth_min_age && (
+                                    <FormHelperText error>Lead age at least 21 year old.</FormHelperText>
+                                )}
+                                {formError.date_of_birth_max_age && (
+                                    <FormHelperText error>A lead cannot be older than 65 years old .</FormHelperText>
+                                )}
                             </Grid>
                             <Grid item xs={12} sm={3.3} mt={2}>
                                 <FormControl fullWidth>
@@ -546,7 +595,7 @@ const LeadCreateForm = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
-                            <Grid item xs={12} sm={3.3} mt={2}>
+                            <Grid item xs={12} sm={5} mt={2}>
                                 <FormControl fullWidth>
                                     <InputLabel className="label" id="education-label">
                                         {t('highest_Education')}
@@ -578,66 +627,65 @@ const LeadCreateForm = () => {
                                     </Select>
                                 </FormControl>
                             </Grid>
+                            <Grid item xs={12} sm={5} mt={2}>
+                                <MuiPhoneNumber
+                                    error={formError.ph_number}
+                                    inputRef={ph_numberInputRef}
+                                    disabled={ph_number ? true : false}
+                                    className="label"
+                                    defaultCountry={'in'}
+                                    label={t('mobile_Number')}
+                                    name="ph_number"
+                                    value={ph_number}
+                                    onChange={onPhoneNumberChange}
+                                    fullWidth
+                                    required
+                                    variant="outlined"
+                                    countryCodeEditable
+                                    onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={5} mt={2}>
+                                <TextField
+                                    disabled={state ? (state.email ? true : false) : false}
+                                    className="textfield"
+                                    label={t('email')}
+                                    type="email"
+                                    name="email"
+                                    value={email}
+                                    inputRef={emailInputRef}
+                                    error={formError.email}
+                                    onChange={onInputChange}
+                                    variant="outlined"
+                                    InputProps={{
+                                        startAdornment: (
+                                            <InputAdornment position="start">
+                                                <EmailIcon color="error" />
+                                            </InputAdornment>
+                                        )
+                                    }}
+                                    fullWidth
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={4} mt={2}>
+                                <MuiPhoneNumber
+                                    disabled={state ? (state.whatsapp_number ? true : false) : false}
+                                    className="label"
+                                    defaultCountry={'in'}
+                                    label={t('whatsapp')}
+                                    name="whatsapp_number"
+                                    value={whatsapp_number}
+                                    onChange={onWhatsappNumberChange}
+                                    fullWidth
+                                    required
+                                    variant="outlined"
+                                    countryCodeEditable
+                                    onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
+                                />
+                            </Grid>
                         </Grid>
                     </Stack>
-                    <Grid container spacing={2} mt={1}>
-                        <Grid item xs={12} sm={4}>
-                            <MuiPhoneNumber
-                                error={formError.ph_number}
-                                inputRef={ph_numberInputRef}
-                                disabled={ph_number ? true : false}
-                                className="label"
-                                defaultCountry={'in'}
-                                label={t('mobile_Number')}
-                                name="ph_number"
-                                value={ph_number}
-                                onChange={onPhoneNumberChange}
-                                fullWidth
-                                required
-                                variant="outlined"
-                                countryCodeEditable
-                                onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <TextField
-                                disabled={state ? (state.email ? true : false) : false}
-                                className="textfield"
-                                label={t('email')}
-                                type="email"
-                                name="email"
-                                value={email}
-                                inputRef={emailInputRef}
-                                error={formError.email}
-                                onChange={onInputChange}
-                                variant="outlined"
-                                InputProps={{
-                                    startAdornment: (
-                                        <InputAdornment position="start">
-                                            <EmailIcon color="error" />
-                                        </InputAdornment>
-                                    )
-                                }}
-                                fullWidth
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={4}>
-                            <MuiPhoneNumber
-                                disabled={state ? (state.whatsapp_number ? true : false) : false}
-                                className="label"
-                                defaultCountry={'in'}
-                                label={t('whatsapp')}
-                                name="whatsapp_number"
-                                value={whatsapp_number}
-                                onChange={onWhatsappNumberChange}
-                                fullWidth
-                                required
-                                variant="outlined"
-                                countryCodeEditable
-                                onCountryChange={(countryData) => setCountryCode(countryData.dialCode)}
-                            />
-                        </Grid>
-                    </Grid>
+
                 </SubCard>
                 {/* Local Card-------------------- */}
                 <SubCard>
@@ -772,6 +820,11 @@ const LeadCreateForm = () => {
                                 fullWidth
                                 required
                             />
+                            <>
+                                {formError.employed_since_future && (
+                                    <FormHelperText error>Employee since can not future date.</FormHelperText>
+                                )}
+                            </>
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <OccupationsList
