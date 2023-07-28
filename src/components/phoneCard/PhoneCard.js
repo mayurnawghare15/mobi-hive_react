@@ -31,8 +31,9 @@ export default function PhoneCard() {
                 }
             />
             <hr />
-
-            <ImageCarousel className="image" images={carouselImages} />
+            <div className="imageCarousel">
+                <ImageCarousel className="image" images={carouselImages} />
+            </div>
 
             <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
