@@ -21,7 +21,7 @@ const AddEmployerAPI = async (body, token) => {
         }
 
         const response = await axios
-            .post(API_Base_Url + 'v2/employer/', body, headers)
+            .post(API_Base_Url + '/v2/employer/', body, headers)
             .then((response) => {
                 return response;
             })

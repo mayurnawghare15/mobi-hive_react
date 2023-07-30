@@ -16,7 +16,7 @@ const LoadEmployer = async (query, token) => {
             url = '/employer/filter/' + query + '/';
         }
         const response = await axios
-            .get(API_Base_Url + 'v1' + url, headers)
+            .get(API_Base_Url + '/v1' + url, headers)
             .then((response) => {
                 return response;
             })

@@ -21,13 +21,14 @@ const LeadCreateFormApi = async (body, token) => {
         }
 
         const response = await axios
-            .post(API_Base_Url + 'v2/prospect_lead/', body, headers)
+            .post(API_Base_Url + '/v2/prospect_lead/', body, headers)
             .then((response) => {
                 return response;
             })
             .catch((error) => {
+                console.log(error);
                 if (error.response.status === 400) {
-                    return toast.error('Something went wrong , Please contact to Admin.');
+                    return toast.error(error);
                 } else if (error.response.status === 401) {
                     toast.error('You are not authorized to view this page');
                     localStorage.setItem('user', '');
@@ -37,13 +38,15 @@ const LeadCreateFormApi = async (body, token) => {
                     return () => clearTimeout(timer);
                 } else if (error.response.status === 404) {
                     return toast.error('Url not found');
-                } else if (error.response.status >= 500) {
-                    return toast.error('Something went wrong , Please contact to Admin.');
                 }
+                // } else if (error.response.status >= 500) {
+                //     return toast.error('Something went wrong , Please contact to Admin.');
+                // }
             });
         return response.data;
     } catch (error) {
-        return toast.error('Something went wrong , Please check your internet connection.');
+        console.log(error);
+        return toast.error(error);
     }
 };
 

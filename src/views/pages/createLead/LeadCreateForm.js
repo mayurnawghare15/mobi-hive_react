@@ -74,7 +74,7 @@ const LeadCreateForm = () => {
     const [showEmployerForm, setShowEmployerForm] = useState(false);
     const [showOccupationForm, setShowOccupationForm] = useState(false);
     const [callOccuptionApi, setCallOccuptionApi] = useState(false);
-    const todaydate = new Date()
+    const todaydate = new Date();
 
     let token = null;
     if (user) {
@@ -164,7 +164,6 @@ const LeadCreateForm = () => {
         existing_loan: false
     });
 
-
     const validateFields = () => {
         let hasError = false;
         const newFormErrors = {
@@ -209,7 +208,7 @@ const LeadCreateForm = () => {
         }
         if (!createLeadForm.gender || createLeadForm.gender === '') {
             newFormErrors.gender = true;
-            hasError = true
+            hasError = true;
         }
         if (!createLeadForm.date_of_birth || createLeadForm.date_of_birth === '') {
             newFormErrors.date_of_birth = true;
@@ -252,7 +251,6 @@ const LeadCreateForm = () => {
                 newFormErrors.employed_since_future = true;
                 hasError = true;
             }
-
         }
         if (!createLeadForm.occupation_type || createLeadForm.occupation_type === '') {
             newFormErrors.occupation_type = true;
@@ -301,7 +299,7 @@ const LeadCreateForm = () => {
 
     const onInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value, 'name , Value')
+        console.log(name, value, 'name , Value');
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
@@ -334,8 +332,8 @@ const LeadCreateForm = () => {
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
         if (!state) {
-            navigate('/lead/verify-phonenumber')
-            return toast.error('You can not direct authorized this page');
+            navigate('/lead/verify-phonenumber');
+            return toast.error('Need to verify your Mobile Number ');
         } else if (mobile_Number === state.ph_number) {
             if (state) setCreateLeadForm(state);
         } else {
@@ -389,13 +387,12 @@ const LeadCreateForm = () => {
                     customer_localityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         } else {
-
             LeadCreateFormApi(createLeadForm, token)
                 .then((res) => {
                     if (res) {
                         setLeadId(res.data.id);
                         toast.success(res.message);
-                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: { "ph_number": ph_number, "leadid": leadId } });
+                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: { ph_number: ph_number, leadid: leadId } });
                     }
                 })
                 .catch((error) => {
@@ -406,12 +403,12 @@ const LeadCreateForm = () => {
     };
     const onTitleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value, 'name , Value')
+        console.log(name, value, 'name , Value');
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
         });
-    }
+    };
     return (
         <Container fullWidth>
             <form onSubmit={handleSubmit}>
@@ -465,7 +462,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                // required
+                                    // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3.3}>
@@ -534,9 +531,7 @@ const LeadCreateForm = () => {
                                             )
                                         ) : null}
                                     </RadioGroup>
-                                    {formError.gender && (
-                                        <FormHelperText error>This field is required.</FormHelperText>
-                                    )}
+                                    {formError.gender && <FormHelperText error>This field is required.</FormHelperText>}
                                 </FormControl>
                             </Grid>
                             <Grid item xs={12} sm={3.3} mt={-0.5}>
@@ -555,9 +550,7 @@ const LeadCreateForm = () => {
                                     fullWidth
                                     required
                                 />
-                                {formError.date_of_birth_min_age && (
-                                    <FormHelperText error>Lead age at least 21 year old.</FormHelperText>
-                                )}
+                                {formError.date_of_birth_min_age && <FormHelperText error>Lead age at least 21 year old.</FormHelperText>}
                                 {formError.date_of_birth_max_age && (
                                     <FormHelperText error>A lead cannot be older than 65 years old .</FormHelperText>
                                 )}
@@ -685,7 +678,6 @@ const LeadCreateForm = () => {
                             </Grid>
                         </Grid>
                     </Stack>
-
                 </SubCard>
                 {/* Local Card-------------------- */}
                 <SubCard>
@@ -974,10 +966,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                <MenuItem value={item.id} id={item.slug}>
-                                                    {item.name}
-                                                </MenuItem>
-                                            ))
+                                                  <MenuItem value={item.id} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
                                             : []
                                         : null}
                                 </Select>

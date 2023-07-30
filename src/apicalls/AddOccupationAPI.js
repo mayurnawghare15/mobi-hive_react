@@ -21,7 +21,7 @@ const AddOccupationAPI = async (body, token) => {
         }
 
         const response = await axios
-            .post(API_Base_Url + 'v2/occupation/', body, headers)
+            .post(API_Base_Url + '/v2/occupation/', body, headers)
             .then((response) => {
                 return response;
             })

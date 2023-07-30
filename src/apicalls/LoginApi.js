@@ -12,7 +12,7 @@ const LoginApi = async (body) => {
         };
 
         const response = await axios
-            .post(API_Base_Url + 'v2/token/auth/', body, headers)
+            .post(API_Base_Url + '/v2/token/auth/', body, headers)
             .then((response) => {
                 toast.success('Login Successfull');
                 return response;

@@ -48,7 +48,6 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ handleLeftDrawerToggle }) => {
     const classes = useStyles();
     const theme = createTheme();
-    
 
     return (
         <React.Fragment>
@@ -65,7 +64,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             </div>
             {/* header search */}
 
-            <SearchSection theme="dark" />
+            {/* <SearchSection theme="dark" /> */}
             {/* Other header components */}
 
             <div className={classes.grow} />
@@ -74,7 +73,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             {/* <NotificationSection /> */}
 
             <div className={theme.spacing(10000)} />
-            <DarkMode />
+            {/* <DarkMode /> */}
             <ProfileSection />
         </React.Fragment>
     );

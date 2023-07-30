@@ -21,7 +21,7 @@ const BussinessSectorApi = async (token) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + 'v1/bussiness_sector/', headers)
+            .get(API_Base_Url + '/v1/bussiness_sector/', headers)
             .then((response) => {
                 return response;
             })

@@ -21,7 +21,7 @@ const ChoiceListApi = async (query, token) => {
         }
 
         const response = await axios
-            .get(API_Base_Url + 'v2/choice_list/?cc_code=' + query, headers)
+            .get(API_Base_Url + '/v2/choice_list/?cc_code=' + query, headers)
             .then((response) => {
                 return response;
             })
