@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1),
         display: 'flex',
         alignItems: 'center',
-        fontSize: '0.9rem' // Reduce the font size for the specifications
+        fontSize: '1.2rem'
     },
     bullet: {
         marginRight: theme.spacing(1),
@@ -83,6 +83,28 @@ const useStyles = makeStyles((theme) => ({
     },
     selectedPackage: {
         fontWeight: 'bold'
+    },
+    containerStyle: {
+        backgroundColor: '#f7f7f7',
+        padding: '20px',
+        borderRadius: '10px',
+        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+        marginBottom: '20px'
+    },
+
+    headingStyle: {
+        fontSize: '24px',
+        fontWeight: 'bold',
+        marginBottom: '10px'
+    },
+
+    labelStyle: {
+        fontSize: '18px',
+        fontWeight: 'bold'
+    },
+
+    valueStyle: {
+        fontSize: '18px'
     }
 }));
 
@@ -93,16 +115,25 @@ const handleCardClick = () => {
 
 const ProductCard = (deviceData) => {
     const classes = useStyles();
-    const [isPackage, setIsPackage] = useState(true);
+    const [isPackage, setIsPackage] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
 
     var data = deviceData.deviceData;
-    var packages = data.package[0];
+    var packages = data.package;
+    console.log('data');
+    console.log(data);
+
     console.log('packages');
     console.log(packages);
 
     const handlePackageChange = (packageId) => {
         setSelectedPackage(packageId);
+    };
+    const handleCardClick = () => {
+        if (selectedPackage) {
+            setIsPackage(false);
+        }
+        setIsPackage(true);
     };
 
     return (
@@ -140,9 +171,8 @@ const ProductCard = (deviceData) => {
                                 </Grid>
                             </CardContent>
                             <CardActions></CardActions>
-                            {/* {isPackage && packages.length > 0 && (
+                            {isPackage && packages.length > 0 && (
                                 <div className={classes.packageContainer}>
-                                    <Typography variant="h5">{packages[0].package_type}</Typography>
                                     {packages.slice(0, data.count).map((pkg) => (
                                         <div
                                             key={pkg.id}
@@ -157,23 +187,42 @@ const ProductCard = (deviceData) => {
                                                 checked={selectedPackage === pkg.id}
                                                 onChange={() => handlePackageChange(pkg.id)}
                                             />
-                                            <div>
-                                                <Typography>{pkg.name}</Typography>
-                                                <Typography>
-                                                    Upfront Payment: {data.currency} {pkg.upfront_payment}
+                                            <Grid container className={`${classes.containerStyle}`}>
+                                                <Typography variant="h4" className={`${classes.labelStyle}`}>
+                                                    {packages[0].package_type}
                                                 </Typography>
-                                                <Typography>
-                                                    Credit Price: {data.currency} {packages.credit_price}
-                                                </Typography>
-                                                <Typography>
-                                                    Installment Amount: {data.currency} {pkg.installment_amount}
-                                                </Typography>
-                                                <Typography>Total Tenure: {pkg.total_tenure} months</Typography>
-                                            </div>
+                                                <Grid item xs={12} sm={12}>
+                                                    <Typography variant="h4" className={`${classes.headingStyle}`}>
+                                                        {/* {pkg.name} */}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
+                                                    <Typography className={`${classes.valueStyle}`}>
+                                                        {data.currency} {pkg.upfront_payment}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
+                                                    <Typography className={`${classes.valueStyle}`}>
+                                                        {data.currency} {pkg.credit_price}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
+                                                    <Typography className={`${classes.valueStyle}`}>
+                                                        {data.currency} {pkg.installment_amount}
+                                                    </Typography>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6}>
+                                                    <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
+                                                    <Typography className={`${classes.valueStyle}`}>{pkg.total_tenure} months</Typography>
+                                                </Grid>
+                                            </Grid>
                                         </div>
                                     ))}
-                                </div> */}
-                            {/* )} */}
+                                </div>
+                            )}
                         </Card>
                     </Grid>
                 </div>

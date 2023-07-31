@@ -40,7 +40,7 @@ const EligibleDevices = () => {
 
     const fetchData = () => {
         try {
-            EligibleDevicesAPI(token, 451)
+            EligibleDevicesAPI(token, 483)
                 .then((res) => {
                     // toast.success('Select Device');
                     setAllData(res);
@@ -86,7 +86,8 @@ const EligibleDevices = () => {
                     showProduct &&
                     Array.from({ length: allData.count }).map((_, index) => (
                         <Grid key={index} item xs={12} sm={12}>
-                            <ProductCard deviceData={deviceData[index]} />
+                            {console.log(index)}
+                            <ProductCard deviceData={deviceData[index]} index={index} />
                         </Grid>
                     ))
                 )}

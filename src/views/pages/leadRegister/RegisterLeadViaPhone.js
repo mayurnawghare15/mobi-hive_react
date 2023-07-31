@@ -78,7 +78,7 @@ const RegisterLeadViaPhone = () => {
                 };
                 console.log(token);
                 axios
-                    .post(BASE_URL + 'v2/request_otp/', body, headers)
+                    .post(BASE_URL + '/v2/request_otp/', body, headers)
                     .then(function (response) {
                         toast.success(t('oTP_sent_successfully'));
                         setTimeout(() => {
@@ -113,7 +113,7 @@ const RegisterLeadViaPhone = () => {
             };
 
             axios
-                .post(BASE_URL + 'v2/request_otp/', body, headers)
+                .post(BASE_URL + '/v2/request_otp/', body, headers)
                 .then(function (response) {
                     toast.success(t('oTP_Resend'));
                     console.log(response.data, 'Data');
@@ -147,13 +147,15 @@ const RegisterLeadViaPhone = () => {
             };
 
             try {
-                axios.post(BASE_URL + 'v2/otp_verify/', body, headers).then(function (response) {
+                axios.post(BASE_URL + '/v2/otp_verify/', body, headers).then(function (response) {
                     if (response.status) {
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
                         if (response.data.data.user_found === false) {
-                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, { state: { "ph_number": phoneNumber.number } });
+                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, {
+                                state: { ph_number: phoneNumber.number }
+                            });
                         } else {
                             setShowDobPopup(true);
                         }
@@ -165,7 +167,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => { }, 2000);
+            setTimeout(() => {}, 2000);
         }
     };
 
@@ -183,7 +185,7 @@ const RegisterLeadViaPhone = () => {
                 recipient: mobileNumber
             };
             try {
-                axios.post(BASE_URL + 'v2/dob_verify/', body, headers).then((response) => {
+                axios.post(BASE_URL + '/v2/dob_verify/', body, headers).then((response) => {
                     if (response.data.status) {
                         setShowDobPopup(false);
                         toast.success(response.data.message);
@@ -233,7 +235,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                    // Add any necessary props and event handlers for capturing the date of birth
+                                                        // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>
@@ -253,7 +255,8 @@ const RegisterLeadViaPhone = () => {
                                                         onClick={handleSendOtp}
                                                         size="large"
                                                         variant="contained"
-                                                        color="secondary">
+                                                        color="secondary"
+                                                    >
                                                         {t('Send_OTP')}
                                                     </Button>
                                                 </Grid>
@@ -276,11 +279,13 @@ const RegisterLeadViaPhone = () => {
                                                             size="large"
                                                             variant="contained"
                                                             color="secondary"
-                                                            onClick={handleVerifyOtp}>{t('Verify_OTP')}</Button>
-                                                        <Button
-                                                            size="large"
-
-                                                            onClick={handleResendOTP}>{t('Resend_OTP')}</Button>
+                                                            onClick={handleVerifyOtp}
+                                                        >
+                                                            {t('Verify_OTP')}
+                                                        </Button>
+                                                        <Button size="large" onClick={handleResendOTP}>
+                                                            {t('Resend_OTP')}
+                                                        </Button>
                                                     </Grid>
                                                 </React.Fragment>
                                             )}
