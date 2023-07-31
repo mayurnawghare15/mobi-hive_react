@@ -27,6 +27,7 @@ const EligibleDevices = () => {
     const [allData, setAllData] = useState([]);
     const [showProduct, setShowProduct] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+
     const classes = useStyles();
     const { user } = useAuthContext();
     let token = null;
@@ -91,7 +92,6 @@ const EligibleDevices = () => {
                     showProduct &&
                     Array.from({ length: allData.count }).map((_, index) => (
                         <Grid key={index} item xs={12} sm={12}>
-                            {console.log(index)}
                             <ProductCard deviceData={deviceData[index]} index={index} />
                         </Grid>
                     ))

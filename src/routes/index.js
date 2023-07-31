@@ -18,6 +18,7 @@ import { ChoiceListProvider } from '../context/ChoiceListContext';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
+const Payment = Loadable(lazy(() => import('../views/pages/payment')));
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -116,6 +117,20 @@ const AllRoutes = () => {
                                 </MinimalLayout>
                             ) : (
                                 <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/payment"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <Payment />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/eligibledevices" />
                             )
                         }
                     />
