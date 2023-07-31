@@ -35,12 +35,17 @@ const EligibleDevices = () => {
     }
 
     useEffect(() => {
-        fetchData();
+        const leadid = localStorage.getItem("leadId")
+        if (leadid){
+            fetchData(leadid);
+        }else{
+            return toast.error("You can not access this page")
+        }
     }, []);
 
-    const fetchData = () => {
+    const fetchData = (leadid) => {
         try {
-            EligibleDevicesAPI(token, 483)
+            EligibleDevicesAPI(token, leadid)
                 .then((res) => {
                     // toast.success('Select Device');
                     setAllData(res);

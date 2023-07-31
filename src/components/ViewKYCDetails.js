@@ -1,4 +1,4 @@
-import React, {  useState } from 'react';
+import React, { useState } from 'react';
 import MainCard from '../ui-component/cards/MainCard';
 import { AppBar, Box, Button, Dialog, DialogContent, Grid, IconButton, Slide, TextField, Toolbar, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -8,21 +8,25 @@ import { useTranslation } from 'react-i18next';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import UploadDocs from '../apicalls/UploadDocs';
-
-const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide, slug, showValidTill, showSerialNumber,dataDocuments,updateDataDocumentsFunc }) => {
+import img_tem from "../assets/images/samsungA03.png"
+import { useLocation } from 'react-router';
+const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide, slug, showValidTill, showSerialNumber, dataDocuments, updateDataDocumentsFunc }) => {
     const { t } = useTranslation();
-
+    const location = useLocation();
+    const { state } = location;
     const [openCamera, setOpenCamera] = useState(false);
     const [imgType, setImgType] = useState('kyc_front');
     const [isLoading, setIsLoading] = useState(false);
 
     const { user } = useAuthContext();
-    const leadId = 472;
+    const leadId = state.leadid;
+    if (leadId)
+        localStorage.setItem("leadId", leadId)
     let token = null;
     if (user) {
         token = user.token;
     }
-   
+
     const { kyc_serial_number, kyc_valid_till, issued_date, issued_by, kyc_front, kyc_back } = dataDocuments;
 
     const onInputChange = (e) => {
@@ -48,7 +52,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
         }
         console.log(imgType + 'Kyc handleImages');
     };
-   
+
 
     const handleClose = () => {
         setOpen(false);
@@ -58,13 +62,13 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
         setImgType(imgType);
         setOpenCamera(true);
     };
-    
+
     const handleSubmit = () => {
-        
+
         const data = {
             kyc_front: kyc_front,
             kyc_back: kyc_back,
-            kyc_type:slug,
+            kyc_type: slug,
             kyc_serial_number: kyc_serial_number,
             issued_by: issued_by,
             issued_date: issued_date,
@@ -80,7 +84,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
         UploadDocs(form_data, token, leadId)
             .then((res) => {
                 if (res) {
-                    console.log(res,'-----res')
+                    console.log(res, '-----res')
                     setIsLoading(false);
                 } else {
                     setIsLoading(false);
@@ -136,7 +140,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
                                             border={2}
                                             borderColor="grey.400"
                                             borderRadius={8}
-                                            src={kyc_front}
+                                            src={img_tem}
                                             alt="KYC Front"
                                         />
                                     </>
@@ -181,7 +185,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
                                             border={2}
                                             borderColor="grey.400"
                                             borderRadius={8}
-                                            src={kyc_back}
+                                            src={img_tem}
                                             alt="KYC Front"
                                         />
                                     </>

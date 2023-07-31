@@ -106,7 +106,7 @@ const AllRoutes = () => {
                         }
                     />
                     <PrivateRoute
-                        path="/eligibledevices"
+                        path="/eligibledevices/:mobile_Number"
                         element={
                             user ? (
                                 <MinimalLayout>

@@ -21,8 +21,7 @@ function KYCDocumentPage() {
     const { t } = useTranslation();
     const { mobile_Number } = useParams();
     const navigate = useNavigate();
-    const location = useLocation();
-    const { state } = location;
+    const
     const [open, setOpen] = useState(false);
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
