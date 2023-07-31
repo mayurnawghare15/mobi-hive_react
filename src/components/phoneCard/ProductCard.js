@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, CardActions, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import '../../views/pages/EligibleDevices/index';
+import ConfirmDialog from '../../components/ConfirmDialog';
 
 const API_Image_Url = process.env.REACT_APP_IMAGE_URL;
 
@@ -117,17 +118,18 @@ const ProductCard = (deviceData) => {
     const classes = useStyles();
     const [isPackage, setIsPackage] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
-
+    const [confirmOrder, setConfirmOrder] = useState(false);
     var data = deviceData.deviceData;
     var packages = data.package;
+    const deviceId = data.device.id;
     console.log('data');
     console.log(data);
-
-    console.log('packages');
-    console.log(packages);
+    console.log('deviceid');
 
     const handlePackageChange = (packageId) => {
+        console.log(packageId);
         setSelectedPackage(packageId);
+        setConfirmOrder(true);
     };
     const handleCardClick = () => {
         if (selectedPackage) {
@@ -138,6 +140,15 @@ const ProductCard = (deviceData) => {
 
     return (
         <>
+            {' '}
+            {confirmOrder && (
+                <ConfirmDialog
+                    selectedPackage={selectedPackage}
+                    data={data}
+                    confirmOrder={confirmOrder}
+                    setConfirmOrder={setConfirmOrder}
+                ></ConfirmDialog>
+            )}
             <Container>
                 <div className={classes.cardWrapper}>
                     <Grid container spacing={2} className={classes.cardContainer}>
@@ -170,59 +181,62 @@ const ProductCard = (deviceData) => {
                                     </Grid>
                                 </Grid>
                             </CardContent>
-                            <CardActions></CardActions>
-                            {isPackage && packages.length > 0 && (
-                                <div className={classes.packageContainer}>
-                                    {packages.slice(0, data.count).map((pkg) => (
-                                        <div
-                                            key={pkg.id}
-                                            className={`${classes.packageRadio} ${
-                                                selectedPackage === pkg.id ? classes.selectedPackage : ''
-                                            }`}
-                                            onClick={() => handlePackageChange(pkg.id)}
-                                        >
-                                            <input
-                                                type="radio"
-                                                value={pkg.id}
-                                                checked={selectedPackage === pkg.id}
-                                                onChange={() => handlePackageChange(pkg.id)}
-                                            />
-                                            <Grid container className={`${classes.containerStyle}`}>
-                                                <Typography variant="h4" className={`${classes.labelStyle}`}>
-                                                    {packages[0].package_type}
-                                                </Typography>
-                                                <Grid item xs={12} sm={12}>
-                                                    <Typography variant="h4" className={`${classes.headingStyle}`}>
-                                                        {/* {pkg.name} */}
+                            <CardActions>
+                                {isPackage && packages.length > 0 && (
+                                    <div className={classes.packageContainer}>
+                                        {packages.slice(0, data.count).map((pkg) => (
+                                            <div
+                                                key={pkg.id}
+                                                className={`${classes.packageRadio} ${
+                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                }`}
+                                                onClick={() => handlePackageChange(pkg.id)}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    value={pkg.id}
+                                                    checked={selectedPackage === pkg.id}
+                                                    onChange={() => handlePackageChange(pkg.id)}
+                                                />
+                                                <Grid container className={`${classes.containerStyle}`}>
+                                                    <Typography variant="h4" className={`${classes.labelStyle}`}>
+                                                        {packages[0].package_type}
                                                     </Typography>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <Typography variant="h4" className={`${classes.headingStyle}`}>
+                                                            {pkg.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.upfront_payment}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.credit_price}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.installment_amount}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {pkg.total_tenure} months
+                                                        </Typography>
+                                                    </Grid>
                                                 </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
-                                                    <Typography className={`${classes.valueStyle}`}>
-                                                        {data.currency} {pkg.upfront_payment}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
-                                                    <Typography className={`${classes.valueStyle}`}>
-                                                        {data.currency} {pkg.credit_price}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
-                                                    <Typography className={`${classes.valueStyle}`}>
-                                                        {data.currency} {pkg.installment_amount}
-                                                    </Typography>
-                                                </Grid>
-                                                <Grid item xs={12} sm={6}>
-                                                    <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
-                                                    <Typography className={`${classes.valueStyle}`}>{pkg.total_tenure} months</Typography>
-                                                </Grid>
-                                            </Grid>
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </CardActions>
                         </Card>
                     </Grid>
                 </div>
