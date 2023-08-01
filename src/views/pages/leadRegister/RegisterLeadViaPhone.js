@@ -12,6 +12,7 @@ import VerifyUser from '../../../components/VerifyUser';
 import { BrowserRouter as Router, Route, useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import Cookies from 'js-cookie';
+import { encryptData } from '../../../helper/encryption/encrypt';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -76,9 +77,7 @@ const RegisterLeadViaPhone = () => {
                         Authorization: 'Token ' + token
                     }
                 };
-                console.log(token);
-                axios
-                    .post(BASE_URL + '/v2/request_otp/', body, headers)
+                axios.post(BASE_URL + '/v2/request_otp/', body, headers)
                     .then(function (response) {
                         toast.success(t('oTP_sent_successfully'));
                         setTimeout(() => {
@@ -152,8 +151,9 @@ const RegisterLeadViaPhone = () => {
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
+                        const encryptedmob = encryptData(phoneNumber.number)
                         if (response.data.data.user_found === false) {
-                            return navigate(`/lead/createlead/${encodeURIComponent(phoneNumber.number)}`, {
+                            return navigate(`/lead/createlead/${encodeURIComponent(encryptedmob)}`, {
                                 state: { ph_number: phoneNumber.number }
                             });
                         } else {

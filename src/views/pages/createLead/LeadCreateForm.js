@@ -42,6 +42,7 @@ import AddOccupationPopup from '../../popups/AddOccupation';
 import { ValidateEmail, ValidateNumber } from '../../../helper';
 import LeadCreateFormApi from '../../../apicalls/LeadCreateFormApi';
 import { AltRoute } from '@mui/icons-material';
+import { decryptData } from '../../../helper/encryption/decrypt';
 
 const LeadCreateForm = () => {
     const { mobile_Number } = useParams();
@@ -331,10 +332,11 @@ const LeadCreateForm = () => {
     };
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
+        const decrypted_mob = decryptData(mobile_Number)
         if (!state) {
             navigate('/lead/verify-phonenumber');
             return toast.error('Need to verify your Mobile Number ');
-        } else if (mobile_Number === state.ph_number) {
+        } else if (decrypted_mob === state.ph_number) {
             if (state) setCreateLeadForm(state);
         } else {
             return toast.error('You are not authorized this page');
@@ -391,8 +393,9 @@ const LeadCreateForm = () => {
                 .then((res) => {
                     if (res) {
                         setLeadId(res.data.id);
+                        localStorage.setItem("lead_id",res.data.id)
                         toast.success(res.message);
-                        return navigate(`/lead/kyc/${encodeURIComponent(ph_number)}`, { state: { ph_number: ph_number, leadid: leadId } });
+                        return navigate(`/lead/kyc/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: ph_number, leadid: leadId } });
                     }
                 })
                 .catch((error) => {

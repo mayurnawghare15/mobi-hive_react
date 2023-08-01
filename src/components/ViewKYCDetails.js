@@ -10,18 +10,21 @@ import { toast } from 'react-toastify';
 import UploadDocs from '../apicalls/UploadDocs';
 import img_tem from "../assets/images/samsungA03.png"
 import { useLocation } from 'react-router';
-const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide, slug, showValidTill, showSerialNumber, dataDocuments, updateDataDocumentsFunc }) => {
+
+
+const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, slug,
+    showValidTill, showSerialNumber, dataDocuments,
+    updateDataDocumentsFunc }) => {
     const { t } = useTranslation();
     const location = useLocation();
     const { state } = location;
     const [openCamera, setOpenCamera] = useState(false);
     const [imgType, setImgType] = useState('kyc_front');
     const [isLoading, setIsLoading] = useState(false);
+    const leadID = lead_id;
 
     const { user } = useAuthContext();
-    const leadId = state.leadid;
-    if (leadId)
-        localStorage.setItem("leadId", leadId)
+
     let token = null;
     if (user) {
         token = user.token;
@@ -50,7 +53,6 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
                 kyc_back: value
             });
         }
-        console.log(imgType + 'Kyc handleImages');
     };
 
 
@@ -81,7 +83,7 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
         }
 
         setIsLoading(true);
-        UploadDocs(form_data, token, leadId)
+        UploadDocs(form_data, token, leadID)
             .then((res) => {
                 if (res) {
                     console.log(res, '-----res')
@@ -266,11 +268,10 @@ const ViewKYCDetails = React.memo(({ open, setOpen, showFrontSide, showBackSide,
                             />
                         </>
                     }
-
                 </MainCard>
             </DialogContent>
         </Dialog>
     );
-});
+};
 
 export default ViewKYCDetails;

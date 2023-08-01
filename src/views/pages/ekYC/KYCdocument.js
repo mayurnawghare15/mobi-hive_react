@@ -16,13 +16,17 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 import { useLocation, useNavigate, useParams } from 'react-router';
+import { decryptData } from '../../../helper/encryption/decrypt';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
     const { mobile_Number } = useParams();
     const navigate = useNavigate();
-    const
+    const location = useLocation();
+    const { state } = location;
     const [open, setOpen] = useState(false);
+    const leadid = localStorage.getItem("lead_id")
+    const [lead_id, setLead_id] = useState(state.leadid || leadid);
     const [isVerified, setIsVerified] = useState(false);
     const [isAdded, setIsAdded] = useState(false);
     const [documentTypeData, setDocumentTypeData] = useState(false);
@@ -61,29 +65,35 @@ function KYCDocumentPage() {
     };
 
     useEffect(() => {
+        const decrypted_mob = decryptData(mobile_Number)
         if (!state) {
             navigate('/lead/verify-phonenumber')
             return toast.error('You can not direct authorized this page');
-        } else if (mobile_Number === state.ph_number) {
+        } else if (decrypted_mob === state.ph_number) {
             // if (state) setCreateLeadForm(state);
         } else {
             return toast.error('You are not authorized this page');
         }
 
-        const lead_id = 472
-        GetLeadDetailsApi(lead_id, token)
-            .then((res) => {
-                if (res) {
-                    console.log(res.data.ekyc_document, '---Lead Data  ---');
-                    setDocumentTypeData(res.data.ekyc_document)
-                } else {
-                    // setIsLoading(false)
-                    // setCreateLeadForm([])
-                }
-            })
-            .catch((error) => {
-                return toast.error('Something went wrong , Please check your internet connection.');
-            });
+        if (lead_id) {
+            GetLeadDetailsApi(lead_id, token)
+                .then((res) => {
+                    if (res) {
+                        console.log(res.data.ekyc_document, '---Lead Data  ---');
+                        setDocumentTypeData(res.data.ekyc_document)
+                    } else {
+                        // setIsLoading(false)
+                        // setCreateLeadForm([])
+                    }
+                })
+                .catch((error) => {
+                    return toast.error('Something went wrong , Please check your internet connection.');
+                });
+        }
+        else {
+            return toast.error("You can not authorized this page")
+
+        }
     }, [])
 
 
@@ -91,7 +101,7 @@ function KYCDocumentPage() {
 
     return (
         <>
-            <ViewKYCDetails open={open} setOpen={setOpen}
+            <ViewKYCDetails lead_id={lead_id} open={open} setOpen={setOpen}
                 showFrontSide={showFrontDoc} showBackSide={showbackDoc}
                 slug={docType}
                 dataDocuments={docType === "aadhar_card" ?
