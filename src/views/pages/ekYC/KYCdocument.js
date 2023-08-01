@@ -104,17 +104,17 @@ function KYCDocumentPage() {
             <ViewKYCDetails lead_id={lead_id} open={open} setOpen={setOpen}
                 showFrontSide={showFrontDoc} showBackSide={showbackDoc}
                 slug={docType}
+                updateDataFunc={docType === "aadhar_card" ?
+                    setDrivingLicence : docType === "pan_card" ?
+                        setPanCard : docType === "passport" ?
+                            setNationalId : docType === "national_id" ?
+                                setPassport : docType === "salary_slip" ? setSalarySlip : ""}
+
                 dataDocuments={docType === "aadhar_card" ?
                     drivingLicence : docType === "pan_card" ?
                         panCard : docType === "passport" ?
                             nationalId : docType === "national_id" ?
                                 passport : docType === "salary_slip" ? salarySlip : ""}
-
-                updateDataDocumentsFunc={docType === "aadhar_card" ?
-                    setDrivingLicence : docType === "pan_card" ?
-                        setPanCard : docType === "passport" ?
-                            setNationalId : docType === "national_id" ?
-                                setPassport : docType === "salary_slip" ? setSalarySlip : ""}
 
                 showValidTill={showValidTill}
                 showSerialNumber={showSerialNumber} />

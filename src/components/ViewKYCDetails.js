@@ -10,11 +10,11 @@ import { toast } from 'react-toastify';
 import UploadDocs from '../apicalls/UploadDocs';
 import img_tem from "../assets/images/samsungA03.png"
 import { useLocation } from 'react-router';
+import { b64toBlob } from '../helper';
 
 
 const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, slug,
-    showValidTill, showSerialNumber, dataDocuments,
-    updateDataDocumentsFunc }) => {
+    showValidTill, showSerialNumber, dataDocuments, updateDataFunc }) => {
     const { t } = useTranslation();
     const location = useLocation();
     const { state } = location;
@@ -35,7 +35,7 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
     const onInputChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        updateDataDocumentsFunc({
+        updateDataFunc({
             ...dataDocuments,
             [name]: value
         });
@@ -43,12 +43,12 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
 
     const handleImages = (value) => {
         if (imgType === 'kyc_front') {
-            updateDataDocumentsFunc({
+            updateDataFunc({
                 ...dataDocuments,
                 kyc_front: value
             });
         } else {
-            updateDataDocumentsFunc({
+            updateDataFunc({
                 ...dataDocuments,
                 kyc_back: value
             });
@@ -66,10 +66,17 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
     };
 
     const handleSubmit = () => {
+        var kyc_front_temp = kyc_front.split(",");
+        var kyc_back_temp = kyc_back.split(",");
+        const content_type_front =kyc_front_temp[0].split(":")[1]
+        const content_type_back =kyc_back_temp[0].split(":")[1]
+    
+        let blob_kyc_front = b64toBlob(kyc_front_temp[1],content_type_front)
+        let blob_kyc_back = b64toBlob(kyc_back_temp[1],content_type_back)
 
         const data = {
-            kyc_front: kyc_front,
-            kyc_back: kyc_back,
+            kyc_front: blob_kyc_front,
+            kyc_back: blob_kyc_back,
             kyc_type: slug,
             kyc_serial_number: kyc_serial_number,
             issued_by: issued_by,
@@ -82,15 +89,12 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
             form_data.append(key, data[key]);
         }
 
-        setIsLoading(true);
         UploadDocs(form_data, token, leadID)
             .then((res) => {
                 if (res) {
-                    console.log(res, '-----res')
                     setIsLoading(false);
                 } else {
                     setIsLoading(false);
-
                 }
             })
             .catch((error) => {
@@ -142,7 +146,7 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
                                             border={2}
                                             borderColor="grey.400"
                                             borderRadius={8}
-                                            src={img_tem}
+                                            src={kyc_front}
                                             alt="KYC Front"
                                         />
                                     </>
@@ -187,7 +191,7 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
                                             border={2}
                                             borderColor="grey.400"
                                             borderRadius={8}
-                                            src={img_tem}
+                                            src={kyc_back}
                                             alt="KYC Front"
                                         />
                                     </>

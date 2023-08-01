@@ -4,26 +4,25 @@ const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 const UploadDocs = async (formdata, token, leadId) => {
     try {
-        formdata.forEach((value,key) => {
-            console.log(key+" "+value)
-          });
+        alert(0)
         const headers = {
             headers: {
+                'Content-Type': 'multipart/form-data',
                 Authorization: 'Token ' + token
             }
         };
-        if (!token) {
-            toast.error('You are not authorized to view this page');
-            localStorage.removeItem('user');
-            const timer = setTimeout(() => {
-                window.location.href = '/login';
-            }, 500);
-            return () => clearTimeout(timer);
-        }
+        // if (!token) {
+        //     toast.error('You are not authorized to view this page');
+        //     localStorage.removeItem('user');
+        //     const timer = setTimeout(() => {
+        //         window.location.href = '/login';
+        //     }, 500);
+        //     return () => clearTimeout(timer);
+        // }
 
         const response = await axios
-            .post(`http://sandbox.credithive.co.uk:8088/webservices/v1/lead/${leadId}/upload_ekyc_document`, formdata, headers)
-            // .post(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
+            // .post(`http://sandbox.credithive.co.uk:/webservices/v2/lead/465/upload_ekyc_document`, formdata, headers)
+            .post(API_Base_Url + `/v1/lead/${leadId}/upload_ekyc_document`, formdata, headers)
             .then((response) => {
                 return response;
             })
