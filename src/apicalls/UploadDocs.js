@@ -4,7 +4,7 @@ const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
 const UploadDocs = async (formdata, token, leadId) => {
     try {
-        alert(0)
+        alert(0);
         const headers = {
             headers: {
                 'Content-Type': 'multipart/form-data',
@@ -22,7 +22,7 @@ const UploadDocs = async (formdata, token, leadId) => {
 
         const response = await axios
             // .post(`http://sandbox.credithive.co.uk:/webservices/v2/lead/465/upload_ekyc_document`, formdata, headers)
-            .post(API_Base_Url + `/v1/lead/${leadId}/upload_ekyc_document`, formdata, headers)
+            .post(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
             .then((response) => {
                 return response;
             })

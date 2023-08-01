@@ -45,10 +45,12 @@ const OrderSummaryPage = () => {
     const order = {
         // ... other order details ...
         leadInfo: {
-            name: 'John Doe',
-            email: 'john@example.com',
-            phone: '123-456-7890',
-            address: '123, Main Street, City'
+            name: saleData[0].prospect_id.first_name + ' ' + saleData[0].prospect_id.last_name,
+
+            email: saleData[0].prospect_id.email,
+            phone: saleData[0].prospect_id.full_phones,
+            address: '123, Main Street, City',
+            saleorder: saleData[0].order_sr_id
         },
         // ... other order details ...
         photoUrl: 'https://example.com/device-photo.jpg',
@@ -57,7 +59,6 @@ const OrderSummaryPage = () => {
             price: 99.99
             // Add more package details as needed
         }
-        // ... other order details ...
     };
     const { user } = useAuthContext();
     let token = null;
@@ -82,7 +83,7 @@ const OrderSummaryPage = () => {
                     // toast.success('Select Device');
 
                     const filterData = res.results.filter((item) => item.device.id === deviceId);
-                    if (filterData.length > 0) {
+                    if (filterData.length > 1) {
                         getSaleData(filterData);
                     } else {
                         toast.error("Can't place same order");
