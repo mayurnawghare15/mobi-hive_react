@@ -36,11 +36,11 @@ const EligibleDevices = () => {
     }
 
     useEffect(() => {
-        const leadid = localStorage.getItem("lead_id")
-        if (leadid){
+        const leadid = localStorage.getItem('lead_id');
+        if (leadid) {
             fetchData(leadid);
-        }else{
-            return toast.error("You can not access this page")
+        } else {
+            return toast.error('You can not access this page');
         }
     }, []);
 
@@ -56,7 +56,6 @@ const EligibleDevices = () => {
                 })
                 .catch((error) => {
                     setIsLoading(false);
-                    return toast.error(error);
                 });
         } catch (error) {
             setIsLoading(false);

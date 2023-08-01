@@ -10,9 +10,10 @@ import { useTheme } from '@mui/material/styles';
 import PlaceOrderAPI from '../apicalls/PlaceOrderAPI';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
-import { Navigate } from 'react-router';
+import { useNavigate } from 'react-router';
 
 export default function ResponsiveDialog(props) {
+    const navigate = useNavigate();
     const { confirmOrder, setConfirmOrder } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -24,19 +25,19 @@ export default function ResponsiveDialog(props) {
     if (user) {
         token = user.token;
     }
+    const leadid = localStorage.getItem('lead_id');
 
     const handleConfirm = () => {
         setConfirmOrder(false);
-        PlaceOrderAPI(token, 455, deviceId, pkgId)
+        PlaceOrderAPI(token, leadid, deviceId, pkgId)
             .then((res) => {
                 if (res) {
-                    alert('Sucess');
                     toast.success(res.message);
-                    return Navigate(`/payment`);
+                    return navigate('/payment', { state: deviceId });
                 }
             })
             .catch((error) => {
-                return toast.error('Something went wrong , Please check your internet connection.');
+                // return toast.error('Something went wrong , Please check your internet connection.');
             });
     };
 

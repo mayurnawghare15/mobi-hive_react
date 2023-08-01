@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
+const PlaceOrderAPI = async (token, leadid) => {
     try {
         const headers = {
             headers: {
@@ -22,20 +22,20 @@ const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
             return () => clearTimeout(timer);
         }
 
-        const response = await axios.get(API_Base_Url + `/v1/place-order/${prospectId}/${deviceId}/${pkgId}`, headers);
+        const response = await axios.get(API_Base_Url + `/v1/get_lead_sale_order/${leadid}`, headers);
 
-        if (response.status === 201) {
+        if (response.status) {
             // Success: Order placed successfully
-            toast.success('Order Placed Successfully');
-            console.log(response);
+
             return response.data;
         }
     } catch (error) {
         if (error.response) {
             if (error.response.status === 400) {
-                toast.error("Oops! Sorry this Order can't be placed..");
+                toast.error('Internal Server error');
             } else if (error.response.status === 401) {
                 // Handle unauthorized access error
+                toast.error("You're not Unauthorized");
             } else if (error.response.status === 404) {
                 toast.error('URL not found');
             } else if (error.response.status >= 500) {
