@@ -36,7 +36,7 @@ const EligibleDevices = () => {
     }
 
     useEffect(() => {
-        const leadid = localStorage.getItem("leadId")
+        const leadid = localStorage.getItem("lead_id")
         if (leadid){
             fetchData(leadid);
         }else{

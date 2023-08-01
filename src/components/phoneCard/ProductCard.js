@@ -122,9 +122,6 @@ const ProductCard = (deviceData) => {
     var data = deviceData.deviceData;
     var packages = data.package;
     const deviceId = data.device.id;
-    console.log('data');
-    console.log(data);
-    console.log('deviceid');
 
     const handlePackageChange = (packageId) => {
         console.log(packageId);
@@ -140,7 +137,6 @@ const ProductCard = (deviceData) => {
 
     return (
         <>
-            {' '}
             {confirmOrder && (
                 <ConfirmDialog
                     selectedPackage={selectedPackage}

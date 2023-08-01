@@ -9,7 +9,6 @@ const UploadDocs = async (formdata, token, leadId) => {
           });
         const headers = {
             headers: {
-                'Content-Type': 'multipart/form-data',
                 Authorization: 'Token ' + token
             }
         };
@@ -23,7 +22,7 @@ const UploadDocs = async (formdata, token, leadId) => {
         }
 
         const response = await axios
-            .post('http://sandbox.credithive.co.uk:8088/webservices/v2/lead/465/upload_ekyc_document/', formdata, headers)
+            .post(`http://sandbox.credithive.co.uk:8088/webservices/v1/lead/${leadId}/upload_ekyc_document`, formdata, headers)
             // .post(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
             .then((response) => {
                 return response;
