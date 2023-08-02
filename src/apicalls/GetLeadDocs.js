@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const UploadDocs = async (formdata, token, leadId) => {
+const GetLeadDocsApi = async (leadId, token ) => {
     try {
         const headers = {
             headers: {
@@ -19,8 +19,7 @@ const UploadDocs = async (formdata, token, leadId) => {
             return () => clearTimeout(timer);
         }
         
-        // post(`http://sandbox.credithive.co.uk:8088/webservices/v2/lead/465/upload_ekyc_document/`, formdata, headers)
-        const response = await axios.post(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
+        const response = await axios.get(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, headers)
             .then((response) => {
                 return response;
             })
@@ -47,4 +46,4 @@ const UploadDocs = async (formdata, token, leadId) => {
     }
 };
 
-export default UploadDocs;
+export default GetLeadDocsApi;

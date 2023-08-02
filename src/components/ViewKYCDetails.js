@@ -11,10 +11,11 @@ import UploadDocs from '../apicalls/UploadDocs';
 import img_tem from "../assets/images/samsungA03.png"
 import { useLocation } from 'react-router';
 import { b64toBlob } from '../helper';
+import { useEffect } from 'react';
 
 
 const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, slug,
-    showValidTill, showSerialNumber, dataDocuments, updateDataFunc }) => {
+    showValidTill, showSerialNumber, dataDocuments, setDataFunc }) => {
     const { t } = useTranslation();
     const location = useLocation();
     const { state } = location;
@@ -35,7 +36,7 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
     const onInputChange = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        updateDataFunc({
+        setDataFunc({
             ...dataDocuments,
             [name]: value
         });
@@ -43,12 +44,12 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
 
     const handleImages = (value) => {
         if (imgType === 'kyc_front') {
-            updateDataFunc({
+            setDataFunc({
                 ...dataDocuments,
                 kyc_front: value
             });
         } else {
-            updateDataFunc({
+            setDataFunc({
                 ...dataDocuments,
                 kyc_back: value
             });
@@ -65,14 +66,18 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
         setOpenCamera(true);
     };
 
+    useEffect(() => {
+         console.log(dataDocuments,'----dataDocuments')
+    }, [dataDocuments])
+    
     const handleSubmit = () => {
         var kyc_front_temp = kyc_front.split(",");
         var kyc_back_temp = kyc_back.split(",");
-        const content_type_front =kyc_front_temp[0].split(":")[1]
-        const content_type_back =kyc_back_temp[0].split(":")[1]
-    
-        let blob_kyc_front = b64toBlob(kyc_front_temp[1],content_type_front)
-        let blob_kyc_back = b64toBlob(kyc_back_temp[1],content_type_back)
+        const content_type_front = kyc_front_temp[0].split(":")[1]
+        const content_type_back = kyc_back_temp[0].split(":")[1]
+
+        let blob_kyc_front = b64toBlob(kyc_front_temp[1], content_type_front)
+        let blob_kyc_back = b64toBlob(kyc_back_temp[1], content_type_back)
 
         const data = {
             kyc_front: blob_kyc_front,
@@ -85,9 +90,14 @@ const ViewKYCDetails = ({ lead_id, open, setOpen, showFrontSide, showBackSide, s
         };
         var form_data = new FormData();
 
-        for (var key in data) {
-            form_data.append(key, data[key]);
-        }
+        form_data.append("kyc_front",blob_kyc_front,"kyc_front.png");
+        form_data.append("kyc_back",blob_kyc_front,"kyc_back.png");
+        form_data.append("kyc_type",slug);
+        form_data.append("kyc_serial_number",kyc_serial_number);
+        form_data.append("issued_by",issued_by);
+        form_data.append("issued_date",issued_date);
+        form_data.append("kyc_valid_till",kyc_valid_till);
+
 
         UploadDocs(form_data, token, leadID)
             .then((res) => {

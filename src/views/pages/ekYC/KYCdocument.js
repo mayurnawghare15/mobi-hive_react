@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { decryptData } from '../../../helper/encryption/decrypt';
+import GetLeadDocsApi from '../../../apicalls/GetLeadDocs';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
@@ -28,7 +29,7 @@ function KYCDocumentPage() {
     const leadid = localStorage.getItem("lead_id")
     const [lead_id, setLead_id] = useState(state.leadid || leadid);
     const [isVerified, setIsVerified] = useState(false);
-    const [isAdded, setIsAdded] = useState(false);
+    const [isAdded, setIsAdded] = useState(true);
     const [documentTypeData, setDocumentTypeData] = useState(false);
     const [docType, setDocType] = useState(false);
     const [showFrontDoc, setShowFrontDoc] = useState(false);
@@ -37,7 +38,7 @@ function KYCDocumentPage() {
     const [showSerialNumber, setShowSerialNumber] = useState(false);
     const [salarySlip, setSalarySlip] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [nationalId, setNationalId] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [drivingLicence, setDrivingLicence] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [aadharCard, setAadharCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const { user } = useAuthContext();
@@ -63,6 +64,46 @@ function KYCDocumentPage() {
             // setIsAdded(true);
         }
     };
+    useEffect(() => {
+        if (open === false) {
+            get_lead_detail_api(lead_id)
+        }
+    }, [open])
+
+    const get_lead_detail_api = (lead_id) => {
+        GetLeadDetailsApi(lead_id, token)
+            .then((res) => {
+                if (res) {
+                    const data = res.data.ekyc_document
+                    // console.log(res.data.ekyc_document, '---Lead Data  ---');
+                    setDocumentTypeData(data)
+                    for (let document in data) {
+                        const doclist = data[document].document_list
+                        // .document_slug
+                        for (let docItem in doclist) {
+
+                            if (docItem.document_slug==="aadhar_card") {
+                                setAadharCard(docItem)
+                            }else if(docItem.document_slug==="pan_card"){
+                                setPanCard(docItem)
+                            }else if(docItem.document_slug==="passport"){
+                                setPassport(docItem)
+                            }else if(docItem.document_slug==="national_id"){
+                                setNationalId(docItem)
+                            }else if(docItem.document_slug==="salary_slip"){
+                                setSalarySlip(docItem)
+                            }
+                        }
+                    }
+                } else {
+                    // setIsLoading(false)
+                    // setCreateLeadForm([])
+                }
+            })
+            .catch((error) => {
+                return toast.error('Something went wrong , Please check your internet connection.');
+            });
+    }
 
     useEffect(() => {
         const decrypted_mob = decryptData(mobile_Number)
@@ -76,42 +117,28 @@ function KYCDocumentPage() {
         }
 
         if (lead_id) {
-            GetLeadDetailsApi(lead_id, token)
-                .then((res) => {
-                    if (res) {
-                        console.log(res.data.ekyc_document, '---Lead Data  ---');
-                        setDocumentTypeData(res.data.ekyc_document)
-                    } else {
-                        // setIsLoading(false)
-                        // setCreateLeadForm([])
-                    }
-                })
-                .catch((error) => {
-                    return toast.error('Something went wrong , Please check your internet connection.');
-                });
+            get_lead_detail_api(lead_id)
         }
         else {
             return toast.error("You can not authorized this page")
-
         }
     }, [])
 
 
     // LeadCreateFormApi
-
     return (
         <>
             <ViewKYCDetails lead_id={lead_id} open={open} setOpen={setOpen}
                 showFrontSide={showFrontDoc} showBackSide={showbackDoc}
                 slug={docType}
-                updateDataFunc={docType === "aadhar_card" ?
-                    setDrivingLicence : docType === "pan_card" ?
+                setDataFunc={docType === "aadhar_card" ?
+                    setAadharCard : docType === "pan_card" ?
                         setPanCard : docType === "passport" ?
                             setNationalId : docType === "national_id" ?
                                 setPassport : docType === "salary_slip" ? setSalarySlip : ""}
 
                 dataDocuments={docType === "aadhar_card" ?
-                    drivingLicence : docType === "pan_card" ?
+                    aadharCard : docType === "pan_card" ?
                         panCard : docType === "passport" ?
                             nationalId : docType === "national_id" ?
                                 passport : docType === "salary_slip" ? salarySlip : ""}
@@ -161,7 +188,7 @@ function KYCDocumentPage() {
                                                     color="primary"
                                                     onClick={() => handleAddButton(itemData.document_slug, itemData.req_front, itemData.req_back, itemData.req_serial_number, itemData.req_valid_till)}
                                                     startIcon={
-                                                        isAdded ? (
+                                                        itemData.kyc_front ? (
                                                             <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
                                                         ) : (
                                                             <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
