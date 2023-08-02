@@ -1,16 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { Container, Typography, Paper, Grid } from '@mui/material';
+import { Container, Typography, Grid } from '@mui/material';
 import LeadIDCard from './LeadIDCard';
-import PhotoOfDevice from './PhotoOfDevice';
 import PackageCard from './PackageCard';
-import MainCard from '../../../ui-component/cards/MainCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { makeStyles } from '@mui/styles';
+import { makeStyles, useTheme } from '@mui/styles';
 import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
-import { useState } from 'react';
 import { useLocation } from 'react-router';
 
 // Create custom styles
@@ -25,77 +22,74 @@ const useStyles = makeStyles((theme) => ({
         width: '50%',
         height: '30vh',
         marginTop: theme.spacing(1),
-        marginLeft: 'auto',
-        marginRight: theme.spacing(1),
         alignItems: 'flex-end',
         display: 'flex',
         flexDirection: 'column'
+    },
+    card: {
+        marginBottom: theme.spacing(2)
+    },
+    tableContainer: {
+        maxHeight: 200,
+        overflowY: 'auto'
+    },
+    boldText: {
+        fontWeight: 'bold'
     }
 }));
-
 const OrderSummaryPage = () => {
     const location = useLocation();
     const { state } = location;
     const deviceId = state;
     const { t } = useTranslation();
     const classes = useStyles();
-    //Sale Data is an array need to manage the latest and do not authorize to go back
-    const [saleData, getSaleData] = useState('');
+    const theme = useTheme();
 
-    const order = {
-        // ... other order details ...
-        leadInfo: {
-            name: saleData[0].prospect_id.first_name + ' ' + saleData[0].prospect_id.last_name,
+    // Sale Data is an object, need to manage the latest and do not authorize to go back
+    const [saleData, setSaleData] = useState(null);
 
-            email: saleData[0].prospect_id.email,
-            phone: saleData[0].prospect_id.full_phones,
-            address: '123, Main Street, City',
-            saleorder: saleData[0].order_sr_id
-        },
-        // ... other order details ...
-        photoUrl: 'https://example.com/device-photo.jpg',
-        packageInfo: {
-            name: 'Premium Package',
-            price: 99.99
-            // Add more package details as needed
-        }
-    };
     const { user } = useAuthContext();
-    let token = null;
-    if (user) {
-        token = user.token;
-    }
+    const token = user ? user.token : null;
 
     useEffect(() => {
-        console.log(deviceId);
         const leadid = localStorage.getItem('lead_id');
+        console.log(deviceId);
+        console.log(leadid);
         if (leadid) {
-            fetchData(leadid);
+            fetchData(leadid, deviceId);
         } else {
             return toast.error('You can not access this page');
         }
-    }, []);
+    }, [deviceId]);
 
-    const fetchData = (leadid) => {
+    const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
                 .then((res) => {
-                    // toast.success('Select Device');
-
                     const filterData = res.results.filter((item) => item.device.id === deviceId);
-                    if (filterData.length > 1) {
-                        getSaleData(filterData);
+                    if (filterData.length > 0) {
+                        setSaleData(filterData[0]);
                     } else {
-                        toast.error("Can't place same order");
+                        toast.error("Can't place the same order");
                     }
                 })
                 .catch((error) => {});
         } catch (error) {
-            toast.error(error);
+            toast.error('Something went wrong, please check your internet connection.');
         }
     };
 
-    console.log(saleData);
+    const handleConfirmOrder = () => {
+        // Implement the logic to handle the order confirmation and redirection to the payment page.
+        // For example, you can use the useHistory hook to navigate to the payment page.
+        // Replace '/payment' with the actual path of the payment page in your application.
+        // history.push('/payment');
+    };
+
+    if (saleData) {
+        console.log('saleData');
+        console.log(saleData);
+    }
 
     return (
         <>
@@ -104,24 +98,19 @@ const OrderSummaryPage = () => {
                     {t('order_summary')}
                 </Typography>
             </Grid>
-            <Container maxWidth="md" className={classes.container}>
-                <SubCard>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={4}>
-                            <LeadIDCard leadInfo={order.leadInfo} />
+            <Container maxWidth="md" sx={{ ...classes.container, marginLeft: 'auto', marginRight: theme.spacing(5) }}>
+                {saleData && (
+                    <SubCard>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} sm={4}>
+                                <LeadIDCard leadInfo={saleData.prospect_id} />
+                            </Grid>
+                            <Grid item xs={12} sm={8}>
+                                <PackageCard packageInfo={saleData} />
+                            </Grid>
                         </Grid>
-                        <Grid item xs={12} sm={8}>
-                            <LeadIDCard leadInfo={order.leadInfo} />
-                        </Grid>
-                    </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <PackageCard packageInfo={order.packageInfo} />
-                    </Grid>
-                    {/* <Grid item xs={12}>
-                            <PhotoOfDevice photoUrl={order.photoUrl} />
-                        </Grid> */}
-                    {/* ... other order summary details ... */}
-                </SubCard>
+                    </SubCard>
+                )}
             </Container>
         </>
     );

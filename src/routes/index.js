@@ -121,7 +121,7 @@ const AllRoutes = () => {
                         }
                     />
                     <PrivateRoute
-                        path="/payment"
+                        path="/payment/"
                         element={
                             user ? (
                                 <MinimalLayout>
