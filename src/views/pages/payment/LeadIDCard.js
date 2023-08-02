@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 300
     },
     title: {
-        fontSize: '1.5rem',
+        fontSize: '1rem',
         fontWeight: 'bold',
         marginBottom: theme.spacing(2)
     },

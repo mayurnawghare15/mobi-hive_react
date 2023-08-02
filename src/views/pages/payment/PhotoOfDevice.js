@@ -1,16 +1,50 @@
 import React from 'react';
-import { Card, CardContent, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
 
-const PhotoOfDevice = ({ photoUrl }) => {
+const useStyles = makeStyles((theme) => ({
+    image: {
+        marginTop: '1rem', // Adjusted the margin for better spacing
+        maxWidth: '100%',
+        height: 'auto'
+    },
+    textcards: {
+        border: '2px solid black',
+        padding: '0.5rem',
+        textAlign: 'center'
+    },
+    tagsContainer: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '0.5rem'
+    },
+    tag: {
+        padding: '0.2rem 0.5rem',
+        borderRadius: '4px',
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.common.white,
+        marginLeft: '0.5rem'
+    }
+}));
+
+const PhotoOfDevice = (props) => {
+    const deviceData = props.deviceData;
+    const classes = useStyles();
+    console.log(deviceData);
     return (
-        <Card>
+        <div>
             <CardContent>
-                <Typography variant="h6" gutterBottom>
-                    Photo of the Device
+                <Typography variant="h3" gutterBottom>
+                    {deviceData.model_name}
                 </Typography>
-                <img src={photoUrl} alt="Device" style={{ maxWidth: '100%', height: 'auto' }} />
+                <Grid container className={classes.tagsContainer}>
+                    <Typography className={classes.tag}>Phones</Typography>
+                    <Typography className={classes.tag}>Sale Order</Typography>
+                </Grid>
+                <img src={deviceData.photo} className={classes.image} alt="Device" />
             </CardContent>
-        </Card>
+        </div>
     );
 };
 

@@ -3,12 +3,25 @@ import { Card, CardContent, Typography, Table, TableBody, TableCell, TableContai
 import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles((theme) => ({
-    card: {
-        marginBottom: theme.spacing(2)
-    },
     tableContainer: {
         maxHeight: 200,
         overflowY: 'auto'
+    },
+    card: {
+        backgroundColor: theme.palette.primary.light,
+        padding: theme.spacing(2),
+        borderRadius: theme.spacing(1),
+        boxShadow: theme.shadows[3],
+        minWidth: 300
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: '1rem',
+        fontWeight: 'bold',
+        marginBottom: theme.spacing(2)
+    },
+    details: {
+        marginBottom: theme.spacing(1)
     }
 }));
 
@@ -20,7 +33,7 @@ const PackageCard = ({ packageInfo }) => {
     return (
         <Card className={classes.card}>
             <CardContent>
-                <Typography variant="h6" gutterBottom>
+                <Typography variant="h4" className={classes.tittle} gutterBottom>
                     Selected Package
                 </Typography>
                 <TableContainer component={Paper} className={classes.tableContainer}>

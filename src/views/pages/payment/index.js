@@ -1,51 +1,54 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { Container, Typography, Grid } from '@mui/material';
+import { Card, Container, Typography, Grid } from '@mui/material';
 import LeadIDCard from './LeadIDCard';
 import PackageCard from './PackageCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
-import { makeStyles, useTheme } from '@mui/styles';
+import { makeStyles } from '@mui/styles';
 import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router';
+import PhotoOfDevice from './PhotoOfDevice';
 
-// Create custom styles
 const useStyles = makeStyles((theme) => ({
     heading: {
         fontSize: '2rem',
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: theme.spacing(4)
+        marginTop: theme.spacing(2)
     },
     container: {
-        width: '50%',
-        height: '30vh',
-        marginTop: theme.spacing(1),
-        alignItems: 'flex-end',
+        marginRight: 0,
         display: 'flex',
-        flexDirection: 'column'
-    },
-    card: {
+        justifyContent: 'flex-end',
+        width: '50%',
+        marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
-    tableContainer: {
-        maxHeight: 200,
-        overflowY: 'auto'
+    cardContainer: {
+        display: 'flex',
+        justifyContent: 'flex-start', // Align cards to the left
+        width: '100%'
     },
-    boldText: {
-        fontWeight: 'bold'
+    card: {
+        width: '40%', // Adjust the width to make the cards smaller
+        marginBottom: theme.spacing(2)
+    },
+    photoContainer: {
+        width: '100%', // Adjust the width to make the photo smaller
+        marginBottom: theme.spacing(2),
+        height: '100%' // Set the height to 100% of its parent container
     }
 }));
+
 const OrderSummaryPage = () => {
     const location = useLocation();
     const { state } = location;
     const deviceId = state;
     const { t } = useTranslation();
     const classes = useStyles();
-    const theme = useTheme();
 
-    // Sale Data is an object, need to manage the latest and do not authorize to go back
     const [saleData, setSaleData] = useState(null);
 
     const { user } = useAuthContext();
@@ -86,32 +89,39 @@ const OrderSummaryPage = () => {
         // history.push('/payment');
     };
 
-    if (saleData) {
-        console.log('saleData');
-        console.log(saleData);
-    }
+    // if (saleData) {
+    //     console.log('saleData');
+    //     console.log(saleData);
+    // }
 
     return (
         <>
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={12}>
                 <Typography variant="h2" className={classes.heading}>
                     {t('order_summary')}
                 </Typography>
             </Grid>
-            <Container maxWidth="md" sx={{ ...classes.container, marginLeft: 'auto', marginRight: theme.spacing(5) }}>
-                {saleData && (
+            <Grid container spacing={3}>
+                {/* Left side: PhotoOfDevice component */}
+
+                <Grid item xs={12} sm={6} mt={3}>
+                    <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData.device} />}</Card>
+                </Grid>
+
+                {/* Right side: LeadIDCard and PackageCard components */}
+                <Grid item xs={12} sm={6} className={classes.cardContainer}>
                     <SubCard>
                         <Grid container spacing={3}>
-                            <Grid item xs={12} sm={4}>
-                                <LeadIDCard leadInfo={saleData.prospect_id} />
+                            <Grid item xs={12} sm={12} className={classes.card}>
+                                {saleData && <LeadIDCard leadInfo={saleData.prospect_id} />}
                             </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <PackageCard packageInfo={saleData} />
+                            <Grid item xs={12} sm={12} className={classes.card}>
+                                {saleData && <PackageCard packageInfo={saleData} />}
                             </Grid>
                         </Grid>
                     </SubCard>
-                )}
-            </Container>
+                </Grid>
+            </Grid>
         </>
     );
 };
