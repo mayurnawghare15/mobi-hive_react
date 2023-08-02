@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { decryptData } from '../../../helper/encryption/decrypt';
+import GetLeadDocsApi from '../../../apicalls/GetLeadDocs';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
@@ -27,17 +28,13 @@ function KYCDocumentPage() {
     const [open, setOpen] = useState(false);
     const leadid = localStorage.getItem("lead_id")
     const [lead_id, setLead_id] = useState(state.leadid || leadid);
-    const [isVerified, setIsVerified] = useState(false);
-    const [isAdded, setIsAdded] = useState(false);
+    const [documentVerifiedCount, setDocumentVerifiedCount] = useState(0)
     const [documentTypeData, setDocumentTypeData] = useState(false);
     const [docType, setDocType] = useState(false);
-    const [showFrontDoc, setShowFrontDoc] = useState(false);
-    const [showbackDoc, setShowbackDoc] = useState(false);
-    const [showValidTill, setShowValidTill] = useState(false);
-    const [showSerialNumber, setShowSerialNumber] = useState(false);
+    const [docsItemData, setDocsItemData] = useState('');
     const [salarySlip, setSalarySlip] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [nationalId, setNationalId] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [drivingLicence, setDrivingLicence] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [aadharCard, setAadharCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const { user } = useAuthContext();
@@ -45,24 +42,49 @@ function KYCDocumentPage() {
     if (user) {
         token = user.token;
     }
-
-    const handleVerify = () => {
-        setIsVerified(true);
-    };
-    const handleAddButton = (type, front, back, validtill, serialNo) => {
-        setShowFrontDoc(front)
-        setShowbackDoc(back)
-        setDocType(type)
-        setShowSerialNumber(validtill)
-        setShowValidTill(serialNo)
+    const handleAddButton = (_itemData, type) => {
         setOpen(true);
-        if (isAdded) {
-        } else {
-            console.log('Default onClick for isAdded false');
+        setDocsItemData(_itemData)
+        // if (_itemData.kyc_front) {
 
-            // setIsAdded(true);
-        }
+        // } else {
+        //     console.log('Default onClick for isAdded false');
+        // }
     };
+    useEffect(() => {
+        get_lead_detail_api(lead_id, true)
+    }, [open])
+
+    const get_lead_detail_api = (lead_id, checkisVerify) => {
+        GetLeadDetailsApi(lead_id, token)
+            .then((res) => {
+                if (res) {
+                    const data = res.data.ekyc_document
+                    setDocumentTypeData(data)
+                    if (checkisVerify) {
+                        for (let document in data) {
+                            const doclist = data[document].document_list
+                            for (let docItem in doclist) {
+                                if (doclist[docItem].document_slug === "aadhar_card") {
+                                    setDocumentVerifiedCount(1)
+                                }
+                                if (doclist[docItem].document_slug === "passport") {
+                                    setDocumentVerifiedCount(1)
+                                }
+                                if (doclist[docItem].document_slug === "national_id") {
+                                    setDocumentVerifiedCount(2)
+                                }
+                                if (doclist[docItem].document_slug === "salary_slip") {
+                                    setDocumentVerifiedCount(3)
+                                }
+                            }
+                        }
+                        console.log(documentVerifiedCount)
+                    }
+                }
+            })
+
+    }
 
     useEffect(() => {
         const decrypted_mob = decryptData(mobile_Number)
@@ -75,49 +97,37 @@ function KYCDocumentPage() {
             return toast.error('You are not authorized this page');
         }
 
-        if (lead_id) {
-            GetLeadDetailsApi(lead_id, token)
-                .then((res) => {
-                    if (res) {
-                        console.log(res.data.ekyc_document, '---Lead Data  ---');
-                        setDocumentTypeData(res.data.ekyc_document)
-                    } else {
-                        // setIsLoading(false)
-                        // setCreateLeadForm([])
-                    }
-                })
-                .catch((error) => {
-                    return toast.error('Something went wrong , Please check your internet connection.');
-                });
-        }
-        else {
+        if (!lead_id) {
             return toast.error("You can not authorized this page")
-
         }
+        // if (lead_id) {
+        //     get_lead_detail_api(lead_id, false)
+        // }
+        // else {
+        //     return toast.error("You can not authorized this page")
+        // }
     }, [])
+
+    const handelGotoEligibleDevices = () => {
+    navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: state.ph_number, leadid: lead_id } });
+    }
 
 
     // LeadCreateFormApi
-
     return (
         <>
-            <ViewKYCDetails lead_id={lead_id} open={open} setOpen={setOpen}
-                showFrontSide={showFrontDoc} showBackSide={showbackDoc}
+            <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open} setOpen={setOpen}
                 slug={docType}
-                updateDataFunc={docType === "aadhar_card" ?
-                    setDrivingLicence : docType === "pan_card" ?
+                setDataFunc={docType === "aadhar_card" ?
+                    setAadharCard : docType === "pan_card" ?
                         setPanCard : docType === "passport" ?
                             setNationalId : docType === "national_id" ?
                                 setPassport : docType === "salary_slip" ? setSalarySlip : ""}
-
                 dataDocuments={docType === "aadhar_card" ?
-                    drivingLicence : docType === "pan_card" ?
+                    aadharCard : docType === "pan_card" ?
                         panCard : docType === "passport" ?
                             nationalId : docType === "national_id" ?
-                                passport : docType === "salary_slip" ? salarySlip : ""}
-
-                showValidTill={showValidTill}
-                showSerialNumber={showSerialNumber} />
+                                passport : docType === "salary_slip" ? salarySlip : ""} />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -136,7 +146,7 @@ function KYCDocumentPage() {
                         <>
                             <SubCard>
                                 <>
-                                    <h3>{item.label} {item.count} </h3>
+                                    <h3>{item.label} {item.count}  (Choose any one document)</h3>
                                 </>
                                 {item.document_list && item.document_list.length > 0 &&
                                     item.document_list.map(itemData => (
@@ -151,17 +161,17 @@ function KYCDocumentPage() {
                                                     startIcon={
                                                         <CheckCircleOutlineTwoToneIcon
                                                             style={{ fontSize: 35 }}
-                                                            htmlColor={isVerified ? 'green' : 'inherit'}
+                                                            htmlColor={itemData.kyc_front ? 'green' : 'inherit'}
                                                         />
                                                     }
-                                                    title={isVerified ? 'Verified' : 'Verify'}
+                                                    title={itemData.kyc_front ? 'Verified' : 'Verify'}
                                                 />
                                                 <Button
                                                     size="large"
                                                     color="primary"
-                                                    onClick={() => handleAddButton(itemData.document_slug, itemData.req_front, itemData.req_back, itemData.req_serial_number, itemData.req_valid_till)}
+                                                    onClick={() => handleAddButton(itemData, itemData.document_slug)}
                                                     startIcon={
-                                                        isAdded ? (
+                                                        itemData.kyc_front ? (
                                                             <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
                                                         ) : (
                                                             <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
@@ -180,8 +190,14 @@ function KYCDocumentPage() {
                         : ""
                     }
 
-
+                    {documentVerifiedCount >= 2 ? <>
+                        <Button onClick={handelGotoEligibleDevices} size="small" type="button" variant="contained" color="warning">
+                            <label>Go to eligible devices</label>
+                        </Button>
+                    </>
+                        : ""}
                 </MainCard>
+
             </Grid>
         </>
     );
