@@ -46,17 +46,6 @@ const RegisterLeadViaPhone = () => {
         setDOB(event.target.value);
     };
 
-    // const saveDataToCookie = () => {
-    //     const dataToSave = { mobilenumber:  }; // Replace this with your data to save
-    //     Cookies.set('myCookie', dataToSave, { expires: 7 }); // 'myCookie' is the name of the cookie
-    //   };
-
-    // Function to retrieve data from cookies
-    // const getDataFromCookie = () => {
-    //     const savedData = Cookies.getJSON('myCookie'); // Get data as JSON object
-    //     console.log(savedData); // Replace this with how you want to use the retrieved data
-    // };
-
     const handleSendOtp = () => {
         if (!mobileNumber) {
             toast.error(t('please_enter_a_mobile_number'));
@@ -104,7 +93,6 @@ const RegisterLeadViaPhone = () => {
                 debug: false,
                 is_resend: true
             };
-            console.log(body);
             const headers = {
                 headers: {
                     Authorization: 'Token ' + token

@@ -18,14 +18,11 @@ const UploadDocs = async (formdata, token, leadId) => {
             }, 500);
             return () => clearTimeout(timer);
         }
-        
-        // post(`http://sandbox.credithive.co.uk:8088/webservices/v2/lead/465/upload_ekyc_document/`, formdata, headers)
         const response = await axios.post(API_Base_Url + `/v2/lead/${leadId}/upload_ekyc_document/`, formdata, headers)
             .then((response) => {
                 return response;
             })
             .catch((error) => {
-                console.log(error, '--------error');
                 if (error.response.status === 400) {
                     return toast.error('Something went wrong , Please contact to Admin.');
                 } else if (error.response.status === 401) {

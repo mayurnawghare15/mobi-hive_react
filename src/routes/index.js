@@ -130,7 +130,7 @@ const AllRoutes = () => {
                                     </MainLayout>
                                 </MinimalLayout>
                             ) : (
-                                <Navigate to="/eligibledevices" />
+                                <Navigate to="/eligibledevices/:mobile_Number" />
                             )
                         }
                     />
