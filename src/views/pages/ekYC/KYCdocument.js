@@ -146,7 +146,7 @@ function KYCDocumentPage() {
                         <>
                             <SubCard>
                                 <>
-                                    <h3>{item.label} {item.count}  (Choose any one document)</h3>
+                                    <h3>{item.label} {item.count}  ( Choose any one document)</h3>
                                 </>
                                 {item.document_list && item.document_list.length > 0 &&
                                     item.document_list.map(itemData => (
@@ -191,7 +191,7 @@ function KYCDocumentPage() {
                     }
 
                     {documentVerifiedCount >= 2 ? <>
-                        <Button onClick={handelGotoEligibleDevices} size="small" type="button" variant="contained" color="warning">
+                        <Button onClick={handelGotoEligibleDevices} size="larg" type="button" variant="contained" color="warning">
                             <label>Go to eligible devices</label>
                         </Button>
                     </>
