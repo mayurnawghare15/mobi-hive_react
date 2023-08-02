@@ -27,6 +27,7 @@ const EligibleDevices = () => {
     const [allData, setAllData] = useState([]);
     const [showProduct, setShowProduct] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('')
 
     const classes = useStyles();
     const { user } = useAuthContext();
@@ -43,6 +44,22 @@ const EligibleDevices = () => {
             return toast.error('You can not access this page');
         }
     }, []);
+    // useEffect(() => {
+
+    // }, []);
+
+
+    // const handleSearch = (event) => {
+    //     const searchTerm = event.target.value;
+    //     setSearchTerm(searchTerm);
+    
+    //     const filteredData = initialData.filter((item) =>
+    //       item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //       // Assuming you want to filter based on the 'name' property of each item.
+    //     );
+    
+    //     setData(filteredData);
+    //   };
 
     const fetchData = (leadid) => {
         try {
@@ -50,7 +67,9 @@ const EligibleDevices = () => {
                 .then((res) => {
                     // toast.success('Select Device');
                     setAllData(res);
+
                     setDeviceData(res.results);
+                    console.log(deviceData,'----- deviceData ------')
                     setShowProduct(true);
                     setIsLoading(false);
                 })
