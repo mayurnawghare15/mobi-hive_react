@@ -49,17 +49,17 @@ const EligibleDevices = () => {
     // }, []);
 
 
-    const handleSearch = (event) => {
-        const searchTerm = event.target.value;
-        setSearchTerm(searchTerm);
+    // const handleSearch = (event) => {
+    //     const searchTerm = event.target.value;
+    //     setSearchTerm(searchTerm);
     
-        const filteredData = initialData.filter((item) =>
-          item.name.toLowerCase().includes(searchTerm.toLowerCase())
-          // Assuming you want to filter based on the 'name' property of each item.
-        );
+    //     const filteredData = initialData.filter((item) =>
+    //       item.name.toLowerCase().includes(searchTerm.toLowerCase())
+    //       // Assuming you want to filter based on the 'name' property of each item.
+    //     );
     
-        setData(filteredData);
-      };
+    //     setData(filteredData);
+    //   };
 
     const fetchData = (leadid) => {
         try {
