@@ -98,14 +98,14 @@ const OrderSummaryPage = () => {
         <>
             <Grid item xs={12} md={12}>
                 <Typography variant="h2" className={classes.heading}>
-                    {t('order_summary')}
+                    {t('Order Summary')}
                 </Typography>
             </Grid>
             <Grid container spacing={3}>
                 {/* Left side: PhotoOfDevice component */}
 
                 <Grid item xs={12} sm={6} mt={3}>
-                    <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData.device} />}</Card>
+                    <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData} />}</Card>
                 </Grid>
 
                 {/* Right side: LeadIDCard and PackageCard components */}

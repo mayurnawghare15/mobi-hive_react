@@ -33,7 +33,7 @@ export default function ResponsiveDialog(props) {
             .then((res) => {
                 if (res) {
                     toast.success(res.message);
-                    return navigate('/payment', { state: deviceId });
+                    return navigate('/orderSumary', { state: deviceId });
                 }
             })
             .catch((error) => {
