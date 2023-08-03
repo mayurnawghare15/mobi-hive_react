@@ -24,7 +24,6 @@ const GetLeadDocsApi = async (leadId, token ) => {
                 return response;
             })
             .catch((error) => {
-                console.log(error, '--------error');
                 if (error.response.status === 400) {
                     return toast.error('Something went wrong , Please contact to Admin.');
                 } else if (error.response.status === 401) {

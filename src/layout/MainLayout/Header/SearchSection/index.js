@@ -80,9 +80,9 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SEARCH INPUT ||-----------------------//
 
-const SearchSection = () => {
+const SearchSection = ({handleSearch, searchTerm}) => {
     const classes = useStyles();
-    const [value, setValue] = useState('');
+    // const [value, setValue] = useState('');
 
     return (
         <React.Fragment>
@@ -92,11 +92,6 @@ const SearchSection = () => {
                     <PopupState variant="popper" popupId="demo-popup-popper">
                         {(popupState) => (
                             <React.Fragment>
-                                {/* <ButtonBase sx={{ borderRadius: '12px' }}>
-                                    <Avatar variant="rounded" className={classes.headerAvatar} {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
-                                    </Avatar>
-                                </ButtonBase> */}
                                 <Popper {...bindPopper(popupState)} transition className={classes.popperContainer}>
                                     {/* ... (rest of the JSX unchanged) ... */}
                                 </Popper>
@@ -107,23 +102,14 @@ const SearchSection = () => {
                 <OutlinedInput
                     className={classes.searchControl}
                     id="input-search-header"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    value={searchTerm}
+                    onChange={handleSearch}
                     placeholder="Search"
                     startAdornment={
                         <InputAdornment position="start">
                             <IconSearch stroke={1.5} size="1rem" className={classes.startAdornment} />
                         </InputAdornment>
                     }
-                    // endAdornment={
-                    //     <InputAdornment position="end">
-                    //         <ButtonBase sx={{ borderRadius: '12px' }}>
-                    //             <Avatar variant="rounded" className={classes.headerAvatar}>
-                    //                 <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                    //             </Avatar>
-                    //         </ButtonBase>
-                    //     </InputAdornment>
-                    // }
                     aria-describedby="search-helper-text"
                     inputProps={{
                         'aria-label': 'weight'

@@ -114,17 +114,16 @@ const handleCardClick = () => {
     console.log('Card clicked!');
 };
 
-const ProductCard = (deviceData) => {
+const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const classes = useStyles();
     const [isPackage, setIsPackage] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
     const [confirmOrder, setConfirmOrder] = useState(false);
-    var data = deviceData.deviceData;
+    var data = deviceData;
     var packages = data.package;
     const deviceId = data.device.id;
 
     const handlePackageChange = (packageId) => {
-        console.log(packageId);
         setSelectedPackage(packageId);
         setConfirmOrder(true);
     };
@@ -139,6 +138,8 @@ const ProductCard = (deviceData) => {
         <>
             {confirmOrder && (
                 <ConfirmDialog
+                encrypted_mobile_Number={encrypted_mobile_Number}
+                    state={state}
                     selectedPackage={selectedPackage}
                     data={data}
                     confirmOrder={confirmOrder}
@@ -183,9 +184,8 @@ const ProductCard = (deviceData) => {
                                         {packages.slice(0, data.count).map((pkg) => (
                                             <div
                                                 key={pkg.id}
-                                                className={`${classes.packageRadio} ${
-                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
-                                                }`}
+                                                className={`${classes.packageRadio} ${selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                    }`}
                                                 onClick={() => handlePackageChange(pkg.id)}
                                             >
                                                 <input

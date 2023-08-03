@@ -26,9 +26,8 @@ function KYCDocumentPage() {
     const location = useLocation();
     const { state } = location;
     const [open, setOpen] = useState(false);
-    const leadid = localStorage.getItem("lead_id")
-    const [lead_id, setLead_id] = useState(state.leadid || leadid);
-    const [documentVerifiedCount, setDocumentVerifiedCount] = useState(0)
+    const lead_id = state.leadid;
+    let [documentVerifiedCount, setDocumentVerifiedCount] = useState(0);
     const [documentTypeData, setDocumentTypeData] = useState(false);
     const [docType, setDocType] = useState(false);
     const [docsItemData, setDocsItemData] = useState('');
@@ -37,6 +36,7 @@ function KYCDocumentPage() {
     const [aadharCard, setAadharCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [nullHandel, setNullHandel] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
     const { user } = useAuthContext();
     let token = null;
     if (user) {
@@ -52,47 +52,15 @@ function KYCDocumentPage() {
         // }
     };
     useEffect(() => {
-        get_lead_detail_api(lead_id, true)
-    }, [open])
-
-    const get_lead_detail_api = (lead_id, checkisVerify) => {
-        GetLeadDetailsApi(lead_id, token)
-            .then((res) => {
-                if (res) {
-                    const data = res.data.ekyc_document
-                    setDocumentTypeData(data)
-                    if (checkisVerify) {
-                        for (let document in data) {
-                            const doclist = data[document].document_list
-                            for (let docItem in doclist) {
-                                if (doclist[docItem].document_slug === "aadhar_card") {
-                                    setDocumentVerifiedCount(1)
-                                }
-                                if (doclist[docItem].document_slug === "passport") {
-                                    setDocumentVerifiedCount(1)
-                                }
-                                if (doclist[docItem].document_slug === "national_id") {
-                                    setDocumentVerifiedCount(2)
-                                }
-                                if (doclist[docItem].document_slug === "salary_slip") {
-                                    setDocumentVerifiedCount(3)
-                                }
-                            }
-                        }
-                        console.log(documentVerifiedCount)
-                    }
-                }
-            })
-
-    }
-
-    useEffect(() => {
+        console.log(lead_id,'Lead Id')
         const decrypted_mob = decryptData(mobile_Number)
+        console.log(decrypted_mob,'decrypted_mob')
+        console.log(state,'state')
         if (!state) {
             navigate('/lead/verify-phonenumber')
             return toast.error('You can not direct authorized this page');
         } else if (decrypted_mob === state.ph_number) {
-            // if (state) setCreateLeadForm(state);
+            get_lead_detail_api(lead_id)
         } else {
             return toast.error('You are not authorized this page');
         }
@@ -100,34 +68,81 @@ function KYCDocumentPage() {
         if (!lead_id) {
             return toast.error("You can not authorized this page")
         }
-        // if (lead_id) {
-        //     get_lead_detail_api(lead_id, false)
-        // }
-        // else {
-        //     return toast.error("You can not authorized this page")
-        // }
-    }, [])
+  
+    }, [open])
 
-    const handelGotoEligibleDevices = () => {
-    navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: state.ph_number, leadid: lead_id } });
+    const get_lead_detail_api = (lead_id) => {
+        GetLeadDetailsApi(lead_id, token)
+            .then((res) => {
+                if (res) {
+                    const data = res.data.ekyc_document
+                    setDocumentTypeData(data)
+
+                    for (let document in data) {
+                        const doclist = data[document].document_list;
+
+                        for (let docItem in doclist) {
+                            if (doclist[docItem].document_slug === "aadhar_card" || doclist[docItem].document_slug === "passport") {
+
+                                if (doclist[docItem].kyc_front) {
+                                    console.log("aadhar_card")
+                                    setDocumentVerifiedCount(1 + documentVerifiedCount);
+                                }
+                            }
+                            if (doclist[docItem].document_slug === "national_id") {
+                                
+                                if (doclist[docItem].kyc_front) {
+                                    console.log("national_id")
+                                    setDocumentVerifiedCount(2 + documentVerifiedCount);
+                                }
+                            }
+                            if (doclist[docItem].document_slug === "salary_slip") {
+
+                                if (doclist[docItem].kyc_front) {
+                                    setDocumentVerifiedCount(3 + documentVerifiedCount);
+                                }
+                            }
+                        }
+                    }
+
+                }
+            })
     }
-
-
+    const gotoEligibleDevice = () => {
+        return navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: state.ph_number, leadid: lead_id } });
+    }
     // LeadCreateFormApi
     return (
         <>
-            <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open} setOpen={setOpen}
-                slug={docType}
-                setDataFunc={docType === "aadhar_card" ?
-                    setAadharCard : docType === "pan_card" ?
-                        setPanCard : docType === "passport" ?
-                            setNationalId : docType === "national_id" ?
-                                setPassport : docType === "salary_slip" ? setSalarySlip : ""}
-                dataDocuments={docType === "aadhar_card" ?
-                    aadharCard : docType === "pan_card" ?
-                        panCard : docType === "passport" ?
-                            nationalId : docType === "national_id" ?
-                                passport : docType === "salary_slip" ? salarySlip : ""} />
+            <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open}
+                setOpen={setOpen}
+                // setSalarySlip={setSalarySlip}
+                setDataFunc={
+                    docType === "aadhar_card"
+                        ? setAadharCard
+                        : docType === "pan_card"
+                            ? setPanCard
+                            : docType === "passport"
+                                ? setNationalId
+                                : docType === "national_id"
+                                    ? setPassport
+                                    : docType === "salary_slip"
+                                        ? setSalarySlip
+                                        : setNullHandel// Use null or any other default value if needed
+                }
+                dataDocuments={
+                    docType === "aadhar_card"
+                        ? aadharCard
+                        : docType === "pan_card"
+                            ? panCard
+                            : docType === "passport"
+                                ? nationalId
+                                : docType === "national_id"
+                                    ? passport
+                                    : docType === "salary_slip"
+                                        ? salarySlip
+                                        : nullHandel // Use null or any other default value if needed
+                } />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -146,7 +161,7 @@ function KYCDocumentPage() {
                         <>
                             <SubCard>
                                 <>
-                                    <h3>{item.label} {item.count}  ( Choose any one document)</h3>
+                                    <h3>{item.label} Required *  (Choose any one document)</h3>
                                 </>
                                 {item.document_list && item.document_list.length > 0 &&
                                     item.document_list.map(itemData => (
@@ -189,9 +204,9 @@ function KYCDocumentPage() {
                     ))
                         : ""
                     }
-
+                    {documentVerifiedCount + "  documentVerifiedCount"}
                     {documentVerifiedCount >= 2 ? <>
-                        <Button onClick={handelGotoEligibleDevices} size="larg" type="button" variant="contained" color="warning">
+                        <Button onClick={gotoEligibleDevice} size="small" type="button" variant="contained" color="warning">
                             <label>Go to eligible devices</label>
                         </Button>
                     </>
