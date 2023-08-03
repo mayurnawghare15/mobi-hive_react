@@ -18,7 +18,7 @@ import { ChoiceListProvider } from '../context/ChoiceListContext';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
-const OrderSumary = Loadable(lazy(() => import('../views/pages/orderSumary')));
+const Ordersummary = Loadable(lazy(() => import('../views/pages/orderSumary')));
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -121,12 +121,12 @@ const AllRoutes = () => {
                         }
                     />
                     <PrivateRoute
-                        path="/orderSumary/"
+                        path="/ordersummary/:mobile_Number"
                         element={
                             user ? (
                                 <MinimalLayout>
                                     <MainLayout>
-                                        <OrderSumary />
+                                        <Ordersummary />
                                     </MainLayout>
                                 </MinimalLayout>
                             ) : (

@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const LeadCreateFormApi = async (body, token) => {
+const LeadCreateFormApi = async (body, token, create_copy_new_lead) => {
     try {
         const headers = {
             headers: {
@@ -20,8 +20,13 @@ const LeadCreateFormApi = async (body, token) => {
             return () => clearTimeout(timer);
         }
 
+        const url = "/v2/prospect_lead/"
+        if (create_copy_new_lead) {
+            url = "/v2/new-prospect-lead/"
+        }
+
         const response = await axios
-            .post(API_Base_Url + '/v2/prospect_lead/', body, headers)
+            .post(API_Base_Url + url, body, headers)
             .then((response) => {
                 return response;
             })

@@ -8,6 +8,8 @@ import EligibleDevicesAPI from '../../../apicalls/EligibleDevicesAPI';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
+import { useLocation, useNavigate, useParams } from 'react-router';
+import { decryptData } from '../../../helper/encryption/decrypt';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -22,12 +24,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EligibleDevices = () => {
+    const { state } = useLocation()
+    const { mobile_Number } = useParams();
+    const navigate = useNavigate()
+    const leadid = state.leadid
     const { t } = useTranslation();
     const [deviceData, setDeviceData] = useState([]);
     const [allData, setAllData] = useState([]);
     const [showProduct, setShowProduct] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('')
+    const [filterData, setFilterData] = useState("")
 
     const classes = useStyles();
     const { user } = useAuthContext();
@@ -37,39 +44,37 @@ const EligibleDevices = () => {
     }
 
     useEffect(() => {
-        const leadid = localStorage.getItem('lead_id');
-        if (leadid) {
+        const decrypted_mob = decryptData(mobile_Number)
+        if (!state) {
+            navigate('/lead/verify-phonenumber');
+            return toast.error('Need to verify your Mobile Number ');
+        } else if (decrypted_mob !== state.ph_number) {
+            return toast.error('You are not authorized this page');
+        } else if (leadid) {
             fetchData(leadid);
         } else {
             return toast.error('You can not access this page');
         }
     }, []);
-    // useEffect(() => {
 
-    // }, []);
+    const handleSearch = (event) => {
+        const searchTerm = event.target.value;
+        setSearchTerm(searchTerm);
 
-
-    // const handleSearch = (event) => {
-    //     const searchTerm = event.target.value;
-    //     setSearchTerm(searchTerm);
-    
-    //     const filteredData = initialData.filter((item) =>
-    //       item.name.toLowerCase().includes(searchTerm.toLowerCase())
-    //       // Assuming you want to filter based on the 'name' property of each item.
-    //     );
-    
-    //     setData(filteredData);
-    //   };
+        const filteredData = deviceData.filter((item) =>
+        item.device.device_summary.toLowerCase().includes(searchTerm.toLowerCase()));
+        console.log(filteredData, '----filteredData')
+        setFilterData(filteredData);
+    };
 
     const fetchData = (leadid) => {
         try {
             EligibleDevicesAPI(token, leadid)
                 .then((res) => {
-                    // toast.success('Select Device');
                     setAllData(res);
-
                     setDeviceData(res.results);
-                    console.log(deviceData,'----- deviceData ------')
+                    console.log(res.results, '---res.results')
+                    setFilterData(res.results)
                     setShowProduct(true);
                     setIsLoading(false);
                 })
@@ -92,7 +97,7 @@ const EligibleDevices = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <div className={classes.searchContainer}>
-                        <SearchSection />
+                        <SearchSection handleSearch={handleSearch} searchTerm={searchTerm} />
                     </div>
                 </Grid>
             </Grid>
@@ -110,7 +115,7 @@ const EligibleDevices = () => {
                     showProduct &&
                     Array.from({ length: allData.count }).map((_, index) => (
                         <Grid key={index} item xs={12} sm={12}>
-                            <ProductCard deviceData={deviceData[index]} index={index} />
+                            <ProductCard encrypted_mobile_Number={mobile_Number} state={state} deviceData={filterData[index]} index={index} />
                         </Grid>
                     ))
                 )}

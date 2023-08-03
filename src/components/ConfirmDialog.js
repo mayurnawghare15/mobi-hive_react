@@ -14,26 +14,27 @@ import { useNavigate } from 'react-router';
 
 export default function ResponsiveDialog(props) {
     const navigate = useNavigate();
-    const { confirmOrder, setConfirmOrder } = props;
+    const { confirmOrder, setConfirmOrder, selectedPackage, data, encrypted_mobile_Number, state } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-    const pkgId = props.selectedPackage;
-    const deviceId = props.data.device.id;
+    const pkgId = selectedPackage;
+    const deviceId = data.device.id;
     const { user } = useAuthContext();
     let token = null;
     if (user) {
         token = user.token;
     }
-    const leadid = localStorage.getItem('lead_id');
 
     const handleConfirm = () => {
         setConfirmOrder(false);
-        PlaceOrderAPI(token, leadid, deviceId, pkgId)
+        PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
             .then((res) => {
                 if (res) {
                     toast.success(res.message);
-                    return navigate('/orderSumary', { state: deviceId });
+                    return navigate(`/payment/${encodeURIComponent(encrypted_mobile_Number)}`, {
+                        state: { ph_number: state.ph_number, leadid: state.leadid }
+                    });
                 }
             })
             .catch((error) => {
