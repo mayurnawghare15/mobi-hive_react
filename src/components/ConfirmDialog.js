@@ -32,7 +32,9 @@ export default function ResponsiveDialog(props) {
             .then((res) => {
                 if (res) {
                     toast.success(res.message);
-                    return navigate(`/payment/${encodeURIComponent(encrypted_mobile_Number)}`, { state: { ph_number: state.ph_number, leadid: state.leadid } });
+                    return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
+                        state: { ph_number: state.ph_number, leadid: state.leadid, deviceId: deviceId }
+                    });
                 }
             })
             .catch((error) => {

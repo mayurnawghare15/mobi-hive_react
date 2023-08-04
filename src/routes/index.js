@@ -18,7 +18,8 @@ import { ChoiceListProvider } from '../context/ChoiceListContext';
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
-const Payment = Loadable(lazy(() => import('../views/pages/payment')));
+const Ordersummary = Loadable(lazy(() => import('../views/pages/orderSumary')));
+const SearchLead = Loadable(lazy(() => import('../views/pages/searchLead')));
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -57,6 +58,20 @@ const AllRoutes = () => {
                                 </MinimalLayout>
                             ) : (
                                 <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/search"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <SearchLead />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/" />
                             )
                         }
                     />
@@ -121,12 +136,12 @@ const AllRoutes = () => {
                         }
                     />
                     <PrivateRoute
-                        path="/payment/:mobile_Number"
+                        path="/ordersummary/:mobile_Number"
                         element={
                             user ? (
                                 <MinimalLayout>
                                     <MainLayout>
-                                        <Payment />
+                                        <Ordersummary />
                                     </MainLayout>
                                 </MinimalLayout>
                             ) : (
