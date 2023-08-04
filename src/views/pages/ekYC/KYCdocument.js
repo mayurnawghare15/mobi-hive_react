@@ -97,7 +97,6 @@ function KYCDocumentPage() {
                                 }
                             }
                             if (doclist[docItem].document_slug === "salary_slip") {
-
                                 if (doclist[docItem].kyc_front) {
                                     setDocumentVerifiedCount(3 + documentVerifiedCount);
                                 }
