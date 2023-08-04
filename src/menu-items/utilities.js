@@ -17,62 +17,70 @@ const icons = {
 
 export const utilities = {
     id: 'utilities',
-    title: 'Utilities',
+    title: 'Menu',
     type: 'group',
     children: [
         {
             id: 'util-typography',
-            title: 'Verify Phone Number',
+            title: 'All Leads',
             type: 'item',
-            url: '/lead/verify-phonenumber',
+            url: '/search',
             icon: icons['IconeCreateLead'],
             breadcrumbs: true
         },
         {
-            id: 'util-color',
+            id: 'util-createLead',
             title: 'Create Lead',
             type: 'item',
-            url: '/lead/createlead/:mobile_Number',
+            url: '/lead/verify-phonenumber',
             icon: icons['CreateIcon'],
-            breadcrumbs: false
-        },
-        {
-            id: 'util-shadow',
-            title: 'KYC',
-            type: 'item',
-            url: '/lead/kyc',
-            icon: icons['DocumentScannerIcon'],
-            breadcrumbs: false
-        },
-        {
-            id: 'util-Devices',
-            title: 'Eligible Devices',
-            type: 'item',
-            url: '/eligibledevices',
-            icon: icons['DocumentScannerIcon'],
-            breadcrumbs: false
-        },
-        {
-            id: 'icons',
-            title: 'Icons',
-            type: 'collapse',
-            icon: icons['IconWindmill'],
-            children: [
-                {
-                    id: 'tabler-icons',
-                    title: 'Tabler Icons',
-                    type: 'item',
-                    url: '/icons/tabler-icons',
-                    breadcrumbs: false
-                },
-                {
-                    id: 'material-icons',
-                    title: 'Material Icons',
-                    type: 'item',
-                    url: '/icons/material-icons',
-                    breadcrumbs: false
-                }
-            ]
+            breadcrumbs: true
         }
+        // {
+        //     id: 'util-color',
+        //     title: 'Create Lead',
+        //     type: 'item',
+        //     url: '/lead/createlead/:mobile_Number',
+        //     icon: icons['CreateIcon'],
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'util-shadow',
+        //     title: 'KYC',
+        //     type: 'item',
+        //     url: '/lead/kyc',
+        //     icon: icons['DocumentScannerIcon'],
+        //     breadcrumbs: false
+        // },
+        // {
+        //     id: 'util-Devices',
+        //     title: 'Eligible Devices',
+        //     type: 'item',
+        //     url: '/eligibledevices',
+        //     icon: icons['DocumentScannerIcon'],
+        //     breadcrumbs: false
+        // }
+        // {
+        //     id: 'icons',
+        //     title: 'Icons',
+        //     type: 'collapse',
+        //     icon: icons['IconWindmill'],
+        //     children: [
+        //         {
+        //             id: 'tabler-icons',
+        //             title: 'Tabler Icons',
+        //             type: 'item',
+        //             url: '/icons/tabler-icons',
+        //             breadcrumbs: false
+        //         },
+        //         {
+        //             id: 'material-icons',
+        //             title: 'Material Icons',
+        //             type: 'item',
+        //             url: '/icons/material-icons',
+        //             breadcrumbs: false
+        //         }
+        //     ]
+        // }
     ]
 };

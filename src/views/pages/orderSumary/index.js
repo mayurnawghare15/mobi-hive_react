@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const OrderSummaryPage = () => {
     const location = useLocation();
     const { state } = location;
-    const deviceId = state;
+    const deviceId = state.deviceId;
     const { t } = useTranslation();
     const classes = useStyles();
 
@@ -63,13 +63,14 @@ const OrderSummaryPage = () => {
         } else {
             return toast.error('You can not access this page');
         }
-    }, [deviceId]);
+    }, []);
 
     const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
                 .then((res) => {
                     const filterData = res.results.filter((item) => item.device.id === deviceId);
+
                     if (filterData.length > 0) {
                         setSaleData(filterData[0]);
                     } else {
@@ -102,13 +103,9 @@ const OrderSummaryPage = () => {
                 </Typography>
             </Grid>
             <Grid container spacing={3}>
-                {/* Left side: PhotoOfDevice component */}
-
                 <Grid item xs={12} sm={6} mt={3}>
                     <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData} />}</Card>
                 </Grid>
-
-                {/* Right side: LeadIDCard and PackageCard components */}
                 <Grid item xs={12} sm={6} className={classes.cardContainer}>
                     <SubCard>
                         <Grid container spacing={3}>

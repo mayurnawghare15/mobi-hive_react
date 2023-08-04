@@ -19,6 +19,7 @@ const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegi
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
 const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
 const Ordersummary = Loadable(lazy(() => import('../views/pages/orderSumary')));
+const SearchLead = Loadable(lazy(() => import('../views/pages/searchLead')));
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
@@ -57,6 +58,20 @@ const AllRoutes = () => {
                                 </MinimalLayout>
                             ) : (
                                 <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/search"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <SearchLead />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/" />
                             )
                         }
                     />
