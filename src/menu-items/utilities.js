@@ -22,7 +22,7 @@ export const utilities = {
     children: [
         {
             id: 'util-typography',
-            title: 'All Leads',
+            title: 'Recent Leads',
             type: 'item',
             url: '/search',
             icon: icons['IconeCreateLead'],

@@ -71,6 +71,7 @@ const useStyles = makeStyles((theme) => ({
             marginRight: '8px'
         }
     },
+
     loginInput: {
         ...theme.typography.customInput
     }
@@ -85,7 +86,7 @@ const RestLogin = (props, { ...others }) => {
 
     // const scriptedRef = useScriptRef();
     const [checked, setChecked] = useState(true);
-  
+
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
         setShowPassword(!showPassword);
@@ -129,6 +130,7 @@ const RestLogin = (props, { ...others }) => {
                         <FormControl fullWidth error={Boolean(touched.username && errors.username)} className={classes.loginInput}>
                             <InputLabel htmlFor="outlined-adornment-username-login">{t('username')}</InputLabel>
                             <OutlinedInput
+                                className={classes.OutlinedInput}
                                 id="outlined-adornment-username-login"
                                 type="username"
                                 value={values.username}
@@ -153,6 +155,7 @@ const RestLogin = (props, { ...others }) => {
                         <FormControl fullWidth error={Boolean(touched.password && errors.password)} className={classes.loginInput}>
                             <InputLabel htmlFor="outlined-adornment-password-login">{t('password')}</InputLabel>
                             <OutlinedInput
+                                className={classes.OutlinedInput}
                                 id="outlined-adornment-password-login"
                                 type={showPassword ? 'text' : 'password'}
                                 value={values.password}
