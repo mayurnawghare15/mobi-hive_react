@@ -97,7 +97,6 @@ function KYCDocumentPage() {
                                 }
                             }
                             if (doclist[docItem].document_slug === "salary_slip") {
-
                                 if (doclist[docItem].kyc_front) {
                                     setDocumentVerifiedCount(3 + documentVerifiedCount);
                                 }
@@ -116,7 +115,6 @@ function KYCDocumentPage() {
         <>
             <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open}
                 setOpen={setOpen}
-                // setSalarySlip={setSalarySlip}
                 setDataFunc={
                     docType === "aadhar_card"
                         ? setAadharCard

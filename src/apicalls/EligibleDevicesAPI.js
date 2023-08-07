@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const EligibleDevicesAPI = async (token, prospectId) => {
+const EligibleDevicesAPI = async (token, prospectId,search_param) => {
     try {
         const headers = {
             headers: {
@@ -21,7 +21,7 @@ const EligibleDevicesAPI = async (token, prospectId) => {
             return () => clearTimeout(timer);
         }
         const response = await axios
-            .get(API_Base_Url + `/v1/devices/?prospect_id=${prospectId}`, headers)
+            .get(API_Base_Url + `/v2/devices/?prospect_id=${prospectId}&search=${search_param}`, headers)
             .then((response) => {
                 return response;
             })

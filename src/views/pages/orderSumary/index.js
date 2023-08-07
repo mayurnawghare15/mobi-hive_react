@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate, useParams } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
 import PaymentTermsCard from './PaymentTermsCard';
 import DeviceInfo from './DeviceInfo';
@@ -42,7 +42,12 @@ const useStyles = makeStyles((theme) => ({
 
 const OrderSummaryPage = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const { state } = location;
+    console.log(state,'----state')
+    const { mobile_Number } = useParams();
+    const [open, setOpen] = useState(false);
+    const lead_id = state.leadid;
     const deviceId = state.deviceId;
     const { t } = useTranslation();
     const classes = useStyles();
@@ -52,10 +57,9 @@ const OrderSummaryPage = () => {
     const token = user ? user.token : null;
 
     useEffect(() => {
-        const leadid = localStorage.getItem('lead_id');
-        console.log(state);
-        if (leadid) {
-            fetchData(leadid, deviceId);
+        console.log(state)
+        if (lead_id) {
+            fetchData(lead_id, deviceId);
         } else {
             toast.error('You can not access this page');
         }
