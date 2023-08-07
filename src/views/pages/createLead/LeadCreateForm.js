@@ -332,7 +332,7 @@ const LeadCreateForm = () => {
     };
     const { data, isLoading } = useContext(ChoiceListContext);
     useEffect(() => {
-        const decrypted_mob = decryptData(mobile_Number)
+        const decrypted_mob = decryptData(mobile_Number);
         if (!state) {
             navigate('/lead/verify-phonenumber');
             return toast.error('Need to verify your Mobile Number ');
@@ -389,14 +389,16 @@ const LeadCreateForm = () => {
                     customer_localityInputRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         } else {
-            const create_copy_new_lead = state.first_name ? true : false
-            LeadCreateFormApi(createLeadForm, token,create_copy_new_lead)
+            const create_copy_new_lead = state.first_name ? true : false;
+            LeadCreateFormApi(createLeadForm, token, create_copy_new_lead)
                 .then((res) => {
                     if (res) {
                         setLeadId(res.data.id);
                         // localStorage.setItem("lead_id",res.data.id)
                         toast.success(res.message);
-                        return navigate(`/lead/kyc/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: ph_number, leadid: res.data.id } });
+                        return navigate(`/lead/kyc/${encodeURIComponent(mobile_Number)}`, {
+                            state: { ph_number: ph_number, leadid: res.data.id }
+                        });
                     }
                 })
                 .catch((error) => {
@@ -466,7 +468,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                // required
+                                    // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3.3}>
@@ -970,10 +972,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                <MenuItem value={item.id} id={item.slug}>
-                                                    {item.name}
-                                                </MenuItem>
-                                            ))
+                                                  <MenuItem value={item.id} id={item.slug}>
+                                                      {item.name}
+                                                  </MenuItem>
+                                              ))
                                             : []
                                         : null}
                                 </Select>

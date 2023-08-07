@@ -10,6 +10,9 @@ import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
+import PaymentTermsCard from './PaymentTermsCard';
+import DeviceInfo from './DevieInfo';
+import LoadingSkeleton from '../../../components/LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -56,8 +59,7 @@ const OrderSummaryPage = () => {
 
     useEffect(() => {
         const leadid = localStorage.getItem('lead_id');
-        console.log(deviceId);
-        console.log(leadid);
+        console.log(state);
         if (leadid) {
             fetchData(leadid, deviceId);
         } else {
@@ -69,7 +71,7 @@ const OrderSummaryPage = () => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
                 .then((res) => {
-                    const filterData = res.results.filter((item) => item.device.id === deviceId);
+                    const filterData = res.data.filter((item) => item.device.id === deviceId);
 
                     if (filterData.length > 0) {
                         setSaleData(filterData[0]);
@@ -97,6 +99,13 @@ const OrderSummaryPage = () => {
 
     return (
         <>
+            {/* <Grid item xs={12} sm={12}>
+                <LoadingSkeleton />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+                <LoadingSkeleton />
+            </Grid> */}
+
             <Grid item xs={12} md={12}>
                 <Typography variant="h2" className={classes.heading}>
                     {t('Order Summary')}
@@ -104,7 +113,10 @@ const OrderSummaryPage = () => {
             </Grid>
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} mt={3}>
-                    <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData} />}</Card>
+                    <Card className={classes.photoContainer}>
+                        {saleData && <PhotoOfDevice deviceData={saleData} />}
+                        <DeviceInfo deviceData={saleData} />
+                    </Card>
                 </Grid>
                 <Grid item xs={12} sm={6} className={classes.cardContainer}>
                     <SubCard>
@@ -118,6 +130,7 @@ const OrderSummaryPage = () => {
                         </Grid>
                     </SubCard>
                 </Grid>
+                <PaymentTermsCard />
             </Grid>
         </>
     );

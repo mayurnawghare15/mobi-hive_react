@@ -75,7 +75,8 @@ const CreateEmployerPopup = ({ show, setShow }) => {
         // e.preventDefault();
         console.log(formEmployer);
 
-        console.log(ValidateEmail(email));
+        console.log(token);
+
         AddEmployerAPI(formEmployer, token)
             .then((res) => {
                 if (res) {

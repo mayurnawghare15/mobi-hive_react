@@ -24,17 +24,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const EligibleDevices = () => {
-    const { state } = useLocation()
+    const { state } = useLocation();
     const { mobile_Number } = useParams();
-    const navigate = useNavigate()
-    const leadid = state.leadid
+    const navigate = useNavigate();
+    const leadid = state.leadid;
     const { t } = useTranslation();
     const [deviceData, setDeviceData] = useState([]);
     const [allData, setAllData] = useState([]);
     const [showProduct, setShowProduct] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [searchTerm, setSearchTerm] = useState('')
-    const [filterData, setFilterData] = useState("")
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filterData, setFilterData] = useState('');
 
     const classes = useStyles();
     const { user } = useAuthContext();
@@ -44,7 +44,7 @@ const EligibleDevices = () => {
     }
 
     useEffect(() => {
-        const decrypted_mob = decryptData(mobile_Number)
+        const decrypted_mob = decryptData(mobile_Number);
         if (!state) {
             navigate('/lead/verify-phonenumber');
             return toast.error('Need to verify your Mobile Number ');
@@ -61,9 +61,7 @@ const EligibleDevices = () => {
         const searchTerm = event.target.value;
         setSearchTerm(searchTerm);
 
-        const filteredData = deviceData.filter((item) =>
-        item.device.device_summary.toLowerCase().includes(searchTerm.toLowerCase()));
-        console.log(filteredData, '----filteredData')
+        const filteredData = deviceData.filter((item) => item.device.device_summary.toLowerCase().includes(searchTerm.toLowerCase()));
         setFilterData(filteredData);
     };
 
@@ -73,8 +71,7 @@ const EligibleDevices = () => {
                 .then((res) => {
                     setAllData(res);
                     setDeviceData(res.results);
-                    console.log(res.results, '---res.results')
-                    setFilterData(res.results)
+                    setFilterData(res.results);
                     setShowProduct(true);
                     setIsLoading(false);
                 })
@@ -115,7 +112,12 @@ const EligibleDevices = () => {
                     showProduct &&
                     Array.from({ length: allData.count }).map((_, index) => (
                         <Grid key={index} item xs={12} sm={12}>
-                            <ProductCard encrypted_mobile_Number={mobile_Number} state={state} deviceData={filterData[index]} index={index} />
+                            <ProductCard
+                                encrypted_mobile_Number={mobile_Number}
+                                state={state}
+                                deviceData={filterData[index]}
+                                index={index}
+                            />
                         </Grid>
                     ))
                 )}
