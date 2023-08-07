@@ -5,14 +5,14 @@ import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
 import LocationCityIcon from '@mui/icons-material/LocationCity';
 
-// Create custom styles
 const useStyles = makeStyles((theme) => ({
     card: {
         backgroundColor: theme.palette.primary.light,
         padding: theme.spacing(2),
         borderRadius: theme.spacing(1),
         boxShadow: theme.shadows[3],
-        minWidth: 300
+        minWidth: 200,
+        height: 250
     },
     title: {
         fontSize: '1rem',

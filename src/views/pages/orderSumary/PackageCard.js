@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const PackageCard = ({ packageInfo }) => {
     const classes = useStyles();
     const applied_package = packageInfo.applied_package;
-    console.log('packageInfo');
+    console.log('packageInfo ');
     console.log(packageInfo);
     return (
         <div className={classes.root}>

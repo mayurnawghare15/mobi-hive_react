@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { useLocation } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
 import PaymentTermsCard from './PaymentTermsCard';
-import DeviceInfo from './DevieInfo';
+import DeviceInfo from './DeviceInfo';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,8 +59,7 @@ const OrderSummaryPage = () => {
         } else {
             toast.error('You can not access this page');
         }
-    }, [deviceId]); // Add deviceId as a dependency to re-fetch data when it changes
-
+    }, [deviceId]);
     const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
@@ -110,7 +109,7 @@ const OrderSummaryPage = () => {
                             </Grid>
                         </Grid>
                     </SubCard>
-                    {saleData ? <PaymentTermsCard /> : <LoadingSkeleton />}
+                    {saleData ? <PaymentTermsCard saleData={saleData} /> : <LoadingSkeleton />}
                 </Grid>
             </Grid>
         </>

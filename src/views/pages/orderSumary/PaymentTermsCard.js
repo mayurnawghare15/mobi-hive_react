@@ -3,10 +3,11 @@ import { Card, CardContent, Typography, Button, IconButton, Grid } from '@mui/ma
 import { makeStyles } from '@mui/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useNavigate } from 'react-router';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(2),
         backgroundColor: theme.palette.primary.light,
         padding: theme.spacing(2),
         borderRadius: theme.spacing(1),
@@ -22,10 +23,13 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PaymentTermsCard = () => {
+const PaymentTermsCard = ({ saleData }) => {
+    const navigate = useNavigate();
     const classes = useStyles();
 
-    const handleAccept = () => {};
+    const handleAccept = () => {
+        return navigate(`/payment/`, { state: saleData });
+    };
 
     const handleDelete = () => {};
 
@@ -49,7 +53,7 @@ const PaymentTermsCard = () => {
                             onClick={handleAccept}
                             className={classes.acceptButton}
                         >
-                            Accept
+                            Accept & Pay
                         </Button>
                     </Grid>
                     <Grid item>

@@ -14,6 +14,7 @@ import PublicRoute from './PublicRoute';
 import EligibleDevices from '../views/pages/EligibleDevices';
 import { BussinessSectorProvider } from '../context/BussinessSectorContext';
 import { ChoiceListProvider } from '../context/ChoiceListContext';
+import Payment from '../views/pages/payment';
 
 const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
 const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
@@ -142,6 +143,20 @@ const AllRoutes = () => {
                                 <MinimalLayout>
                                     <MainLayout>
                                         <Ordersummary />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/eligibledevices/:mobile_Number" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/payment"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <Payment />
                                     </MainLayout>
                                 </MinimalLayout>
                             ) : (
