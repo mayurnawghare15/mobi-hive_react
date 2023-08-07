@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const PlaceOrderAPI = async (token, leadid) => {
+const RecentLeads_Api = async (token, search_param) => {
     try {
         const headers = {
             headers: {
@@ -22,7 +22,7 @@ const PlaceOrderAPI = async (token, leadid) => {
             return () => clearTimeout(timer);
         }
 
-        const response = await axios.get(API_Base_Url + '/v2/recent_leads/?page=1&s=10&', headers);
+        const response = await axios.get(API_Base_Url + '/v2/recent_leads/?page=1&s=10&search=' + search_param, headers);
 
         if (response.status) {
             return response.data.results;
@@ -50,4 +50,4 @@ const PlaceOrderAPI = async (token, leadid) => {
     }
 };
 
-export default PlaceOrderAPI;
+export default RecentLeads_Api;

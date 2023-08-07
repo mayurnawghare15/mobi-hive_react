@@ -10,6 +10,7 @@ import { useAuthContext } from '../../../hooks/useAuthContext';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { decryptData } from '../../../helper/encryption/decrypt';
+import { debounce_custome } from '../../../helper';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -29,12 +30,10 @@ const EligibleDevices = () => {
     const navigate = useNavigate();
     const leadid = state.leadid;
     const { t } = useTranslation();
-    const [deviceData, setDeviceData] = useState([]);
     const [allData, setAllData] = useState([]);
-    const [showProduct, setShowProduct] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filterData, setFilterData] = useState('');
+    const [filterData, setFilterData] = useState([]);
 
     const classes = useStyles();
     const { user } = useAuthContext();
@@ -51,28 +50,21 @@ const EligibleDevices = () => {
         } else if (decrypted_mob !== state.ph_number) {
             return toast.error('You are not authorized this page');
         } else if (leadid) {
-            fetchData(leadid);
+            fetchData();
         } else {
             return toast.error('You can not access this page');
         }
     }, []);
 
-    const handleSearch = (event) => {
-        const searchTerm = event.target.value;
-        setSearchTerm(searchTerm);
+   
 
-        const filteredData = deviceData.filter((item) => item.device.device_summary.toLowerCase().includes(searchTerm.toLowerCase()));
-        setFilterData(filteredData);
-    };
-
-    const fetchData = (leadid) => {
+    const fetchData = (search_param = '') => {
         try {
-            EligibleDevicesAPI(token, leadid)
+            EligibleDevicesAPI(token, leadid, search_param)
                 .then((res) => {
-                    setAllData(res);
-                    setDeviceData(res.results);
+                    if (!search_param)
+                        setAllData(res.results);
                     setFilterData(res.results);
-                    setShowProduct(true);
                     setIsLoading(false);
                 })
                 .catch((error) => {
@@ -82,6 +74,19 @@ const EligibleDevices = () => {
             setIsLoading(false);
             toast.error(error);
         }
+    };
+
+    const handleSearch = (value) => {
+        const newSearchTerm = value;
+        setSearchTerm(newSearchTerm);
+        fetchData(newSearchTerm)
+    };
+
+    const debouncedHandleSearch = debounce_custome(handleSearch, 500); // Adjust the delay as needed
+
+    const handleInputChange = (event) => {
+        const newSearchTerm = event.target.value;
+        debouncedHandleSearch(newSearchTerm);
     };
 
     return (
@@ -94,7 +99,7 @@ const EligibleDevices = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <div className={classes.searchContainer}>
-                        <SearchSection handleSearch={handleSearch} searchTerm={searchTerm} />
+                        <SearchSection handleSearch={handleInputChange} searchTerm={searchTerm} />
                     </div>
                 </Grid>
             </Grid>
@@ -109,19 +114,21 @@ const EligibleDevices = () => {
                         </Grid>
                     </>
                 ) : (
-                    showProduct &&
-                    Array.from({ length: allData.count }).map((_, index) => (
-                        <Grid key={index} item xs={12} sm={12}>
+                    <> {filterData && filterData.length > 0 ? filterData.map((item, index) => (
+                        <Grid key={index + "_prductcard"} item xs={12} sm={12}>
                             <ProductCard
                                 encrypted_mobile_Number={mobile_Number}
                                 state={state}
-                                deviceData={filterData[index]}
+                                deviceData={item}
                                 index={index}
                             />
                         </Grid>
                     ))
+                        : "No devices available for now"
+                    }
+                    </>
                 )}
-            </Grid>
+            </Grid >
         </>
     );
 };

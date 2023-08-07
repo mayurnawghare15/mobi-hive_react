@@ -115,7 +115,6 @@ function KYCDocumentPage() {
         <>
             <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open}
                 setOpen={setOpen}
-                // setSalarySlip={setSalarySlip}
                 setDataFunc={
                     docType === "aadhar_card"
                         ? setAadharCard

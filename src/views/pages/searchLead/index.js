@@ -8,6 +8,7 @@ import LeadCard from './LeadCard';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
+import { debounce_custome } from '../../../helper';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -40,13 +41,13 @@ export default function SearchLead() {
     const token = user ? user.token : null;
 
     useEffect(() => {
-        fetchData();
+        fetchData(searchTerm);
     }, []);
 
-    const fetchData = () => {
+    const fetchData = (searchTerm='') => {
         try {
             setLoading(true);
-            GetRecentLeadsAPI(token)
+            GetRecentLeadsAPI(token, searchTerm)
                 .then((res) => {
                     setRecentData(res);
                 })
@@ -62,25 +63,19 @@ export default function SearchLead() {
         }
     };
 
-    const handleSearch = (event) => {
-        const newSearchTerm = event.target.value;
+    const handleSearch = (value) => {
+        const newSearchTerm = value;
         setSearchTerm(newSearchTerm);
-        fetchDataWithDebounce(newSearchTerm);
+        fetchData(newSearchTerm)
     };
 
-    const fetchDataWithDebounce = (searchTerm) => {
-        try {
-            GetRecentLeadsAPI(token, searchTerm)
-                .then((res) => {
-                    setRecentData(res);
-                })
-                .catch((error) => {
-                    toast.error('Something went wrong, please check your internet connection.');
-                });
-        } catch (error) {
-            toast.error('Something went wrong, please check your internet connection.');
-        }
+    const debouncedHandleSearch = debounce_custome(handleSearch, 500); // Adjust the delay as needed
+
+    const handleInputChange = (event) => {
+        const newSearchTerm = event.target.value;
+        debouncedHandleSearch(newSearchTerm);
     };
+
 
     return (
         <div className={classes.container}>
@@ -92,7 +87,7 @@ export default function SearchLead() {
                 </Grid>
                 <Grid item xs={12} md={10}>
                     <div className={classes.searchContainer}>
-                        <SearchSection handleSearch={handleSearch} />
+                        <SearchSection handleSearch={handleInputChange} />
                     </div>
                 </Grid>
                 {loading ? (
