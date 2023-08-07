@@ -10,35 +10,33 @@ import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
 import { useLocation } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
+import PaymentTermsCard from './PaymentTermsCard';
+import DeviceInfo from './DevieInfo';
+import LoadingSkeleton from '../../../components/LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
         fontSize: '2rem',
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: theme.spacing(2)
-    },
-    container: {
-        marginRight: 0,
-        display: 'flex',
-        justifyContent: 'flex-end',
-        width: '50%',
         marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
     },
     cardContainer: {
         display: 'flex',
-        justifyContent: 'flex-start', // Align cards to the left
-        width: '100%'
+        justifyContent: 'flex-start',
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column'
+        }
     },
     card: {
-        width: '40%', // Adjust the width to make the cards smaller
+        width: '100%',
         marginBottom: theme.spacing(2)
     },
     photoContainer: {
-        width: '100%', // Adjust the width to make the photo smaller
-        marginBottom: theme.spacing(2),
-        height: '100%' // Set the height to 100% of its parent container
+        height: '100%',
+        width: '100%',
+        marginBottom: theme.spacing(2)
     }
 }));
 
@@ -50,26 +48,24 @@ const OrderSummaryPage = () => {
     const classes = useStyles();
 
     const [saleData, setSaleData] = useState(null);
-
     const { user } = useAuthContext();
     const token = user ? user.token : null;
 
     useEffect(() => {
         const leadid = localStorage.getItem('lead_id');
-        console.log(deviceId);
-        console.log(leadid);
+        console.log(state);
         if (leadid) {
             fetchData(leadid, deviceId);
         } else {
-            return toast.error('You can not access this page');
+            toast.error('You can not access this page');
         }
-    }, []);
+    }, [deviceId]); // Add deviceId as a dependency to re-fetch data when it changes
 
     const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
                 .then((res) => {
-                    const filterData = res.results.filter((item) => item.device.id === deviceId);
+                    const filterData = res.data.filter((item) => item.device.id === deviceId);
 
                     if (filterData.length > 0) {
                         setSaleData(filterData[0]);
@@ -83,18 +79,6 @@ const OrderSummaryPage = () => {
         }
     };
 
-    const handleConfirmOrder = () => {
-        // Implement the logic to handle the order confirmation and redirection to the payment page.
-        // For example, you can use the useHistory hook to navigate to the payment page.
-        // Replace '/payment' with the actual path of the payment page in your application.
-        // history.push('/payment');
-    };
-
-    // if (saleData) {
-    //     console.log('saleData');
-    //     console.log(saleData);
-    // }
-
     return (
         <>
             <Grid item xs={12} md={12}>
@@ -103,20 +87,30 @@ const OrderSummaryPage = () => {
                 </Typography>
             </Grid>
             <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} mt={3}>
-                    <Card className={classes.photoContainer}>{saleData && <PhotoOfDevice deviceData={saleData} />}</Card>
+                <Grid item xs={12} sm={6} mt={2}>
+                    <Card className={classes.photoContainer}>
+                        {saleData ? (
+                            <>
+                                <PhotoOfDevice deviceData={saleData} />
+                                <DeviceInfo deviceData={saleData} />
+                            </>
+                        ) : (
+                            <LoadingSkeleton />
+                        )}
+                    </Card>
                 </Grid>
-                <Grid item xs={12} sm={6} className={classes.cardContainer}>
+                <Grid item xs={12} sm={6}>
                     <SubCard>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} className={classes.card}>
-                                {saleData && <LeadIDCard leadInfo={saleData.prospect_id} />}
+                                {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />}
                             </Grid>
                             <Grid item xs={12} sm={12} className={classes.card}>
-                                {saleData && <PackageCard packageInfo={saleData} />}
+                                {saleData ? <PackageCard packageInfo={saleData} /> : <LoadingSkeleton />}
                             </Grid>
                         </Grid>
                     </SubCard>
+                    {saleData ? <PaymentTermsCard /> : <LoadingSkeleton />}
                 </Grid>
             </Grid>
         </>

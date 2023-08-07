@@ -81,8 +81,8 @@ const AddOcupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
                         <form>
                             <SubCard>
                                 <Stack spacing={1}>
-                                    <Grid container spacing={2}>
-                                        <Grid item xs={12} sm={12}>
+                                    <Grid container spacing={3}>
+                                        <Grid item xs={12} sm={9}>
                                             <TextField
                                                 className="textfield"
                                                 type="text"
@@ -95,7 +95,7 @@ const AddOcupationPopup = ({ show, setShow, setCallOccuptionApi }) => {
                                                 required
                                             />
                                         </Grid>
-                                        <Grid item xs={12} sm={6}>
+                                        <Grid item xs={12} sm={8}>
                                             <FormControl fullWidth>
                                                 <InputLabel className="label" id="tittle-label">
                                                     {t('EmployerSector')}

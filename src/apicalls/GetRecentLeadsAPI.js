@@ -22,12 +22,10 @@ const PlaceOrderAPI = async (token, leadid) => {
             return () => clearTimeout(timer);
         }
 
-        const response = await axios.get(API_Base_Url + `/v2/get_lead_sale_order/${leadid}`, headers);
+        const response = await axios.get(API_Base_Url + '/v2/recent_leads/?page=1&s=10&', headers);
 
         if (response.status) {
-            // Success: Order placed successfully
-
-            return response.data;
+            return response.data.results;
         }
     } catch (error) {
         if (error.response) {
@@ -42,8 +40,10 @@ const PlaceOrderAPI = async (token, leadid) => {
                 toast.error('Something went wrong. Please contact the administrator.');
             }
         } else if (error.request) {
+            // The request was made but no response was received
             toast.error('No response received from the server. Please check your internet connection.');
         } else {
+            // Something else happened while setting up the request
             toast.error('An unexpected error occurred. Please try again later.');
         }
         return null;

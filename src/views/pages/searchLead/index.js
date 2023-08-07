@@ -1,70 +1,89 @@
-import { Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material'; // Import the Skeleton component
 import { makeStyles } from '@mui/styles';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchSection from '../../../layout/MainLayout/Header/SearchSection';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableFooter from '@mui/material/TableFooter';
-import TablePagination from '@mui/material/TablePagination';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import FirstPageIcon from '@mui/icons-material/FirstPage';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
-import LastPageIcon from '@mui/icons-material/LastPage';
+import GetRecentLeadsAPI from '../../../apicalls/GetRecentLeadsAPI';
 import LeadCard from './LeadCard';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import { toast } from 'react-toastify';
+import LoadingSkeleton from '../../../components/LoadingSkeleton';
 
 const useStyles = makeStyles((theme) => ({
+    container: {
+        padding: theme.spacing(3),
+        backgroundColor: '#f7f7f7',
+        borderRadius: 8,
+        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)'
+    },
     heading: {
         fontSize: '1.5rem',
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        marginBottom: theme.spacing(2)
     },
-    container: {
-        marginRight: 0,
+    searchContainer: {
         display: 'flex',
         justifyContent: 'flex-end',
-        width: '50%',
-        marginTop: theme.spacing(2),
         marginBottom: theme.spacing(2)
-    },
-    cardContainer: {
-        display: 'flex',
-        justifyContent: 'flex-start', // Align cards to the left
-        width: '100%'
-    },
-    card: {
-        width: '40%', // Adjust the width to make the cards smaller
-        marginBottom: theme.spacing(2)
-    },
-    photoContainer: {
-        width: '100%', // Adjust the width to make the photo smaller
-        marginBottom: theme.spacing(2),
-        height: '100%' // Set the height to 100% of its parent container
     }
 }));
-const handleSearch = (event) => {
-    const searchTerm = event.target.value;
-    // setSearchTerm(searchTerm);
-
-    // const filteredData = deviceData.filter((item) => item.device.device_summary.toLowerCase().includes(searchTerm.toLowerCase()));
-    // console.log(filteredData, '----filteredData');
-    // setFilterData(filteredData);
-};
 
 export default function SearchLead() {
     const { t } = useTranslation();
     const classes = useStyles();
+    const [recentData, setRecentData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [searchTerm, setSearchTerm] = useState('');
+
+    const { user } = useAuthContext();
+    const token = user ? user.token : null;
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+    const fetchData = () => {
+        try {
+            setLoading(true);
+            GetRecentLeadsAPI(token)
+                .then((res) => {
+                    setRecentData(res);
+                })
+                .catch((error) => {
+                    toast.error('Something went wrong, please check your internet connection.');
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        } catch (error) {
+            toast.error('Something went wrong, please check your internet connection.');
+            setLoading(false);
+        }
+    };
+
+    const handleSearch = (event) => {
+        const newSearchTerm = event.target.value;
+        setSearchTerm(newSearchTerm);
+        fetchDataWithDebounce(newSearchTerm);
+    };
+
+    const fetchDataWithDebounce = (searchTerm) => {
+        try {
+            GetRecentLeadsAPI(token, searchTerm)
+                .then((res) => {
+                    setRecentData(res);
+                })
+                .catch((error) => {
+                    toast.error('Something went wrong, please check your internet connection.');
+                });
+        } catch (error) {
+            toast.error('Something went wrong, please check your internet connection.');
+        }
+    };
 
     return (
-        <>
+        <div className={classes.container}>
             <Grid container alignItems="center" spacing={2}>
                 <Grid item xs={12} md={2}>
                     <Typography variant="h2" className={classes.heading}>
@@ -76,8 +95,25 @@ export default function SearchLead() {
                         <SearchSection handleSearch={handleSearch} />
                     </div>
                 </Grid>
-                <LeadCard />
+                {loading ? (
+                    <Grid item xs={12} height={'100vh'}>
+                        <LoadingSkeleton />
+                    </Grid>
+                ) : (
+                    recentData
+                        .filter(
+                            (lead) =>
+                                lead.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                lead.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                lead.full_phones.includes(searchTerm.toLowerCase())
+                        )
+                        .map((lead) => (
+                            <Grid item xs={12} md={6} key={lead.id}>
+                                <LeadCard user={lead} />
+                            </Grid>
+                        ))
+                )}
             </Grid>
-        </>
+        </div>
     );
 }

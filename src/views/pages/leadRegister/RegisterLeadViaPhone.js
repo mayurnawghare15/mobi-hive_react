@@ -40,7 +40,9 @@ const RegisterLeadViaPhone = () => {
     };
 
     const handleOtpChange = (event) => {
-        setOtp(event.target.value);
+        const inputOtp = event.target.value;
+        const upperCaseOtp = inputOtp.toUpperCase();
+        setOtp(upperCaseOtp);
     };
     const handleDOBChange = (event) => {
         setDOB(event.target.value);
@@ -66,7 +68,8 @@ const RegisterLeadViaPhone = () => {
                         Authorization: 'Token ' + token
                     }
                 };
-                axios.post(BASE_URL + '/v2/request_otp/', body, headers)
+                axios
+                    .post(BASE_URL + '/v2/request_otp/', body, headers)
                     .then(function (response) {
                         toast.success(t('oTP_sent_successfully'));
                         setTimeout(() => {
@@ -139,7 +142,7 @@ const RegisterLeadViaPhone = () => {
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
                         console.log(response.data.data.user_found);
-                        const encryptedmob = encryptData(phoneNumber.number)
+                        const encryptedmob = encryptData(phoneNumber.number);
                         if (response.data.data.user_found === false) {
                             return navigate(`/lead/createlead/${encodeURIComponent(encryptedmob)}`, {
                                 state: { ph_number: phoneNumber.number }
@@ -252,7 +255,6 @@ const RegisterLeadViaPhone = () => {
                                                 <React.Fragment key="otpForm">
                                                     <Grid item>
                                                         <TextField
-                                                            error={otp.length === 0}
                                                             label="OTP"
                                                             value={otp}
                                                             onChange={handleOtpChange}

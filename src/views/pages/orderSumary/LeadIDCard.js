@@ -44,9 +44,6 @@ const LeadIDCard = (props) => {
                     {`Name: ${leadInfo.first_name} ${leadInfo.last_name}`}
                 </Typography>
                 <Typography variant="body1" className={classes.details}>
-                    Income ₹23232, Paying ₹23 Installments & Saving ₹2323232 Monthly
-                </Typography>
-                <Typography variant="body1" className={classes.details}>
                     <div className={classes.iconText}>
                         <LocalPhoneIcon className={classes.icon} />
                         {leadInfo.full_phones}
@@ -66,6 +63,9 @@ const LeadIDCard = (props) => {
                         <LocationCityIcon className={classes.icon} />
                         {leadInfo.city.city_name}
                     </div>
+                </Typography>
+                <Typography variant="body1" className={classes.details}>
+                    {`Income ${leadInfo.monthly_income}, Paying ${leadInfo.monthly_installments} Installments & Saving ${leadInfo.monthly_saving} Monthly`}
                 </Typography>
             </CardContent>
         </Card>
