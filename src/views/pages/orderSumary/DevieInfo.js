@@ -9,7 +9,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import IconButton from '@mui/material/IconButton';
 
 const CustomCard = ({ title, content }) => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
 
     return (
         <Card sx={{ minWidth: 300, border: '1px solid rgba(211,211,211,0.6)' }}>

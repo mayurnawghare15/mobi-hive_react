@@ -7,8 +7,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 const useStyles = makeStyles((theme) => ({
     card: {
         marginTop: theme.spacing(1),
-        marginRight: theme.spacing(1),
-        marginLeft: theme.spacing(3),
         backgroundColor: theme.palette.primary.light,
         padding: theme.spacing(2),
         borderRadius: theme.spacing(1),
