@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import DeleteOrderAPI from '../../../apicalls/DeleteOrderAPI';
+import { handleDelete } from '../../../helper/deleteOrder';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -29,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
 const PaymentTermsCard = ({ saleData }) => {
     const navigate = useNavigate();
     const classes = useStyles();
-    const { user } = useAuthContext();
     const orderId = saleData.order_id;
     const leadId = saleData.prospect_id.id;
+    const { user } = useAuthContext();
     let token = null;
     if (user) {
         token = user.token;
@@ -41,20 +42,25 @@ const PaymentTermsCard = ({ saleData }) => {
         return navigate(`/payment/`, { state: saleData });
     };
 
-    const handleDelete = () => {
-        const input = window.confirm('Are you sure , You want to delete the order');
-        if (input) {
-            try {
-                DeleteOrderAPI(token, orderId, leadId)
-                    .then((res) => {
-                        if (res) {
-                            toast.success('Order Deleted Successfully');
-                        }
-                    })
-                    .catch((error) => {});
-            } catch (error) {}
-        }
+    const handleDeletebtn = () => {
+        handleDelete(token, orderId, leadId);
     };
+    // const handleDelete = () => {
+    //     const input = window.confirm('Are you sure , You want to delete the order');
+    //     if (input) {
+    //         try {
+    //             DeleteOrderAPI(token, orderId, leadId)
+    //                 .then((res) => {
+    //                     if (res) {
+    //                         toast.success('Order Deleted Successfully');
+    //                         // navigate(-1);
+    //                         window.history.  back();
+    //                     }
+    //                 })
+    //                 .catch((error) => {});
+    //         } catch (error) {}
+    //     }
+    // };
 
     return (
         <Card className={classes.card}>
@@ -80,7 +86,7 @@ const PaymentTermsCard = ({ saleData }) => {
                         </Button>
                     </Grid>
                     <Grid item>
-                        <IconButton color="error" onClick={handleDelete}>
+                        <IconButton color="error" onClick={handleDeletebtn}>
                             <DeleteIcon />
                         </IconButton>
                     </Grid>

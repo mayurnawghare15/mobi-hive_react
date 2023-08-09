@@ -13,7 +13,7 @@ const DeleteOrderAPI = async (token, orderId, leadId) => {
         };
         let url = `/v2/lead/${leadId}/order/${orderId}/delete/`;
         const response = await axios
-            .post(API_Base_Url + url, headers)
+            .delete(API_Base_Url + url, headers)
             .then((response) => {
                 return response;
             })

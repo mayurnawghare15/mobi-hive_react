@@ -21,6 +21,8 @@ import { makeStyles } from '@mui/styles';
 import { useState } from 'react';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 import { useTranslation } from 'react-i18next';
+import { handleDelete } from '../../../helper/deleteOrder';
+import { useAuthContext } from '../../../hooks/useAuthContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -113,8 +115,12 @@ const CustomPackageCard = ({ packageInfo }) => {
     const { t } = useTranslation();
     const classes = useStyles();
     const applied_package = packageInfo.applied_package;
-
     const [sliderValue, setSliderValue] = useState(50);
+    const { user } = useAuthContext();
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
 
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
@@ -125,6 +131,9 @@ const CustomPackageCard = ({ packageInfo }) => {
 
     const handleDecrement = () => {
         setSliderValue((prevValue) => prevValue - 1);
+    };
+    const handleDeletebtn = () => {
+        handleDelete(token, packageInfo.order_id, packageInfo.id);
     };
     return (
         <div className={classes.root}>
@@ -224,6 +233,18 @@ const CustomPackageCard = ({ packageInfo }) => {
                             <AnimateButton>
                                 <Button disableElevation size="small" variant="contained" color="warning" style={{ marginLeft: '8px' }}>
                                     {t('request_extension')}
+                                </Button>
+                            </AnimateButton>
+                            <AnimateButton>
+                                <Button
+                                    disableElevation
+                                    size="small"
+                                    onClick={handleDeletebtn}
+                                    variant="contained"
+                                    color="error"
+                                    style={{ marginLeft: '8px' }}
+                                >
+                                    {t('delete')}
                                 </Button>
                             </AnimateButton>
                         </div>

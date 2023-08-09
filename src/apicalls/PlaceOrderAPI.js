@@ -26,7 +26,7 @@ const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
 
         if (response.status === 201) {
             // Success: Order placed successfully
-            toast.success('Order Placed Successfully');
+            // toast.success('Order Placed Successfully');
             console.log(response);
             return response.data;
         }
