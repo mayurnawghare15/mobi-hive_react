@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
 const OrderSummaryPage = () => {
     const location = useLocation();
     const { state } = location;
-    const lead_id = state.leadid;
+    const leadid = state.leadid;
     const deviceId = state.deviceId;
     const { t } = useTranslation();
     const classes = useStyles();
@@ -59,12 +59,12 @@ const OrderSummaryPage = () => {
     useEffect(() => {
         console.log('state');
         console.log(state);
-        if (lead_id) {
-            fetchData(lead_id, deviceId);
+        if (leadid) {
+            fetchData(leadid, deviceId);
         } else {
             toast.error('You can not access this page');
         }
-    }, [deviceId, lead_id]);
+    }, [deviceId, leadid]);
     const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)

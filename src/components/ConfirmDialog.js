@@ -38,7 +38,18 @@ const useStyles = makeStyles((theme) => ({
 export default function ResponsiveDialog(props) {
     const classes = useStyles();
     const navigate = useNavigate();
-    const { confirmOrder, setConfirmOrder, selectedPackage, data, encrypted_mobile_Number, state, isCustomPackage, isfixPackage } = props;
+    const {
+        confirmOrder,
+        setConfirmOrder,
+        selectedPackage,
+        data,
+        encrypted_mobile_Number,
+        state,
+        isCustomPackage,
+        setIsCustomPackage,
+        isfixPackage,
+        setFixPackage
+    } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [package_Type, setPackage_type] = useState(true);
@@ -66,6 +77,9 @@ export default function ResponsiveDialog(props) {
                             isfixPackage: isfixPackage
                         }
                     });
+                } else {
+                    setIsCustomPackage(false);
+                    setFixPackage(false);
                 }
             })
             .catch((error) => {
@@ -75,6 +89,8 @@ export default function ResponsiveDialog(props) {
 
     const handleClose = () => {
         setConfirmOrder(false);
+        setIsCustomPackage(false);
+        setFixPackage(false);
     };
 
     return (

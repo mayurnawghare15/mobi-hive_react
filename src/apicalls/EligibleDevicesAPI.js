@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const EligibleDevicesAPI = async (token, prospectId,search_param) => {
+const EligibleDevicesAPI = async (token, prospectId, search_param) => {
     try {
         const headers = {
             headers: {
@@ -39,7 +39,6 @@ const EligibleDevicesAPI = async (token, prospectId,search_param) => {
     } catch (error) {
         return toast.error('Something went wrong , Please check your internet connection.');
     }
-    console.log(token, prospectId);
 };
 
 export default EligibleDevicesAPI;

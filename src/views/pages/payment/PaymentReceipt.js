@@ -36,10 +36,11 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(1)
     },
     heading: {
-        marginTop: theme.spacing(2),
+        marginTop: theme.spacing(1),
         alignItems: 'center',
         display: 'flex',
-        fontSize: '1.2rem'
+        fontSize: '1rem',
+        fontWeight: 'bold'
     },
     content: {},
     formControl: {
@@ -86,6 +87,11 @@ const PaymentReceipt = ({ saleData }) => {
     const [openCamera, setOpenCamera] = useState(false);
     const [paymentReceipt, setPaymentReceipt] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState(currentDate());
+    const [paymentForm, setPaymentForm] = useState({
+        amount: '',
+        receipt: paymentReceipt,
+        remarks: ''
+    });
     const { user } = useAuthContext();
     const orderId = saleData.order_id;
     const leadId = saleData.prospect_id.id;
@@ -93,13 +99,19 @@ const PaymentReceipt = ({ saleData }) => {
     if (user) {
         token = user.token;
     }
-
-    console.log(saleData);
-
-    const handleFileChange = (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+    const onInputChange = (e) => {
+        const { name, value } = e.target;
+        console.log(name, value, 'name , Value');
+        setPaymentForm({
+            ...paymentForm,
+            [name]: value
+        });
     };
+
+    // const handleFileChange = (event) => {
+    //     const file = event.target.files[0];
+    //     setSelectedFile(file);
+    // };
 
     const handleButtonClick = () => {
         setOpenCamera(true);
@@ -135,6 +147,7 @@ const PaymentReceipt = ({ saleData }) => {
             } catch (error) {}
         }
     };
+    console.log(paymentForm);
     return (
         <>
             {openCamera && <WebcamCapture openCamera={openCamera} setOpenCamera={setOpenCamera} handleImages={handleImages} />}
@@ -146,12 +159,15 @@ const PaymentReceipt = ({ saleData }) => {
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth className={classes.formControl}>
-                                <InputLabel className={classes.labels} htmlFor="monthly-income">
+                                <InputLabel className={classes.labels} htmlFor="amount">
                                     {t('amount')} *
                                 </InputLabel>
                                 <OutlinedInput
                                     type="number"
                                     id="monthly-income"
+                                    name="amount"
+                                    value={paymentForm.amount}
+                                    disabled
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
                                 />
@@ -159,33 +175,30 @@ const PaymentReceipt = ({ saleData }) => {
                         </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormControl fullWidth className={classes.formControl}>
-                                <TextField
-                                    label={t('Receipt')}
-                                    type="text"
-                                    variant="outlined"
-                                    fullWidth
-                                    name="customer_locality"
-                                    required
-                                />
+                                <Typography mt={-2.5} variant="h5" color="black">
+                                    Receipt
+                                </Typography>
+                                <TextField label={t('Receipt')} type="text" variant="outlined" fullWidth name="receipt" required />
+                                <Typography mt={2} variant="body1">
+                                    Reference/ Transaction ID
+                                </Typography>
                             </FormControl>
                         </Grid>
                     </Grid>
 
-                    <Box alignItems="center" mt={2}>
+                    <Box alignItems="center">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12}>
-                                <input
+                                {/* <input
                                     accept="image/*"
                                     className={classes.input}
                                     ref={fileInputRef}
                                     type="file"
-                                    onChange={handleFileChange}
-                                />
+                                    // onChange={handleFileChange}
+                                /> */}
                             </Grid>
                             <Grid item xs={12} sm={12}>
-                                <Typography mt={2} className={classes.proofLabel}>
-                                    {t('payment_receipt')}*
-                                </Typography>
+                                <Typography className={classes.proofLabel}>{t('payment_receipt')}*</Typography>
                             </Grid>
                         </Grid>
 
@@ -224,14 +237,10 @@ const PaymentReceipt = ({ saleData }) => {
 
                             <FormControl fullWidth>
                                 <TextField
-                                    // error={formError.customer_address}
-                                    // inputRef={customer_addressInputRef}
-                                    // disabled={state ? (state.customer_address ? true : false) : false}
-                                    // required
-                                    // className="label"
-                                    // value={customer_address}
-                                    // name="customer_address"
-                                    // onChange={onInputChange}
+                                    className="label"
+                                    value={paymentForm.remarks}
+                                    name="remarks"
+                                    onChange={onInputChange}
                                     minRows={5}
                                 />
                             </FormControl>

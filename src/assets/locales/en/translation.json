@@ -114,7 +114,10 @@
     "recent_Leads" : "Recent Leads",
     "require_1_doc" : " Required * (Choose any one document)",
     "go_to_devices" : "Go to eligible devices",
-    "choose_any_device" : "Choose Your Device"
+    "choose_any_device" : "Choose Your Device",
+    "payment_receipt" : "Payment Receipt",
+    "remarks" : "Remarks",
+    "received_on" : "Received On"
 
 
 

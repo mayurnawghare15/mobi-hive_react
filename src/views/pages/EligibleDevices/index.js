@@ -11,6 +11,7 @@ import LoadingSkeleton from '../../../components/LoadingSkeleton';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { decryptData } from '../../../helper/encryption/decrypt';
 import { debounce_custome } from '../../../helper';
+import { throttle } from 'lodash';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -85,11 +86,18 @@ const EligibleDevices = () => {
         fetchData(newSearchTerm);
     };
 
-    const debouncedHandleSearch = debounce_custome(handleSearch, 500); // Adjust the delay as needed
+    // const debouncedHandleSearch = debounce_custome(handleSearch, 500); // Adjust the delay as needed
+
+    // const handleInputChange = (event) => {
+    //     const newSearchTerm = event.target.value;
+    //     debouncedHandleSearch(newSearchTerm);
+    // };
+
+    const throttledHandleSearch = throttle(handleSearch, 500); // Throttle with 500ms interval
 
     const handleInputChange = (event) => {
         const newSearchTerm = event.target.value;
-        debouncedHandleSearch(newSearchTerm);
+        throttledHandleSearch(newSearchTerm);
     };
 
     return (

@@ -115,26 +115,6 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const customPackage = [
-    {
-        id: 33,
-        package_name: 'New 3(Custom)',
-        currency: 1,
-        minimum_upfront: '0.00',
-        minimum_upfront_percentage: '30.00',
-        high_risk: true,
-        status: true
-    }
-    // {
-    //     id: 6,
-    //     package_name: '3 Months | yashshri',
-    //     currency: 1,
-    //     minimum_upfront: '0.00',
-    //     minimum_upfront_percentage: '40.00',
-    //     high_risk: true,
-    //     status: true
-    // }
-];
 const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const classes = useStyles();
     const [isfixPackage, setFixPackage] = useState(false);
@@ -145,9 +125,8 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const [confirmOrder, setConfirmOrder] = useState(false);
     var data = deviceData;
     var packages = data.package;
-    // let customPkg = data.custom_package ? data.custom_package : null;
-    let customPkg = customPackage;
-    console.log(data);
+    let customPkg = data.custom_package ? data.custom_package : null;
+    console.log(customPkg);
     const deviceId = data.device.id;
 
     const handlePackageChange = (packageId) => {
@@ -161,14 +140,13 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
         setConfirmOrder(true);
     };
     const handleCardClick = () => {
-        if (showFixed) {
-            setShowFixed(false);
+        if (packages.length > 0) {
+            setShowFixed(true);
         }
-        setShowFixed(true);
+
         if (customPkg.length > 0) {
             setShowCustom(true);
         }
-        setShowCustom(false);
     };
 
     return (
@@ -182,7 +160,9 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                     confirmOrder={confirmOrder}
                     setConfirmOrder={setConfirmOrder}
                     isCustomPackage={isCustomPackage}
+                    setIsCustomPackage={setIsCustomPackage}
                     isfixPackage={isfixPackage}
+                    setFixPackage={setFixPackage}
                 ></ConfirmDialog>
             )}
             <Container>
@@ -272,7 +252,7 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                     </div>
                                 )}
 
-                                {customPkg && customPkg.length > 0 && (
+                                {showCustom && customPkg.length > 0 && (
                                     <div className={classes.customPackageContainer}>
                                         {customPkg.map((pkg) => (
                                             <div
