@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     specifications: {
         listStyle: 'none',
         padding: 0,
-        marginLeft: theme.spacing(2) // Add some space to the left of the specifications
+        marginLeft: theme.spacing(2)
     },
     specificationItem: {
         marginBottom: theme.spacing(1),
@@ -46,27 +46,30 @@ const useStyles = makeStyles((theme) => ({
     },
     bullet: {
         marginRight: theme.spacing(1),
-        content: '"\\2022"', // Using Unicode bullet point
-        fontSize: '1rem' // Reduce the font size for the bullet
+        content: '"\\2022"',
+        fontSize: '1rem'
     },
     price: {
         marginTop: theme.spacing(2),
-        fontSize: '1.5rem', // Increase the font size for the price
+        fontSize: '1.5rem',
         fontWeight: 'bold'
     },
     cardContainer: {
-        marginBottom: theme.spacing(2) // Add space between the cards
+        marginBottom: theme.spacing(2)
     },
     clickableCard: {
         cursor: 'pointer'
     },
     hr: {
-        margin: theme.spacing(0.5, 0), // Reduce top and bottom margin
-        borderColor: theme.palette.primary.main, // Set the color of the horizontal line
-        borderWidth: 2, // Set the thickness of the horizontal line
-        borderRadius: 5 // Add rounded corners to the horizontal line
+        margin: theme.spacing(0.5, 0),
+        borderColor: theme.palette.primary.main,
+        borderWidth: 3,
+        borderRadius: 5
     },
     packageContainer: {
+        marginTop: theme.spacing(3)
+    },
+    customPackageContainer: {
         marginTop: theme.spacing(3)
     },
     packageRadio: {
@@ -86,7 +89,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     containerStyle: {
-        backgroundColor: '#f7f7f7',
+        backgroundColor: '#d0e5f5',
         padding: '20px',
         borderRadius: '10px',
         boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
@@ -109,18 +112,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const handleCardClick = () => {
-    // Handle the click event here
-    console.log('Card clicked!');
-};
-
 const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const classes = useStyles();
     const [isPackage, setIsPackage] = useState(false);
+    const [isCustomPackage, setIsCustomPackage] = useState(false);
     const [selectedPackage, setSelectedPackage] = useState(null);
     const [confirmOrder, setConfirmOrder] = useState(false);
     var data = deviceData;
     var packages = data.package;
+    console.log(data);
     const deviceId = data.device.id;
 
     const handlePackageChange = (packageId) => {
@@ -132,13 +132,17 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
             setIsPackage(false);
         }
         setIsPackage(true);
+        if (setIsCustomPackage) {
+            setIsCustomPackage(false);
+        }
+        setIsCustomPackage(true);
     };
 
     return (
         <>
             {confirmOrder && (
                 <ConfirmDialog
-                encrypted_mobile_Number={encrypted_mobile_Number}
+                    encrypted_mobile_Number={encrypted_mobile_Number}
                     state={state}
                     selectedPackage={selectedPackage}
                     data={data}
@@ -184,8 +188,9 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                         {packages.slice(0, data.count).map((pkg) => (
                                             <div
                                                 key={pkg.id}
-                                                className={`${classes.packageRadio} ${selectedPackage === pkg.id ? classes.selectedPackage : ''
-                                                    }`}
+                                                className={`${classes.packageRadio} ${
+                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                }`}
                                                 onClick={() => handlePackageChange(pkg.id)}
                                             >
                                                 <input
@@ -197,6 +202,61 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                                 <Grid container className={`${classes.containerStyle}`}>
                                                     <Typography variant="h4" className={`${classes.labelStyle}`}>
                                                         {packages[0].package_type}
+                                                    </Typography>
+                                                    <Grid item xs={12} sm={12}>
+                                                        <Typography variant="h4" className={`${classes.headingStyle}`}>
+                                                            {pkg.name}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.upfront_payment}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.credit_price}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {data.currency} {pkg.installment_amount}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6}>
+                                                        <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
+                                                        <Typography className={`${classes.valueStyle}`}>
+                                                            {pkg.total_tenure} months
+                                                        </Typography>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+
+                                {isCustomPackage && packages.length > 0 && (
+                                    <div className={classes.customPackageContainer}>
+                                        {packages.slice(0, data.count).map((pkg) => (
+                                            <div
+                                                key={pkg.id}
+                                                className={`${classes.packageRadio} ${
+                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                }`}
+                                                onClick={() => handlePackageChange(pkg.id)}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    value={pkg.id}
+                                                    checked={selectedPackage === pkg.id}
+                                                    onChange={() => handlePackageChange(pkg.id)}
+                                                />
+                                                <Grid container className={`${classes.containerStyle}`}>
+                                                    <Typography variant="h4" className={`${classes.labelStyle}`}>
+                                                        {/* {packages[0].package_type} */} CUSTOM PLAN
                                                     </Typography>
                                                     <Grid item xs={12} sm={12}>
                                                         <Typography variant="h4" className={`${classes.headingStyle}`}>

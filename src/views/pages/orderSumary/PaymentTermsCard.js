@@ -4,6 +4,9 @@ import { makeStyles } from '@mui/styles';
 import CheckIcon from '@mui/icons-material/Check';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { useAuthContext } from '../../../hooks/useAuthContext';
+import DeleteOrderAPI from '../../../apicalls/DeleteOrderAPI';
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -26,12 +29,32 @@ const useStyles = makeStyles((theme) => ({
 const PaymentTermsCard = ({ saleData }) => {
     const navigate = useNavigate();
     const classes = useStyles();
+    const { user } = useAuthContext();
+    const orderId = saleData.order_id;
+    const leadId = saleData.prospect_id.id;
+    let token = null;
+    if (user) {
+        token = user.token;
+    }
 
     const handleAccept = () => {
         return navigate(`/payment/`, { state: saleData });
     };
 
-    const handleDelete = () => {};
+    const handleDelete = () => {
+        const input = window.confirm('Are you sure , You want to delete the order');
+        if (input) {
+            try {
+                DeleteOrderAPI(token, orderId, leadId)
+                    .then((res) => {
+                        if (res) {
+                            toast.success('Order Deleted Successfully');
+                        }
+                    })
+                    .catch((error) => {});
+            } catch (error) {}
+        }
+    };
 
     return (
         <Card className={classes.card}>

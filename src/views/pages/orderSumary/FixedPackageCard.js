@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const PackageCard = ({ packageInfo }) => {
+const FixedPackageCard = ({ packageInfo }) => {
     const classes = useStyles();
     const applied_package = packageInfo.applied_package;
     console.log('packageInfo ');
@@ -84,4 +84,4 @@ const PackageCard = ({ packageInfo }) => {
     );
 };
 
-export default PackageCard;
+export default FixedPackageCard;

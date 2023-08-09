@@ -2,17 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
 import { Card, Container, Typography, Grid } from '@mui/material';
 import LeadIDCard from './LeadIDCard';
-import PackageCard from './PackageCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
 import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
-import { useLocation, useNavigate, useParams } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
 import PaymentTermsCard from './PaymentTermsCard';
 import DeviceInfo from './DeviceInfo';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
+import FixedPackageCard from './FixedPackageCard';
+import CustomPackageCard from './CustomPackageCard';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -42,28 +43,28 @@ const useStyles = makeStyles((theme) => ({
 
 const OrderSummaryPage = () => {
     const location = useLocation();
-    const navigate = useNavigate();
     const { state } = location;
-    console.log(state,'----state')
     const { mobile_Number } = useParams();
     const [open, setOpen] = useState(false);
     const lead_id = state.leadid;
     const deviceId = state.deviceId;
     const { t } = useTranslation();
     const classes = useStyles();
+    const [fixPkgType, setfixPkgType] = useState(false);
+    const [customPkgType, setcustomPkgType] = useState(true);
+    console.log(state);
 
     const [saleData, setSaleData] = useState(null);
     const { user } = useAuthContext();
     const token = user ? user.token : null;
 
     useEffect(() => {
-        console.log(state)
         if (lead_id) {
             fetchData(lead_id, deviceId);
         } else {
             toast.error('You can not access this page');
         }
-    }, [deviceId]);
+    }, [deviceId, lead_id]);
     const fetchData = (leadid, deviceId) => {
         try {
             GetLeadSaleOrderAPI(token, leadid)
@@ -109,7 +110,10 @@ const OrderSummaryPage = () => {
                                 {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />}
                             </Grid>
                             <Grid item xs={12} sm={12} className={classes.card}>
-                                {saleData ? <PackageCard packageInfo={saleData} /> : <LoadingSkeleton />}
+                                {saleData && fixPkgType && <FixedPackageCard packageInfo={saleData} />}
+                            </Grid>
+                            <Grid item xs={12} sm={12} className={classes.card}>
+                                {saleData && customPkgType && <CustomPackageCard packageInfo={saleData} />}
                             </Grid>
                         </Grid>
                     </SubCard>

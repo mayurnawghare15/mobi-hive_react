@@ -7,16 +7,41 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { makeStyles } from '@mui/styles';
 import PlaceOrderAPI from '../apicalls/PlaceOrderAPI';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router';
+import { useState } from 'react';
 
+const useStyles = makeStyles((theme) => ({
+    redButton: {
+        color: theme.palette.error.main,
+        borderColor: theme.palette.error.main,
+        marginRight: '10px',
+        '&:hover': {
+            backgroundColor: theme.palette.error.main,
+            color: 'white'
+        }
+    },
+    confirmButton: {
+        backgroundColor: 'white',
+        color: theme.palette.success.main,
+        border: `1px solid ${theme.palette.success.main}`,
+        marginRight: '10px',
+        '&:hover': {
+            backgroundColor: theme.palette.success.main,
+            color: 'white'
+        }
+    }
+}));
 export default function ResponsiveDialog(props) {
+    const classes = useStyles();
     const navigate = useNavigate();
     const { confirmOrder, setConfirmOrder, selectedPackage, data, encrypted_mobile_Number, state } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+    const [package_Type, setPackage_type] = useState(true);
 
     const pkgId = selectedPackage;
     const deviceId = data.device.id;
@@ -70,25 +95,10 @@ export default function ResponsiveDialog(props) {
                 </DialogContentText>
             </DialogContent>
             <DialogActions style={{ justifyContent: 'center' }}>
-                <Button
-                    variant="outlined"
-                    onClick={handleClose}
-                    style={{
-                        color: theme.palette.error.main,
-                        borderColor: theme.palette.error.main,
-                        marginRight: '10px'
-                    }}
-                >
+                <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
                     Deny
                 </Button>
-                <Button
-                    variant="contained"
-                    onClick={handleConfirm}
-                    style={{
-                        color: '#fff',
-                        backgroundColor: theme.palette.success.main
-                    }}
-                >
+                <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
                     Confirm
                 </Button>
             </DialogActions>

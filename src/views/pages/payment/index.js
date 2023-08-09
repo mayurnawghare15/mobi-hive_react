@@ -11,7 +11,7 @@ import DeviceInfo from '../orderSumary/DeviceInfo';
 import LeadIDCard from '../orderSumary/LeadIDCard';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
 import PaymentReceipt from './PaymentReceipt';
-import PackageCard from '../orderSumary/PackageCard';
+import PackageCard from '../orderSumary/FixedPackageCard';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
@@ -52,13 +52,10 @@ const Payment = () => {
     const { t } = useTranslation();
     const classes = useStyles();
     const saleData = state;
-    const { user } = useAuthContext();
-    const token = user ? user.token : null;
-    console.log(saleData);
 
     useEffect(() => {}, []);
-    const [leadCardExpanded, setLeadCardExpanded] = useState(false); // Set to false
-    const [packageCardExpanded, setPackageCardExpanded] = useState(false); // Set to false
+    const [leadCardExpanded, setLeadCardExpanded] = useState(false);
+    const [packageCardExpanded, setPackageCardExpanded] = useState(false);
 
     return (
         <>
@@ -121,7 +118,7 @@ const Payment = () => {
                             </Grid>
                         </Collapse>
                     </SubCard>
-                    <PaymentReceipt />
+                    <PaymentReceipt saleData={saleData} />
                 </Grid>
             </Grid>
         </>
