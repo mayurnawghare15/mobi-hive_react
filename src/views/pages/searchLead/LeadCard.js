@@ -58,6 +58,13 @@ const useStyles = makeStyles((theme) => ({
 const LeadCard = (props) => {
     const classes = useStyles();
     const user = props.user;
+    console.log(user);
+    const handleViewDetails = () => {
+        alert('clicked');
+        // return navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, {
+        //     state: { ph_number: state.ph_number, leadid: lead_id }
+        // });
+    };
 
     return (
         <Card className={classes.card}>

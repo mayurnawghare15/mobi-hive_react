@@ -26,7 +26,7 @@ const DeleteOrderAPI = async (token, orderId, leadId) => {
                     toast.error('You are not authorized to view this page');
                     localStorage.removeItem('user');
                     const timer = setTimeout(() => {
-                        window.location.href = '/login';
+                        // window.location.href = '/login';
                     }, 500);
                     return () => clearTimeout(timer);
                 } else if (error.response.status === 404) {

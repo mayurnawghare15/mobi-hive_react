@@ -32,7 +32,8 @@ const useStyles = makeStyles((theme) => ({
     },
     card: {
         width: '100%',
-        marginBottom: theme.spacing(2)
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(0)
     },
     photoContainer: {
         height: '100%',
@@ -44,21 +45,20 @@ const useStyles = makeStyles((theme) => ({
 const OrderSummaryPage = () => {
     const location = useLocation();
     const { state } = location;
-    const { mobile_Number } = useParams();
-    const [open, setOpen] = useState(false);
     const lead_id = state.leadid;
     const deviceId = state.deviceId;
     const { t } = useTranslation();
     const classes = useStyles();
-    const [fixPkgType, setfixPkgType] = useState(false);
-    const [customPkgType, setcustomPkgType] = useState(true);
-    console.log(state);
+    const [fixPkgType, setfixPkgType] = useState(state.isfixPackage);
+    const [customPkgType, setcustomPkgType] = useState(state.isCustomPackage);
 
     const [saleData, setSaleData] = useState(null);
     const { user } = useAuthContext();
     const token = user ? user.token : null;
 
     useEffect(() => {
+        console.log('state');
+        console.log(state);
         if (lead_id) {
             fetchData(lead_id, deviceId);
         } else {
@@ -117,7 +117,7 @@ const OrderSummaryPage = () => {
                             </Grid>
                         </Grid>
                     </SubCard>
-                    {saleData ? <PaymentTermsCard saleData={saleData} /> : <LoadingSkeleton />}
+                    {saleData && !customPkgType ? <PaymentTermsCard saleData={saleData} /> : ''}
                 </Grid>
             </Grid>
         </>

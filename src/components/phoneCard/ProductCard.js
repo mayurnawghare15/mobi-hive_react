@@ -67,9 +67,12 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5
     },
     packageContainer: {
+        height: '100%',
         marginTop: theme.spacing(3)
     },
     customPackageContainer: {
+        // height: '300px',
+        // width: '300px',
         marginTop: theme.spacing(3)
     },
     packageRadio: {
@@ -112,30 +115,60 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
+const customPackage = [
+    {
+        id: 33,
+        package_name: 'New 3(Custom)',
+        currency: 1,
+        minimum_upfront: '0.00',
+        minimum_upfront_percentage: '30.00',
+        high_risk: true,
+        status: true
+    }
+    // {
+    //     id: 6,
+    //     package_name: '3 Months | yashshri',
+    //     currency: 1,
+    //     minimum_upfront: '0.00',
+    //     minimum_upfront_percentage: '40.00',
+    //     high_risk: true,
+    //     status: true
+    // }
+];
 const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const classes = useStyles();
-    const [isPackage, setIsPackage] = useState(false);
+    const [isfixPackage, setFixPackage] = useState(false);
     const [isCustomPackage, setIsCustomPackage] = useState(false);
-    const [selectedPackage, setSelectedPackage] = useState(null);
+    const [selectedPackageId, setSelectedPackageId] = useState(null);
+    const [showFixed, setShowFixed] = useState(false);
+    const [showCustom, setShowCustom] = useState(false);
     const [confirmOrder, setConfirmOrder] = useState(false);
     var data = deviceData;
     var packages = data.package;
+    // let customPkg = data.custom_package ? data.custom_package : null;
+    let customPkg = customPackage;
     console.log(data);
     const deviceId = data.device.id;
 
     const handlePackageChange = (packageId) => {
-        setSelectedPackage(packageId);
+        setSelectedPackageId(packageId);
+        setFixPackage(true);
+        setConfirmOrder(true);
+    };
+    const handlecustomPkg = (packageId) => {
+        setSelectedPackageId(packageId);
+        setIsCustomPackage(true);
         setConfirmOrder(true);
     };
     const handleCardClick = () => {
-        if (selectedPackage) {
-            setIsPackage(false);
+        if (showFixed) {
+            setShowFixed(false);
         }
-        setIsPackage(true);
-        if (setIsCustomPackage) {
-            setIsCustomPackage(false);
+        setShowFixed(true);
+        if (customPkg.length > 0) {
+            setShowCustom(true);
         }
-        setIsCustomPackage(true);
+        setShowCustom(false);
     };
 
     return (
@@ -144,10 +177,12 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                 <ConfirmDialog
                     encrypted_mobile_Number={encrypted_mobile_Number}
                     state={state}
-                    selectedPackage={selectedPackage}
+                    selectedPackage={selectedPackageId}
                     data={data}
                     confirmOrder={confirmOrder}
                     setConfirmOrder={setConfirmOrder}
+                    isCustomPackage={isCustomPackage}
+                    isfixPackage={isfixPackage}
                 ></ConfirmDialog>
             )}
             <Container>
@@ -183,22 +218,21 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                 </Grid>
                             </CardContent>
                             <CardActions>
-                                {isPackage && packages.length > 0 && (
+                                {showFixed && packages.length > 0 && (
                                     <div className={classes.packageContainer}>
-                                        {packages.slice(0, data.count).map((pkg) => (
+                                        {packages.map((pkg) => (
                                             <div
                                                 key={pkg.id}
                                                 className={`${classes.packageRadio} ${
-                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
                                                 }`}
                                                 onClick={() => handlePackageChange(pkg.id)}
                                             >
-                                                <input
-                                                    type="radio"
+                                                {/* <input
                                                     value={pkg.id}
                                                     checked={selectedPackage === pkg.id}
                                                     onChange={() => handlePackageChange(pkg.id)}
-                                                />
+                                                /> */}
                                                 <Grid container className={`${classes.containerStyle}`}>
                                                     <Typography variant="h4" className={`${classes.labelStyle}`}>
                                                         {packages[0].package_type}
@@ -238,53 +272,28 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                     </div>
                                 )}
 
-                                {isCustomPackage && packages.length > 0 && (
+                                {customPkg && customPkg.length > 0 && (
                                     <div className={classes.customPackageContainer}>
-                                        {packages.slice(0, data.count).map((pkg) => (
+                                        {customPkg.map((pkg) => (
                                             <div
                                                 key={pkg.id}
                                                 className={`${classes.packageRadio} ${
-                                                    selectedPackage === pkg.id ? classes.selectedPackage : ''
+                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
                                                 }`}
-                                                onClick={() => handlePackageChange(pkg.id)}
+                                                onClick={() => handlecustomPkg(pkg.id)}
                                             >
-                                                <input
-                                                    type="radio"
+                                                {/* <input
                                                     value={pkg.id}
                                                     checked={selectedPackage === pkg.id}
                                                     onChange={() => handlePackageChange(pkg.id)}
-                                                />
+                                                /> */}
                                                 <Grid container className={`${classes.containerStyle}`}>
                                                     <Typography variant="h4" className={`${classes.labelStyle}`}>
-                                                        {/* {packages[0].package_type} */} CUSTOM PLAN
+                                                        {/* {packages[0].package_type} */} CUSTOM PACKAGE
                                                     </Typography>
-                                                    <Grid item xs={12} sm={12}>
-                                                        <Typography variant="h4" className={`${classes.headingStyle}`}>
-                                                            {pkg.name}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.upfront_payment}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.credit_price}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.installment_amount}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {pkg.total_tenure} months
+                                                    <Grid item mt={1} xs={12} sm={12}>
+                                                        <Typography className={`${classes.labelStyle}`}>
+                                                            PACKAGE NAME : {pkg.package_name}
                                                         </Typography>
                                                     </Grid>
                                                 </Grid>

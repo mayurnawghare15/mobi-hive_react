@@ -34,6 +34,7 @@ const EligibleDevices = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filterData, setFilterData] = useState([]);
+    const [isCustomPkg, setIsCustomPkg] = useState(false);
 
     const classes = useStyles();
     const { user } = useAuthContext();
@@ -56,14 +57,11 @@ const EligibleDevices = () => {
         }
     }, []);
 
-   
-
     const fetchData = (search_param = '') => {
         try {
             EligibleDevicesAPI(token, leadid, search_param)
                 .then((res) => {
-                    if (!search_param)
-                        setAllData(res.results);
+                    if (!search_param) setAllData(res.results);
                     setFilterData(res.results);
                     setIsLoading(false);
                 })
@@ -76,10 +74,15 @@ const EligibleDevices = () => {
         }
     };
 
+    console.log('filterData');
+    console.log(filterData);
+    const checkCustomPkg = () => {
+        console.log(filterData.package);
+    };
     const handleSearch = (value) => {
         const newSearchTerm = value;
         setSearchTerm(newSearchTerm);
-        fetchData(newSearchTerm)
+        fetchData(newSearchTerm);
     };
 
     const debouncedHandleSearch = debounce_custome(handleSearch, 500); // Adjust the delay as needed
@@ -114,21 +117,18 @@ const EligibleDevices = () => {
                         </Grid>
                     </>
                 ) : (
-                    <> {filterData && filterData.length > 0 ? filterData.map((item, index) => (
-                        <Grid key={index + "_prductcard"} item xs={12} sm={12}>
-                            <ProductCard
-                                encrypted_mobile_Number={mobile_Number}
-                                state={state}
-                                deviceData={item}
-                                index={index}
-                            />
-                        </Grid>
-                    ))
-                        : "No devices available for now"
-                    }
+                    <>
+                        {' '}
+                        {filterData && filterData.length > 0
+                            ? filterData.map((item, index) => (
+                                  <Grid key={index + '_prductcard'} item xs={12} sm={12}>
+                                      <ProductCard encrypted_mobile_Number={mobile_Number} state={state} deviceData={item} index={index} />
+                                  </Grid>
+                              ))
+                            : 'No devices available for now'}
                     </>
                 )}
-            </Grid >
+            </Grid>
         </>
     );
 };

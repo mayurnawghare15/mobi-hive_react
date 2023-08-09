@@ -31,12 +31,54 @@ function KYCDocumentPage() {
     const [documentTypeData, setDocumentTypeData] = useState(false);
     const [docType, setDocType] = useState(false);
     const [docsItemData, setDocsItemData] = useState('');
-    const [salarySlip, setSalarySlip] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [nationalId, setNationalId] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [aadharCard, setAadharCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [panCard, setPanCard] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [passport, setPassport] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
-    const [nullHandel, setNullHandel] = useState({ issued_date: "", issued_by: "", kyc_front: "", kyc_back: "", kyc_serial_number: "", kyc_valid_till: "" })
+    const [salarySlip, setSalarySlip] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
+    const [nationalId, setNationalId] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
+    const [aadharCard, setAadharCard] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
+    const [panCard, setPanCard] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
+    const [passport, setPassport] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
+    const [nullHandel, setNullHandel] = useState({
+        issued_date: '',
+        issued_by: '',
+        kyc_front: '',
+        kyc_back: '',
+        kyc_serial_number: '',
+        kyc_valid_till: ''
+    });
     const { user } = useAuthContext();
     let token = null;
     if (user) {
@@ -44,7 +86,7 @@ function KYCDocumentPage() {
     }
     const handleAddButton = (_itemData, type) => {
         setOpen(true);
-        setDocsItemData(_itemData)
+        setDocsItemData(_itemData);
         // if (_itemData.kyc_front) {
 
         // } else {
@@ -52,95 +94,96 @@ function KYCDocumentPage() {
         // }
     };
     useEffect(() => {
-        console.log(lead_id,'Lead Id')
-        const decrypted_mob = decryptData(mobile_Number)
-        console.log(decrypted_mob,'decrypted_mob')
-        console.log(state,'state')
+        console.log(lead_id, 'Lead Id');
+        const decrypted_mob = decryptData(mobile_Number);
+        console.log(decrypted_mob, 'decrypted_mob');
+        console.log(state, 'state');
         if (!state) {
-            navigate('/lead/verify-phonenumber')
+            navigate('/lead/verify-phonenumber');
             return toast.error('You can not direct authorized this page');
         } else if (decrypted_mob === state.ph_number) {
-            get_lead_detail_api(lead_id)
+            get_lead_detail_api(lead_id);
         } else {
             return toast.error('You are not authorized this page');
         }
 
         if (!lead_id) {
-            return toast.error("You can not authorized this page")
+            return toast.error('You can not authorized this page');
         }
-  
-    }, [open])
+    }, [open]);
 
     const get_lead_detail_api = (lead_id) => {
-        GetLeadDetailsApi(lead_id, token)
-            .then((res) => {
-                if (res) {
-                    const data = res.data.ekyc_document
-                    setDocumentTypeData(data)
+        GetLeadDetailsApi(lead_id, token).then((res) => {
+            if (res) {
+                const data = res.data.ekyc_document;
+                setDocumentTypeData(data);
 
-                    for (let document in data) {
-                        const doclist = data[document].document_list;
+                for (let document in data) {
+                    const doclist = data[document].document_list;
 
-                        for (let docItem in doclist) {
-                            if (doclist[docItem].document_slug === "aadhar_card" || doclist[docItem].document_slug === "passport") {
-
-                                if (doclist[docItem].kyc_front) {
-                                    console.log("aadhar_card")
-                                    setDocumentVerifiedCount(1 + documentVerifiedCount);
-                                }
+                    for (let docItem in doclist) {
+                        if (doclist[docItem].document_slug === 'aadhar_card' || doclist[docItem].document_slug === 'passport') {
+                            if (doclist[docItem].kyc_front) {
+                                console.log('aadhar_card');
+                                setDocumentVerifiedCount(1 + documentVerifiedCount);
                             }
-                            if (doclist[docItem].document_slug === "national_id") {
-                                
-                                if (doclist[docItem].kyc_front) {
-                                    console.log("national_id")
-                                    setDocumentVerifiedCount(2 + documentVerifiedCount);
-                                }
+                        }
+                        if (doclist[docItem].document_slug === 'national_id') {
+                            if (doclist[docItem].kyc_front) {
+                                console.log('national_id');
+                                setDocumentVerifiedCount(2 + documentVerifiedCount);
                             }
-                            if (doclist[docItem].document_slug === "salary_slip") {
-                                if (doclist[docItem].kyc_front) {
-                                    setDocumentVerifiedCount(3 + documentVerifiedCount);
-                                }
+                        }
+                        if (doclist[docItem].document_slug === 'salary_slip') {
+                            if (doclist[docItem].kyc_front) {
+                                setDocumentVerifiedCount(3 + documentVerifiedCount);
                             }
                         }
                     }
-
                 }
-            })
-    }
+            }
+        });
+    };
     const gotoEligibleDevice = () => {
-        return navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, { state: { ph_number: state.ph_number, leadid: lead_id } });
-    }
+        return navigate(`/eligibledevices/${encodeURIComponent(mobile_Number)}`, {
+            state: { ph_number: state.ph_number, leadid: lead_id }
+        });
+    };
     // LeadCreateFormApi
     return (
         <>
-            <ViewKYCDetails docsItemData={docsItemData} lead_id={lead_id} open={open}
+            <ViewKYCDetails
+                docsItemData={docsItemData}
+                lead_id={lead_id}
+                open={open}
                 setOpen={setOpen}
                 setDataFunc={
-                    docType === "aadhar_card"
+                    docType === 'aadhar_card'
                         ? setAadharCard
-                        : docType === "pan_card"
-                            ? setPanCard
-                            : docType === "passport"
-                                ? setNationalId
-                                : docType === "national_id"
-                                    ? setPassport
-                                    : docType === "salary_slip"
-                                        ? setSalarySlip
-                                        : setNullHandel// Use null or any other default value if needed
+                        : docType === 'pan_card'
+                        ? setPanCard
+                        : docType === 'passport'
+                        ? setNationalId
+                        : docType === 'national_id'
+                        ? setPassport
+                        : docType === 'salary_slip'
+                        ? setSalarySlip
+                        : setNullHandel // Use null or any other default value if needed
                 }
                 dataDocuments={
-                    docType === "aadhar_card"
+                    docType === 'aadhar_card'
                         ? aadharCard
-                        : docType === "pan_card"
-                            ? panCard
-                            : docType === "passport"
-                                ? nationalId
-                                : docType === "national_id"
-                                    ? passport
-                                    : docType === "salary_slip"
-                                        ? salarySlip
-                                        : nullHandel // Use null or any other default value if needed
-                } />
+                        : docType === 'pan_card'
+                        ? panCard
+                        : docType === 'passport'
+                        ? nationalId
+                        : docType === 'national_id'
+                        ? passport
+                        : docType === 'salary_slip'
+                        ? salarySlip
+                        : nullHandel // Use null or any other default value if needed
+                }
+            />
             {/*For Identification proof */}
             <Grid>
                 <MainCard>
@@ -155,62 +198,64 @@ function KYCDocumentPage() {
                             <Typography variant="body1">{t('following_documents_are_required_to_complete_the_KYC:')}</Typography>
                         </Grid>
                     </Grid>
-                    {documentTypeData && documentTypeData.length > 0 ? documentTypeData.map(item => (
+                    {documentTypeData && documentTypeData.length > 0
+                        ? documentTypeData.map((item) => (
+                              <>
+                                  <SubCard>
+                                      <>
+                                          <h3>
+                                              {item.label} {t('require_1_doc')}
+                                          </h3>
+                                      </>
+                                      {item.document_list &&
+                                          item.document_list.length > 0 &&
+                                          item.document_list.map((itemData) => (
+                                              <Grid ml={2} mt={3} container alignItems="center">
+                                                  <Grid item xs={8}>
+                                                      <h4>{itemData.document_type} </h4>
+                                                  </Grid>
+                                                  <Grid item xs={4}>
+                                                      <Button
+                                                          size="large"
+                                                          color="primary"
+                                                          startIcon={
+                                                              <CheckCircleOutlineTwoToneIcon
+                                                                  style={{ fontSize: 35 }}
+                                                                  htmlColor={itemData.kyc_front ? 'green' : 'inherit'}
+                                                              />
+                                                          }
+                                                          title={itemData.kyc_front ? 'Verified' : 'Verify'}
+                                                      />
+                                                      <Button
+                                                          size="large"
+                                                          color="primary"
+                                                          onClick={() => handleAddButton(itemData, itemData.document_slug)}
+                                                          startIcon={
+                                                              itemData.kyc_front ? (
+                                                                  <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
+                                                              ) : (
+                                                                  <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
+                                                              )
+                                                          }
+                                                      ></Button>
+                                                  </Grid>
+                                              </Grid>
+                                          ))}
+                                  </SubCard>
+                              </>
+                          ))
+                        : ''}
+                    {documentVerifiedCount + '  documentVerifiedCount'}
+                    {documentVerifiedCount >= 2 ? (
                         <>
-                            <SubCard>
-                                <>
-                                    <h3>{item.label} Required *  (Choose any one document)</h3>
-                                </>
-                                {item.document_list && item.document_list.length > 0 &&
-                                    item.document_list.map(itemData => (
-                                        <Grid ml={2} mt={3} container alignItems="center">
-                                            <Grid item xs={8}>
-                                                <h4>{itemData.document_type} </h4>
-                                            </Grid>
-                                            <Grid item xs={4}>
-                                                <Button
-                                                    size="large"
-                                                    color="primary"
-                                                    startIcon={
-                                                        <CheckCircleOutlineTwoToneIcon
-                                                            style={{ fontSize: 35 }}
-                                                            htmlColor={itemData.kyc_front ? 'green' : 'inherit'}
-                                                        />
-                                                    }
-                                                    title={itemData.kyc_front ? 'Verified' : 'Verify'}
-                                                />
-                                                <Button
-                                                    size="large"
-                                                    color="primary"
-                                                    onClick={() => handleAddButton(itemData, itemData.document_slug)}
-                                                    startIcon={
-                                                        itemData.kyc_front ? (
-                                                            <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
-                                                        ) : (
-                                                            <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
-                                                        )
-                                                    }
-                                                ></Button>
-                                            </Grid>
-                                        </Grid>
-                                    ))
-
-
-                                }
-                            </SubCard>
+                            <Button onClick={gotoEligibleDevice} size="small" type="button" variant="contained" color="warning">
+                                <label>{t('go_to_devices')}</label>
+                            </Button>
                         </>
-                    ))
-                        : ""
-                    }
-                    {documentVerifiedCount + "  documentVerifiedCount"}
-                    {documentVerifiedCount >= 2 ? <>
-                        <Button onClick={gotoEligibleDevice} size="small" type="button" variant="contained" color="warning">
-                            <label>Go to eligible devices</label>
-                        </Button>
-                    </>
-                        : ""}
+                    ) : (
+                        ''
+                    )}
                 </MainCard>
-
             </Grid>
         </>
     );

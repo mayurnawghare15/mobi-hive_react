@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 export default function ResponsiveDialog(props) {
     const classes = useStyles();
     const navigate = useNavigate();
-    const { confirmOrder, setConfirmOrder, selectedPackage, data, encrypted_mobile_Number, state } = props;
+    const { confirmOrder, setConfirmOrder, selectedPackage, data, encrypted_mobile_Number, state, isCustomPackage, isfixPackage } = props;
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const [package_Type, setPackage_type] = useState(true);
@@ -58,7 +58,13 @@ export default function ResponsiveDialog(props) {
                 if (res) {
                     toast.success(res.message);
                     return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
-                        state: { ph_number: state.ph_number, leadid: state.leadid, deviceId: deviceId }
+                        state: {
+                            ph_number: state.ph_number,
+                            leadid: state.leadid,
+                            deviceId: deviceId,
+                            isCustomPackage: isCustomPackage,
+                            isfixPackage: isfixPackage
+                        }
                     });
                 }
             })

@@ -111,8 +111,10 @@
     "occupations" : "Occupation",
     "add_emp" : "Add Employer",
     "add_occupation" : "Add Occupation",
-    "choose_any_device" : "Choose Your Device",
-    "recent_Leads" : "Recent Leads"
+    "recent_Leads" : "Recent Leads",
+    "require_1_doc" : " Required * (Choose any one document)",
+    "go_to_devices" : "Go to eligible devices",
+    "choose_any_device" : "Choose Your Device"
 
 
 
