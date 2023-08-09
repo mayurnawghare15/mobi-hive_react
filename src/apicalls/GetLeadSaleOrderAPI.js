@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const PlaceOrderAPI = async (token, leadid) => {
+const GetLeadSaleOrder = async (token, leadid) => {
     try {
         const headers = {
             headers: {
@@ -50,4 +50,4 @@ const PlaceOrderAPI = async (token, leadid) => {
     }
 };
 
-export default PlaceOrderAPI;
+export default GetLeadSaleOrder;
