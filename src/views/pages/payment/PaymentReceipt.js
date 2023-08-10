@@ -90,7 +90,8 @@ const PaymentReceipt = ({ saleData }) => {
     const [paymentForm, setPaymentForm] = useState({
         amount: '',
         receipt: paymentReceipt,
-        remarks: ''
+        remarks: '',
+        dateOfBirth: dateOfBirth
     });
     const { user } = useAuthContext();
     const orderId = saleData.order_id;

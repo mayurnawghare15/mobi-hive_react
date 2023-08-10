@@ -3,6 +3,7 @@ import { Button, Card, CardActions, CardContent, CardHeader, Container, Grid, Ty
 import { makeStyles } from '@mui/styles';
 import '../../views/pages/EligibleDevices/index';
 import ConfirmDialog from '../../components/ConfirmDialog';
+import { formatDate } from '../../helper/formatDate';
 
 const API_Image_Url = process.env.REACT_APP_IMAGE_URL;
 
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold'
     },
     containerStyle: {
+        width: '600px',
         backgroundColor: '#d0e5f5',
         padding: '20px',
         borderRadius: '10px',
@@ -112,6 +114,16 @@ const useStyles = makeStyles((theme) => ({
 
     valueStyle: {
         fontSize: '18px'
+    },
+
+    offerText: {
+        color: 'white',
+        fontWeight: 'bold',
+        backgroundColor: '#1cc88a',
+        border: 'none',
+        padding: '10px 10px',
+        borderRadius: '10px',
+        margin: '10px 10px'
     }
 }));
 
@@ -126,7 +138,8 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     var data = deviceData;
     var packages = data.package;
     let customPkg = data.custom_package ? data.custom_package : null;
-    console.log(customPkg);
+    console.log('data');
+    console.log(data);
     const deviceId = data.device.id;
 
     const handlePackageChange = (packageId) => {
@@ -208,73 +221,28 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                                 }`}
                                                 onClick={() => handlePackageChange(pkg.id)}
                                             >
-                                                {/* <input
-                                                    value={pkg.id}
-                                                    checked={selectedPackage === pkg.id}
-                                                    onChange={() => handlePackageChange(pkg.id)}
-                                                /> */}
-                                                <Grid container className={`${classes.containerStyle}`}>
-                                                    <Typography variant="h4" className={`${classes.labelStyle}`}>
-                                                        {packages[0].package_type}
-                                                    </Typography>
-                                                    <Grid item xs={12} sm={12}>
-                                                        <Typography variant="h4" className={`${classes.headingStyle}`}>
-                                                            {pkg.name}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Upfront Payment:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.upfront_payment}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Credit Price:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.credit_price}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Installment Amount:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {data.currency} {pkg.installment_amount}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6}>
-                                                        <Typography className={`${classes.labelStyle}`}>Total Tenure:</Typography>
-                                                        <Typography className={`${classes.valueStyle}`}>
-                                                            {pkg.total_tenure} months
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {showCustom && customPkg.length > 0 && (
-                                    <div className={classes.customPackageContainer}>
-                                        {customPkg.map((pkg) => (
-                                            <div
-                                                key={pkg.id}
-                                                className={`${classes.packageRadio} ${
-                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
-                                                }`}
-                                                onClick={() => handlecustomPkg(pkg.id)}
-                                            >
-                                                {/* <input
-                                                    value={pkg.id}
-                                                    checked={selectedPackage === pkg.id}
-                                                    onChange={() => handlePackageChange(pkg.id)}
-                                                /> */}
-                                                <Grid container className={`${classes.containerStyle}`}>
-                                                    <Typography variant="h4" className={`${classes.labelStyle}`}>
-                                                        {/* {packages[0].package_type} */} CUSTOM PACKAGE
-                                                    </Typography>
-                                                    <Grid item mt={1} xs={12} sm={12}>
-                                                        <Typography className={`${classes.labelStyle}`}>
-                                                            PACKAGE NAME : {pkg.package_name}
-                                                        </Typography>
+                                                <Grid container className={classes.containerStyle} alignItems="center">
+                                                    <Grid container alignItems="center">
+                                                        <Grid item xs={12} sm={1.6} className={classes.offerText}>
+                                                            OFFER
+                                                        </Grid>
+                                                        <Grid item xs={12} sm={5} style={{ marginLeft: '1rem' }}>
+                                                            <Typography className={classes.labelStyle}>
+                                                                Deposite {data.currency}
+                                                                {pkg.upfront_payment}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            xs={12}
+                                                            sm={4}
+                                                            style={{ marginLeft: '1rem', display: 'flex', alignItems: 'end' }}
+                                                        >
+                                                            <Typography style={{ fontSize: '14px', color: 'black', textAlign: 'end' }}>
+                                                                Valid till{' '}
+                                                                <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
+                                                            </Typography>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </div>
