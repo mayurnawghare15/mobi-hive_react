@@ -138,12 +138,11 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     var data = deviceData;
     var packages = data.package;
     let customPkg = data.custom_package ? data.custom_package : null;
-    console.log('data');
-    console.log(data);
     const deviceId = data.device.id;
 
-    const handlePackageChange = (packageId) => {
-        setSelectedPackageId(packageId);
+    const handleFixPackageChange = (_pkg) => {
+        console.log(_pkg);
+        setSelectedPackageId(_pkg);
         setFixPackage(true);
         setConfirmOrder(true);
     };
@@ -172,10 +171,10 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                     data={data}
                     confirmOrder={confirmOrder}
                     setConfirmOrder={setConfirmOrder}
-                    isCustomPackage={isCustomPackage}
-                    setIsCustomPackage={setIsCustomPackage}
-                    isfixPackage={isfixPackage}
-                    setFixPackage={setFixPackage}
+                    // isCustomPackage={isCustomPackage}
+                    // setIsCustomPackage={setIsCustomPackage}
+                    // isfixPackage={isfixPackage}
+                    // setFixPackage={setFixPackage}
                 ></ConfirmDialog>
             )}
             <Container>
@@ -219,7 +218,7 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                                 className={`${classes.packageRadio} ${
                                                     selectedPackageId === pkg.id ? classes.selectedPackage : ''
                                                 }`}
-                                                onClick={() => handlePackageChange(pkg.id)}
+                                                onClick={() => handleFixPackageChange(pkg)}
                                             >
                                                 <Grid container className={classes.containerStyle} alignItems="center">
                                                     <Grid container alignItems="center">

@@ -44,18 +44,15 @@ export default function ResponsiveDialog(props) {
         selectedPackage,
         data,
         encrypted_mobile_Number,
-        state,
-        isCustomPackage,
-        setIsCustomPackage,
-        isfixPackage,
-        setFixPackage
+        state
+        // isCustomPackage,
+        // setIsCustomPackage,
+        // isfixPackage,
+        // setFixPackage
     } = props;
+
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const [package_Type, setPackage_type] = useState(true);
-
-    const pkgId = selectedPackage;
-    const deviceId = data.device.id;
     const { user } = useAuthContext();
     let token = null;
     if (user) {
@@ -64,33 +61,35 @@ export default function ResponsiveDialog(props) {
 
     const handleConfirm = () => {
         setConfirmOrder(false);
-        PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
-            .then((res) => {
-                if (res) {
-                    toast.success(res.message);
-                    return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
-                        state: {
-                            ph_number: state.ph_number,
-                            leadid: state.leadid,
-                            deviceId: deviceId,
-                            isCustomPackage: isCustomPackage,
-                            isfixPackage: isfixPackage
-                        }
-                    });
-                } else {
-                    setIsCustomPackage(false);
-                    setFixPackage(false);
-                }
-            })
-            .catch((error) => {
-                // return toast.error('Something went wrong , Please check your internet connection.');
-            });
+        return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
+            state: { data: data, selectedPackage: selectedPackage }
+        });
+        // PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
+        //     .then((res) => {
+        //         if (res) {
+        //             toast.success(res.message);
+        //                 state: {
+        //                     ph_number: state.ph_number,
+        //                     leadid: state.leadid,
+        //                     deviceId: deviceId,
+        //                     isCustomPackage: isCustomPackage,
+        //                     isfixPackage: isfixPackage
+        //                 }
+        //             });
+        //         } else {
+        //             setIsCustomPackage(false);
+        //             setFixPackage(false);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         // return toast.error('Something went wrong , Please check your internet connection.');
+        //     });
     };
 
     const handleClose = () => {
         setConfirmOrder(false);
-        setIsCustomPackage(false);
-        setFixPackage(false);
+        // setIsCustomPackage(false);
+        // setFixPackage(false);
     };
 
     return (

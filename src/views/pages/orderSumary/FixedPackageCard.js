@@ -40,7 +40,8 @@ const useStyles = makeStyles((theme) => ({
 
 const FixedPackageCard = ({ packageInfo }) => {
     const classes = useStyles();
-    const applied_package = packageInfo.applied_package;
+    const applied_package = packageInfo;
+    console.log(packageInfo);
     return (
         <div className={classes.root}>
             <div className={classes.container}>
@@ -56,19 +57,19 @@ const FixedPackageCard = ({ packageInfo }) => {
                                         <TableRow>
                                             <TableCell className={classes.tableCell}>Upfront Amount -</TableCell>
                                             <TableCell align="center" className={classes.tableCell}>
-                                                {packageInfo.currency_prefix} {packageInfo.upfront_amount}
-                                            </TableCell>
-                                        </TableRow>
-                                        <TableRow>
-                                            <TableCell className={classes.tableCell}>Upfront Amount -</TableCell>
-                                            <TableCell align="center" className={classes.tableCell}>
-                                                {packageInfo.currency_prefix} {packageInfo.upfront_amount}
+                                                {packageInfo.currency.cr_prefix} {packageInfo.upfront_payment}
                                             </TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell className={classes.tableCell}>Installments -</TableCell>
                                             <TableCell align="center" className={classes.tableCell}>
-                                                {packageInfo.installment}
+                                                {packageInfo.currency.cr_prefix} {packageInfo.installment_amount}
+                                            </TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell className={classes.tableCell}>Total Tenure -</TableCell>
+                                            <TableCell align="center" className={classes.tableCell}>
+                                                {packageInfo.total_tenure}
                                             </TableCell>
                                         </TableRow>
                                     </TableBody>
