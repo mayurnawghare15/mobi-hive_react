@@ -75,8 +75,6 @@ const EligibleDevices = () => {
         }
     };
 
-    console.log('filterData');
-    console.log(filterData);
     const checkCustomPkg = () => {
         console.log(filterData.package);
     };

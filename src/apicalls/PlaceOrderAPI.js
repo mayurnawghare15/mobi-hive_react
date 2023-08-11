@@ -25,9 +25,6 @@ const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
         const response = await axios.get(API_Base_Url + `/v1/place-order/${prospectId}/${deviceId}/${pkgId}`, headers);
 
         if (response.status === 201) {
-            // Success: Order placed successfully
-            // toast.success('Order Placed Successfully');
-            console.log(response);
             return response.data;
         }
     } catch (error) {

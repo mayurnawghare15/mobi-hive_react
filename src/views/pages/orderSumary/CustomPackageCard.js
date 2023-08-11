@@ -49,9 +49,10 @@ const useStyles = makeStyles((theme) => ({
     },
     heading: {
         marginBottom: theme.spacing(1),
+        marginTop: theme.spacing(1),
         fontSize: '1rem',
         fontWeight: 'bold',
-        color: theme.palette.text.primary
+        color: 'black'
     },
     sliderContainer: {
         margin: '0 auto',
@@ -99,14 +100,8 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.secondary.main
     },
     inputFields: {
-        display: 'flex',
         gap: theme.spacing(2),
         alignItems: 'center',
-        marginTop: theme.spacing(2)
-    },
-    navigationButtons: {
-        display: 'flex',
-        justifyContent: 'flex-end',
         marginTop: theme.spacing(2)
     }
 }));
@@ -114,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
 const CustomPackageCard = ({ packageInfo }) => {
     const { t } = useTranslation();
     const classes = useStyles();
-    const applied_package = packageInfo.applied_package;
+    const applied_package = packageInfo.custom_package;
     const [sliderValue, setSliderValue] = useState(50);
     const { user } = useAuthContext();
     let token = null;
@@ -122,6 +117,8 @@ const CustomPackageCard = ({ packageInfo }) => {
         token = user.token;
     }
 
+    // console.log(packageInfo);
+    console.log(applied_package);
     const handleSliderChange = (event, newValue) => {
         setSliderValue(newValue);
     };
@@ -139,7 +136,7 @@ const CustomPackageCard = ({ packageInfo }) => {
         <div className={classes.root}>
             <div className={classes.container}>
                 <Typography variant="h4" className={classes.title} gutterBottom>
-                    Package Name - {applied_package.package_name}
+                    {/* Package Name - {applied_package.package_name} */}
                 </Typography>
                 <Card className={classes.card}>
                     <CardContent>
@@ -147,8 +144,8 @@ const CustomPackageCard = ({ packageInfo }) => {
                             <Table>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell align="center">
-                                            {packageInfo.currency_prefix} {parseFloat(packageInfo.upfront_amount) + sliderValue}
+                                        <TableCell align="center" className={classes.heading}>
+                                            {packageInfo.currency} {parseFloat(packageInfo.max_retail_price) + sliderValue}
                                             <Typography mt={2} variant="body1">
                                                 Upfront Amount
                                             </Typography>
@@ -169,7 +166,7 @@ const CustomPackageCard = ({ packageInfo }) => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
-                        {/* <div className={classes.sliderContainer}>
+                        <div className={classes.sliderContainer}>
                             <Typography className={classes.heading}>Upfront Payment *</Typography>
                             <Typography variant="body1">Drag the slider to adjust upfront payment</Typography>
                             <div className={classes.sliderRow}>
@@ -189,65 +186,27 @@ const CustomPackageCard = ({ packageInfo }) => {
                                     +
                                 </Button>
                             </div>
-                        </div> */}
-                        <Grid container mt={2} xs={12} spacing={2}>
-                            <div className={classes.sliderContainer}>
-                                <Typography className={classes.heading}>Upfront Payment *</Typography>
-                                <Typography variant="body1">Drag the slider or input a value</Typography>
-                                <div className={classes.sliderRow}>
-                                    <Button className={classes.button} onClick={handleDecrement}>
-                                        -
-                                    </Button>
-                                    <Slider
-                                        aria-label="time-indicator"
-                                        size="medium"
-                                        value={sliderValue}
-                                        min={0}
-                                        max={100}
-                                        step={1}
-                                        onChange={handleSliderChange}
-                                        className={classes.slider}
-                                    />
-                                    <Button className={classes.button} onClick={handleIncrement}>
-                                        +
-                                    </Button>
-                                </div>
-                            </div>
+                        </div>
+                        <Grid xs={12} container className={classes.inputFields}>
+                            <Grid xs={12} mt={2} sm={3}>
+                                <Typography className={classes.heading}>{t('duration')}*</Typography>
+                                <Radio></Radio>
+                            </Grid>
+                            <Grid xs={12} mt={2} ml={6} sm={6}>
+                                <Typography className={classes.heading}>{t('repayment')}*</Typography>
+                                <Radio></Radio>
+                            </Grid>
                         </Grid>
                         <Grid container className={classes.inputFields}>
-                            <Grid xs={12} sm={6}>
+                            <Grid xs={12} mt={2} sm={6}>
                                 <Typography className={classes.heading}>Order Date*</Typography>
                                 <OutlinedInput size="small" type="date" />
                             </Grid>
-                            <Grid xs={12} sm={6}>
+                            <Grid xs={12} mb={2} mt={2} sm={6}>
                                 <Typography className={classes.heading}>Installment Start Date*</Typography>
                                 <OutlinedInput size="small" type="date" />
                             </Grid>
                         </Grid>
-                        <div className={classes.navigationButtons}>
-                            <AnimateButton>
-                                <Button disableElevation size="small" variant="contained" color="success">
-                                    {t('add_Payment')}
-                                </Button>
-                            </AnimateButton>
-                            <AnimateButton>
-                                <Button disableElevation size="small" variant="contained" color="warning" style={{ marginLeft: '8px' }}>
-                                    {t('request_extension')}
-                                </Button>
-                            </AnimateButton>
-                            <AnimateButton>
-                                <Button
-                                    disableElevation
-                                    size="small"
-                                    onClick={handleDeletebtn}
-                                    variant="contained"
-                                    color="error"
-                                    style={{ marginLeft: '8px' }}
-                                >
-                                    {t('delete')}
-                                </Button>
-                            </AnimateButton>
-                        </div>
                     </CardContent>
                 </Card>
             </div>

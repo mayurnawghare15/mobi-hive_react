@@ -11,7 +11,6 @@ const EligibleDevicesAPI = async (token, prospectId, search_param) => {
                 authorization: 'Token ' + token
             }
         };
-        console.log(token + ' Token');
         if (!token) {
             toast.error('You are not authorized to view this page');
             localStorage.removeItem('user');
@@ -21,8 +20,11 @@ const EligibleDevicesAPI = async (token, prospectId, search_param) => {
             return () => clearTimeout(timer);
         }
         const response = await axios
-            .get(API_Base_Url + `/v2/eligible-devices/?prospect_id=${prospectId}&model_name=${search_param}&oem_slug=${search_param}&device_slug=${search_param}`,
-                headers)
+            .get(
+                API_Base_Url +
+                    `/v2/eligible-devices/?prospect_id=${prospectId}&model_name=${search_param}&oem_slug=${search_param}&device_slug=${search_param}`,
+                headers
+            )
             .then((response) => {
                 return response;
             })

@@ -13,9 +13,11 @@ import DeviceInfo from './DeviceInfo';
 import LoadingSkeleton from '../../../components/LoadingSkeleton';
 import FixedPackageCard from './FixedPackageCard';
 import CustomPackageCard from './CustomPackageCard';
-import DeleteIcon from '@mui/icons-material/Delete';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+
 import { handleDelete } from '../../../helper/deleteOrder';
+import AnimateButton from '../../../ui-component/extended/AnimateButton';
+import PlaceOrderAPI from '../../../apicalls/PlaceOrderAPI';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -53,6 +55,12 @@ const useStyles = makeStyles((theme) => ({
     deletebtn: {
         display: 'flex',
         alignContent: 'flex-end'
+    },
+    navigationButtons: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: theme.spacing(2),
+        marginRight: theme.spacing(2)
     }
 }));
 
@@ -60,46 +68,49 @@ const OrderSummaryPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { state } = location;
-    // const leadid = state.leadid;
-    // const deviceId = state.deviceId;
+    const leadid = localStorage.getItem('lead_id');
+
     const { t } = useTranslation();
     const classes = useStyles();
     // const [customPkgType, setcustomPkgType] = useState(state.isCustomPackage);
 
     const [saleData, setSaleData] = useState(state.data);
+    const deviceId = saleData.device.id;
     const { user } = useAuthContext();
     const token = user ? user.token : null;
+    const pkgId = saleData.package[0].id;
 
-    useEffect(() => {
-        // if (leadid) {
-        //     fetchData(leadid, deviceId);
-        // } else {
-        //     toast.error('You can not access this page');
-        // }
-    }, []);
-    const fetchData = (leadid, deviceId) => {
-        try {
-            GetLeadSaleOrderAPI(token, leadid)
-                .then((res) => {
-                    const filterData = res.data.filter((item) => item.device.id === deviceId);
+    useEffect(() => {}, []);
+    // const fetchData = (leadid, deviceId) => {
+    //     try {
+    //         GetLeadSaleOrderAPI(token, leadid)
+    //             .then((res) => {
+    //                 const filterData = res.data.filter((item) => item.device.id === deviceId);
 
-                    if (filterData.length > 0) {
-                        setSaleData(filterData[0]);
-                    } else {
-                        toast.error("Can't place the same order");
-                    }
-                })
-                .catch((error) => {});
-        } catch (error) {
-            toast.error('Something went wrong, please check your internet connection.');
-        }
-    };
+    //                 if (filterData.length > 0) {
+    //                     setSaleData(filterData[0]);
+    //                 } else {
+    //                     toast.error("Can't place the same order");
+    //                 }
+    //             })
+    //             .catch((error) => {});
+    //     } catch (error) {
+    //         toast.error('Something went wrong, please check your internet connection.');
+    //     }
+    // };
     const handleAccept = () => {
-        return navigate(`/payment/`, { state: saleData });
-    };
-
-    const handleDeletebtn = () => {
-        // handleDelete(token, orderId, leadId);
+        try {
+            PlaceOrderAPI(token, leadid, deviceId, pkgId)
+                .then((res) => {
+                    toast.success('Order placed successfully');
+                    return navigate(`/payment/`, { state: saleData });
+                })
+                .catch((err) => {
+                    toast.error(err);
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -128,31 +139,46 @@ const OrderSummaryPage = () => {
                             <Grid item xs={12} sm={12} className={classes.card}>
                                 {/* {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />} */}
                             </Grid>
-                            <Grid item xs={12} sm={12} className={classes.card}>
-                                {state.selectedPackage.package_type == 'FIXED' && <FixedPackageCard packageInfo={state.selectedPackage} />}
-                            </Grid>
-                            <Grid item xs={12} sm={12} className={classes.card}>
-                                {state.selectedPackage.package_type == 'CUSTOM' && <CustomPackageCard packageInfo={saleData} />}
-                            </Grid>
+                            {!state.isCustomPackage ? (
+                                <>
+                                    <Grid item xs={12} sm={12} className={classes.card}>
+                                        <FixedPackageCard packageInfo={state.selectedPackage} data={state.data} />
+                                    </Grid>
+                                </>
+                            ) : (
+                                <>
+                                    <Grid item xs={12} sm={12} className={classes.card}>
+                                        <CustomPackageCard packageInfo={saleData} />
+                                    </Grid>
+                                </>
+                            )}
                         </Grid>
-                        <Grid container className={classes.buttonsContainer}>
-                            <Grid item>
+                        <div className={classes.navigationButtons}>
+                            <AnimateButton>
                                 <Button
+                                    onClick={handleAccept}
+                                    startIcon={<LocalShippingIcon />}
+                                    disableElevation
+                                    size="small"
                                     variant="contained"
                                     color="success"
-                                    startIcon={<LocalShippingIcon />}
-                                    onClick={handleAccept}
-                                    className={classes.acceptButton}
                                 >
-                                    Place Order
+                                    {t('place_order')}
                                 </Button>
-                            </Grid>
-                            <Grid item>
-                                <IconButton color="error" className={classes.deletebtn} onClick={handleDeletebtn}>
-                                    <DeleteIcon />
-                                </IconButton>
-                            </Grid>
-                        </Grid>
+                            </AnimateButton>
+                            {/* <AnimateButton>
+                                <Button
+                                    onclick={handleDeletebtn}
+                                    disableElevation
+                                    size="small"
+                                    variant="contained"
+                                    color="warning"
+                                    style={{ marginLeft: '8px' }}
+                                >
+                                    {t('change_installment_date')}
+                                </Button>
+                            </AnimateButton> */}
+                        </div>
                     </SubCard>
                 </Grid>
             </Grid>

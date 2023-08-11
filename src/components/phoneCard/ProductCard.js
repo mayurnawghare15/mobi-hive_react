@@ -84,19 +84,31 @@ const useStyles = makeStyles((theme) => ({
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
         borderRadius: '10px',
-        padding: '20px',
-        margin: '10px',
+
+        cursor: 'pointer'
+    },
+    btn: {
+        marginTop: theme.spacing(1),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'end',
+        justifyContent: 'center',
+        borderRadius: '10px',
         cursor: 'pointer'
     },
     selectedPackage: {
         fontWeight: 'bold'
     },
     containerStyle: {
+        // maxWidth: '600px',
+        Width: '600px',
         backgroundColor: '#d0e5f5',
         padding: '20px',
         borderRadius: '10px',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-        marginBottom: '20px'
+        boxShadow: '0px 0px 2px  rgba(0, 0, 0, 0.1)',
+        marginBottom: '10px'
     },
 
     headingStyle: {
@@ -109,7 +121,6 @@ const useStyles = makeStyles((theme) => ({
         fontSize: '18px',
         fontWeight: 'bold',
         color: 'white',
-        fontWeight: 'bold',
         backgroundColor: '#1cc88a',
         border: 'none',
         padding: '10px 10px',
@@ -133,28 +144,24 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     var data = deviceData;
     var packages = data.package;
     let customPkg = data.custom_package ? data.custom_package : null;
-    const deviceId = data.device.id;
 
     const handleFixPackageChange = (_pkg) => {
-        console.log(_pkg);
         setSelectedPackageId(_pkg);
-        setFixPackage(true);
         setConfirmOrder(true);
     };
-    const handlecustomPkg = (packageId) => {
-        setSelectedPackageId(packageId);
+    const handleCustomClick = () => {
         setIsCustomPackage(true);
         setConfirmOrder(true);
     };
-    const handleCardClick = () => {
-        if (packages.length > 0) {
-            setShowFixed(true);
-        }
+    // const handleCardClick = () => {
+    //     if (packages.length > 0) {
+    //         setShowFixed(true);
+    //     }
 
-        if (customPkg.length > 0) {
-            setShowCustom(true);
-        }
-    };
+    //     if (customPkg.length > 0) {
+    //         setShowCustom(true);
+    //     }
+    // };
 
     return (
         <>
@@ -166,16 +173,17 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                     data={data}
                     confirmOrder={confirmOrder}
                     setConfirmOrder={setConfirmOrder}
-                    // isCustomPackage={isCustomPackage}
-                    // setIsCustomPackage={setIsCustomPackage}
+                    isCustomPackage={isCustomPackage}
+                    setIsCustomPackage={setIsCustomPackage}
                     // isfixPackage={isfixPackage}
                     // setFixPackage={setFixPackage}
                 ></ConfirmDialog>
             )}
+
             <Container>
                 <div className={classes.cardWrapper}>
                     <Grid container spacing={2} className={classes.cardContainer}>
-                        <Card className={`${classes.card} ${classes.clickableCard}`} onClick={handleCardClick}>
+                        <Card className={`${classes.card} ${classes.clickableCard}`}>
                             <CardHeader title={<Typography variant="h3">{data.device.oem_slug.toUpperCase()}</Typography>} />
                             <hr className={classes.hr} />
                             <CardContent className={classes.cardContent}>
@@ -207,38 +215,55 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                             <CardActions>
                                 <div className={classes.packageContainer}>
                                     {packages.map((pkg) => (
-                                        <div
-                                            key={pkg.id}
-                                            className={`${classes.packageRadio} ${
-                                                selectedPackageId === pkg.id ? classes.selectedPackage : ''
-                                            }`}
-                                            onClick={() => handleFixPackageChange(pkg)}
-                                        >
-                                            <Grid container className={classes.containerStyle} alignItems="center">
-                                                <Grid container alignItems="center">
-                                                    <Grid item xs={12} sm={2} md={2} className={classes.offerText}>
-                                                        <Typography className={classes.labelStyle}>OFFER</Typography>
-                                                    </Grid>
-                                                    <Grid item xs={12} sm={6} md={4} style={{ marginLeft: '1rem' }}>
-                                                        <Typography variant="h4">
-                                                            Deposit {data.currency}
-                                                            {pkg.upfront_payment}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid
-                                                        item
-                                                        xs={12}
-                                                        sm={12}
-                                                        md={4}
-                                                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
-                                                    >
-                                                        <Typography style={{ fontSize: '14px', color: 'black', textAlign: 'end' }}>
-                                                            Valid till{' '}
-                                                            <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
-                                                        </Typography>
+                                        <div>
+                                            <div
+                                                key={pkg.id}
+                                                className={`${classes.packageRadio} ${
+                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
+                                                }`}
+                                                onClick={() => handleFixPackageChange(pkg)}
+                                            >
+                                                <Grid container className={classes.containerStyle} alignItems="center">
+                                                    <Grid container alignItems="center">
+                                                        <Grid item xs={12} sm={4} md={3} className={classes.offerText}>
+                                                            <Typography className={classes.labelStyle}>OFFER</Typography>
+                                                        </Grid>
+                                                        <Grid item xs={12} sm={6} md={4} style={{ marginLeft: '1rem' }}>
+                                                            <Typography variant="h4">
+                                                                Deposit {data.currency}
+                                                                {pkg.upfront_payment}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid
+                                                            item
+                                                            mt={2.5}
+                                                            xs={12}
+                                                            sm={12}
+                                                            md={4}
+                                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
+                                                        >
+                                                            <Typography
+                                                                style={{
+                                                                    fontSize: '14px',
+                                                                    color: 'black',
+                                                                    textAlign: 'end'
+                                                                }}
+                                                            >
+                                                                Valid till{' '}
+                                                                <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
+                                                            </Typography>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
-                                            </Grid>
+                                            </div>
+                                            <Button
+                                                onClick={handleCustomClick}
+                                                className={classes.btn}
+                                                color="secondary"
+                                                variant="contained"
+                                            >
+                                                Customize
+                                            </Button>
                                         </div>
                                     ))}
                                 </div>

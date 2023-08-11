@@ -44,13 +44,15 @@ export default function ResponsiveDialog(props) {
         selectedPackage,
         data,
         encrypted_mobile_Number,
-        state
-        // isCustomPackage,
-        // setIsCustomPackage,
+        state,
+        customPkg,
+        isCustomPackage,
+        setIsCustomPackage
         // isfixPackage,
         // setFixPackage
     } = props;
 
+    console.log(selectedPackage);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const { user } = useAuthContext();
@@ -59,10 +61,16 @@ export default function ResponsiveDialog(props) {
         token = user.token;
     }
 
+    console.log(isCustomPackage);
+
     const handleConfirm = () => {
         setConfirmOrder(false);
         return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
-            state: { data: data, selectedPackage: selectedPackage }
+            state: {
+                data: data,
+                selectedPackage: selectedPackage,
+                isCustomPackage: isCustomPackage
+            }
         });
         // PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
         //     .then((res) => {
@@ -88,6 +96,7 @@ export default function ResponsiveDialog(props) {
 
     const handleClose = () => {
         setConfirmOrder(false);
+        setIsCustomPackage(false);
         // setIsCustomPackage(false);
         // setFixPackage(false);
     };
@@ -107,22 +116,52 @@ export default function ResponsiveDialog(props) {
                 }
             }}
         >
-            <DialogTitle id="responsive-dialog-title" style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}>
-                {'Confirm Order'}
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
-                    Are you sure you want to purchase the device with the selected package?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions style={{ justifyContent: 'center' }}>
-                <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
-                    Deny
-                </Button>
-                <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
-                    Confirm
-                </Button>
-            </DialogActions>
+            {isCustomPackage ? (
+                <>
+                    <DialogTitle
+                        id="responsive-dialog-title"
+                        style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}
+                    >
+                        {'Confirm Order'}
+                    </DialogTitle>
+
+                    <DialogContent>
+                        <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
+                            Are you sure you want to customize ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions style={{ justifyContent: 'center' }}>
+                        <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
+                            Deny
+                        </Button>
+                        <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </>
+            ) : (
+                <>
+                    <DialogTitle
+                        id="responsive-dialog-title"
+                        style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}
+                    >
+                        {'Confirm Order'}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
+                            Are you sure you want to purchase the device with the selected package?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions style={{ justifyContent: 'center' }}>
+                        <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
+                            Deny
+                        </Button>
+                        <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </>
+            )}
         </Dialog>
     );
 }
