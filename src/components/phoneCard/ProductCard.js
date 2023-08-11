@@ -68,8 +68,10 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5
     },
     packageContainer: {
-        height: '100%',
-        marginTop: theme.spacing(3)
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        padding: '20px'
     },
     customPackageContainer: {
         // height: '300px',
@@ -78,22 +80,18 @@ const useStyles = makeStyles((theme) => ({
     },
     packageRadio: {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: theme.spacing(1),
-        cursor: 'pointer',
-        '& input[type="radio"]': {
-            marginRight: theme.spacing(1),
-            cursor: 'pointer'
-        },
-        '&:hover': {
-            color: theme.palette.primary.main
-        }
+        backgroundColor: '#f5f5f5',
+        borderRadius: '10px',
+        padding: '20px',
+        margin: '10px',
+        cursor: 'pointer'
     },
     selectedPackage: {
         fontWeight: 'bold'
     },
     containerStyle: {
-        width: '600px',
         backgroundColor: '#d0e5f5',
         padding: '20px',
         borderRadius: '10px',
@@ -109,14 +107,7 @@ const useStyles = makeStyles((theme) => ({
 
     labelStyle: {
         fontSize: '18px',
-        fontWeight: 'bold'
-    },
-
-    valueStyle: {
-        fontSize: '18px'
-    },
-
-    offerText: {
+        fontWeight: 'bold',
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: '#1cc88a',
@@ -124,6 +115,10 @@ const useStyles = makeStyles((theme) => ({
         padding: '10px 10px',
         borderRadius: '10px',
         margin: '10px 10px'
+    },
+
+    valueStyle: {
+        fontSize: '18px'
     }
 }));
 
@@ -210,44 +205,43 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                 </Grid>
                             </CardContent>
                             <CardActions>
-                                {showFixed && packages.length > 0 && (
-                                    <div className={classes.packageContainer}>
-                                        {packages.map((pkg) => (
-                                            <div
-                                                key={pkg.id}
-                                                className={`${classes.packageRadio} ${
-                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
-                                                }`}
-                                                onClick={() => handleFixPackageChange(pkg)}
-                                            >
-                                                <Grid container className={classes.containerStyle} alignItems="center">
-                                                    <Grid container alignItems="center">
-                                                        <Grid item xs={12} sm={1.6} className={classes.offerText}>
-                                                            OFFER
-                                                        </Grid>
-                                                        <Grid item xs={12} sm={5} style={{ marginLeft: '1rem' }}>
-                                                            <Typography className={classes.labelStyle}>
-                                                                Deposite {data.currency}
-                                                                {pkg.upfront_payment}
-                                                            </Typography>
-                                                        </Grid>
-                                                        <Grid
-                                                            item
-                                                            xs={12}
-                                                            sm={4}
-                                                            style={{ marginLeft: '1rem', display: 'flex', alignItems: 'end' }}
-                                                        >
-                                                            <Typography style={{ fontSize: '14px', color: 'black', textAlign: 'end' }}>
-                                                                Valid till{' '}
-                                                                <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
-                                                            </Typography>
-                                                        </Grid>
+                                <div className={classes.packageContainer}>
+                                    {packages.map((pkg) => (
+                                        <div
+                                            key={pkg.id}
+                                            className={`${classes.packageRadio} ${
+                                                selectedPackageId === pkg.id ? classes.selectedPackage : ''
+                                            }`}
+                                            onClick={() => handleFixPackageChange(pkg)}
+                                        >
+                                            <Grid container className={classes.containerStyle} alignItems="center">
+                                                <Grid container alignItems="center">
+                                                    <Grid item xs={12} sm={2} md={2} className={classes.offerText}>
+                                                        <Typography className={classes.labelStyle}>OFFER</Typography>
+                                                    </Grid>
+                                                    <Grid item xs={12} sm={6} md={4} style={{ marginLeft: '1rem' }}>
+                                                        <Typography variant="h4">
+                                                            Deposit {data.currency}
+                                                            {pkg.upfront_payment}
+                                                        </Typography>
+                                                    </Grid>
+                                                    <Grid
+                                                        item
+                                                        xs={12}
+                                                        sm={12}
+                                                        md={4}
+                                                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
+                                                    >
+                                                        <Typography style={{ fontSize: '14px', color: 'black', textAlign: 'end' }}>
+                                                            Valid till{' '}
+                                                            <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
+                                                        </Typography>
                                                     </Grid>
                                                 </Grid>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
+                                            </Grid>
+                                        </div>
+                                    ))}
+                                </div>
                             </CardActions>
                         </Card>
                     </Grid>
