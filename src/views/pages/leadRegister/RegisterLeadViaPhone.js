@@ -137,7 +137,13 @@ const RegisterLeadViaPhone = () => {
             };
 
             try {
-                axios.post(BASE_URL + '/v2/otp_verify/', body, headers).then(function (response) {
+                axios.post(BASE_URL + '/v2/otp_verify/', body, headers).then((response) => {
+                    console.log(response);
+                    if (response.status === 400) {
+                        toast.error(response.message);
+                    } else if (response.status === 500) {
+                        toast.error("Internal server error")
+                    }
                     if (response.status) {
                         setMobileNumber(response.data.data.recipient);
                         toast.success('OTP Verified successfully');
@@ -158,7 +164,7 @@ const RegisterLeadViaPhone = () => {
                 toast.error(t('error_while_sending_OTP'));
                 console.log(err);
             }
-            setTimeout(() => {}, 2000);
+
         }
     };
 
@@ -226,7 +232,7 @@ const RegisterLeadViaPhone = () => {
                                                         type="date"
                                                         fullWidth
                                                         onChange={handleDOBChange}
-                                                        // Add any necessary props and event handlers for capturing the date of birth
+                                                    // Add any necessary props and event handlers for capturing the date of birth
                                                     />
                                                 </DialogContent>
                                                 <DialogActions>

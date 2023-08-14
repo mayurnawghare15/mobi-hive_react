@@ -300,7 +300,6 @@ const LeadCreateForm = () => {
 
     const onInputChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value, 'name , Value');
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
@@ -401,15 +400,14 @@ const LeadCreateForm = () => {
                         });
                     }
                 })
-                .catch((error) => {
-                    return toast.error('Something went wrong , Please check your internet connection.');
-                });
+            // .catch((error) => {
+            //     return toast.error('Something went wrong , Please check your internet connection.');
+            // }); 
             // Continue with form submission or handle the valid data
         }
     };
     const onTitleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value, 'name , Value');
         setCreateLeadForm({
             ...createLeadForm,
             [name]: value
@@ -468,7 +466,7 @@ const LeadCreateForm = () => {
                                     name="first_name"
                                     onChange={onInputChange}
                                     fullWidth
-                                    // required
+                                // required
                                 />
                             </Grid>
                             <Grid item xs={12} sm={3.3}>
@@ -972,10 +970,10 @@ const LeadCreateForm = () => {
                                     {data
                                         ? data.cities.length > 0
                                             ? data.cities.map((item, index) => (
-                                                  <MenuItem value={item.id} id={item.slug}>
-                                                      {item.name}
-                                                  </MenuItem>
-                                              ))
+                                                <MenuItem value={item.id} id={item.slug}>
+                                                    {item.name}
+                                                </MenuItem>
+                                            ))
                                             : []
                                         : null}
                                 </Select>

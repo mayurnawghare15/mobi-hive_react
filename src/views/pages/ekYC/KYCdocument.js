@@ -161,27 +161,27 @@ function KYCDocumentPage() {
                     docType === 'aadhar_card'
                         ? setAadharCard
                         : docType === 'pan_card'
-                        ? setPanCard
-                        : docType === 'passport'
-                        ? setNationalId
-                        : docType === 'national_id'
-                        ? setPassport
-                        : docType === 'salary_slip'
-                        ? setSalarySlip
-                        : setNullHandel // Use null or any other default value if needed
+                            ? setPanCard
+                            : docType === 'passport'
+                                ? setNationalId
+                                : docType === 'national_id'
+                                    ? setPassport
+                                    : docType === 'salary_slip'
+                                        ? setSalarySlip
+                                        : setNullHandel // Use null or any other default value if needed
                 }
                 dataDocuments={
                     docType === 'aadhar_card'
                         ? aadharCard
                         : docType === 'pan_card'
-                        ? panCard
-                        : docType === 'passport'
-                        ? nationalId
-                        : docType === 'national_id'
-                        ? passport
-                        : docType === 'salary_slip'
-                        ? salarySlip
-                        : nullHandel // Use null or any other default value if needed
+                            ? panCard
+                            : docType === 'passport'
+                                ? nationalId
+                                : docType === 'national_id'
+                                    ? passport
+                                    : docType === 'salary_slip'
+                                        ? salarySlip
+                                        : nullHandel // Use null or any other default value if needed
                 }
             />
             {/*For Identification proof */}
@@ -200,50 +200,50 @@ function KYCDocumentPage() {
                     </Grid>
                     {documentTypeData && documentTypeData.length > 0
                         ? documentTypeData.map((item) => (
-                              <>
-                                  <SubCard>
-                                      <>
-                                          <h3>
-                                              {item.label} {t('require_1_doc')}
-                                          </h3>
-                                      </>
-                                      {item.document_list &&
-                                          item.document_list.length > 0 &&
-                                          item.document_list.map((itemData) => (
-                                              <Grid ml={2} mt={3} container alignItems="center">
-                                                  <Grid item xs={8}>
-                                                      <h4>{itemData.document_type} </h4>
-                                                  </Grid>
-                                                  <Grid item xs={4}>
-                                                      <Button
-                                                          size="large"
-                                                          color="primary"
-                                                          startIcon={
-                                                              <CheckCircleOutlineTwoToneIcon
-                                                                  style={{ fontSize: 35 }}
-                                                                  htmlColor={itemData.kyc_front ? 'green' : 'inherit'}
-                                                              />
-                                                          }
-                                                          title={itemData.kyc_front ? 'Verified' : 'Verify'}
-                                                      />
-                                                      <Button
-                                                          size="large"
-                                                          color="primary"
-                                                          onClick={() => handleAddButton(itemData, itemData.document_slug)}
-                                                          startIcon={
-                                                              itemData.kyc_front ? (
-                                                                  <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
-                                                              ) : (
-                                                                  <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
-                                                              )
-                                                          }
-                                                      ></Button>
-                                                  </Grid>
-                                              </Grid>
-                                          ))}
-                                  </SubCard>
-                              </>
-                          ))
+                            <>
+                                <SubCard>
+                                    <>
+                                        <h3>
+                                            {item.label} {t('require_1_doc')}
+                                        </h3>
+                                    </>
+                                    {item.document_list &&
+                                        item.document_list.length > 0 &&
+                                        item.document_list.map((itemData) => (
+                                            <Grid ml={2} mt={3} container alignItems="center">
+                                                <Grid item xs={8}>
+                                                    <h4>{itemData.document_type} </h4>
+                                                </Grid>
+                                                <Grid item xs={4}>
+                                                    <Button
+                                                        size="large"
+                                                        color="primary"
+                                                        startIcon={
+                                                            <CheckCircleOutlineTwoToneIcon
+                                                                style={{ fontSize: 35 }}
+                                                                htmlColor={itemData.kyc_front ? 'green' : 'inherit'}
+                                                            />
+                                                        }
+                                                        title={itemData.kyc_front ? 'Verified' : 'Verify'}
+                                                    />
+                                                    <Button
+                                                        size="large"
+                                                        color="primary"
+                                                        onClick={() => handleAddButton(itemData, itemData.document_slug)}
+                                                        startIcon={
+                                                            itemData.kyc_front ? (
+                                                                <VisibilityTwoToneIcon style={{ fontSize: 35, color: 'pink' }} />
+                                                            ) : (
+                                                                <AddCircleOutlineOutlinedIcon style={{ fontSize: 35, color: 'violet' }} />
+                                                            )
+                                                        }
+                                                    ></Button>
+                                                </Grid>
+                                            </Grid>
+                                        ))}
+                                </SubCard>
+                            </>
+                        ))
                         : ''}
                     {documentVerifiedCount + '  documentVerifiedCount'}
                     {documentVerifiedCount >= 2 ? (

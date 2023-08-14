@@ -53,7 +53,7 @@ const Payment = () => {
     const classes = useStyles();
     const saleData = state;
 
-    useEffect(() => {}, []);
+    useEffect(() => { }, []);
     const [leadCardExpanded, setLeadCardExpanded] = useState(false);
     const [packageCardExpanded, setPackageCardExpanded] = useState(false);
 
@@ -113,7 +113,7 @@ const Payment = () => {
                         <Collapse in={packageCardExpanded} unmountOnExit>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={12} className={classes.card}>
-                                    {saleData ? <PackageCard packageInfo={saleData} /> : <LoadingSkeleton />}
+                                    {/* {saleData ? <PackageCard packageInfo={saleData} /> : <LoadingSkeleton />} */}
                                 </Grid>
                             </Grid>
                         </Collapse>

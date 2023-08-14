@@ -9,6 +9,7 @@ import {
     FormControl,
     FormHelperText,
     Grid,
+    IconButton,
     InputAdornment,
     InputLabel,
     OutlinedInput,
@@ -18,12 +19,17 @@ import {
 import { makeStyles } from '@mui/styles';
 import { b64toBlob } from '../../../helper';
 import WebcamCapture from '../../../components/webcamComp/WebcamCapture';
-import CheckCircleOutlineTwoToneIcon from '@mui/icons-material/CheckCircleOutlineTwoTone';
 import AnimateButton from '../../../ui-component/extended/AnimateButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import DeleteOrderAPI from '../../../apicalls/DeleteOrderAPI';
 import { toast } from 'react-toastify';
 import { useAuthContext } from '../../../hooks/useAuthContext';
+import { useLocation } from 'react-router';
+import SubCard from '../../../ui-component/cards/SubCard';
+import AddCircleOutlineRoundedIcon from '@material-ui/icons/AddCircleOutlineRounded';
+import Webcam from 'react-webcam';
+import { useCallback } from 'react';
+
 
 const useStyles = makeStyles((theme) => ({
     card: {
@@ -80,13 +86,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PaymentReceipt = ({ saleData }) => {
+    const location = useLocation();
+    const { state } = location;
     const classes = useStyles();
     const { t } = useTranslation();
-    const [selectedFile, setSelectedFile] = useState(null);
-    const fileInputRef = useRef(null);
+    const webcamRef = useRef(null);
     const [openCamera, setOpenCamera] = useState(false);
     const [paymentReceipt, setPaymentReceipt] = useState('');
     const [dateOfBirth, setDateOfBirth] = useState(currentDate());
+    const [capturedImage, setCapturedImage] = useState(null);
     const [paymentForm, setPaymentForm] = useState({
         amount: '',
         receipt: paymentReceipt,
@@ -94,8 +102,8 @@ const PaymentReceipt = ({ saleData }) => {
         dateOfBirth: dateOfBirth
     });
     const { user } = useAuthContext();
-    const orderId = saleData.order_id;
-    const leadId = saleData.prospect_id.id;
+    const orderId = null;
+    const leadId = state.leadid;
     let token = null;
     if (user) {
         token = user.token;
@@ -107,16 +115,6 @@ const PaymentReceipt = ({ saleData }) => {
             ...paymentForm,
             [name]: value
         });
-    };
-
-    // const handleFileChange = (event) => {
-    //     const file = event.target.files[0];
-    //     setSelectedFile(file);
-    // };
-
-    const handleButtonClick = () => {
-        setOpenCamera(true);
-        // fileInputRef.current.click();
     };
 
     const handleImages = (value) => {
@@ -144,14 +142,30 @@ const PaymentReceipt = ({ saleData }) => {
                     .then((res) => {
                         toast.success('Order Deleted Successfully');
                     })
-                    .catch((error) => {});
-            } catch (error) {}
+                    .catch((error) => { });
+            } catch (error) { }
         }
     };
-    console.log(paymentForm);
+
+
+    const handleCamera = () => {
+        setOpenCamera(true);
+    };
+    const retake = () => {
+        setCapturedImage(null);
+    };
+    const handleConfirm = () => {
+        toast.success('Image Captured');
+        // setOpenCamera(false);
+        const imageSrc = webcamRef.current.getScreenshot();
+        console.log(imageSrc);
+        setCapturedImage(imageSrc);
+        setOpenCamera(false);
+
+    };
     return (
         <>
-            {openCamera && <WebcamCapture openCamera={openCamera} setOpenCamera={setOpenCamera} handleImages={handleImages} />}
+
 
             <Card className={classes.card}>
                 <CardHeader className={classes.heading} title={t('Payment')} />
@@ -190,46 +204,87 @@ const PaymentReceipt = ({ saleData }) => {
                     <Box alignItems="center">
                         <Grid container spacing={2}>
                             <Grid item xs={12} sm={12}>
-                                {/* <input
-                                    accept="image/*"
-                                    className={classes.input}
-                                    ref={fileInputRef}
-                                    type="file"
-                                    // onChange={handleFileChange}
-                                /> */}
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
                                 <Typography className={classes.proofLabel}>{t('payment_receipt')}*</Typography>
                             </Grid>
                         </Grid>
+                        <SubCard>
+                            <Box
+                                display="flex"
+                                justifyContent="center"
+                                alignItems="center"
+                                fullWidth
+                                height={200}
+                                border={2}
+                                borderColor="grey.400"
+                                borderRadius={8}
+                                position="relative"
+                                overflow="hidden"
+                            >
 
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            component="span"
-                            className={classes.button}
-                            onClick={handleButtonClick}
-                        >
-                            <b style={{ color: 'white' }}> {t('upload')}</b>
-                        </Button>
-                        {selectedFile ? (
-                            <Typography variant="body2" className={classes.fileName}>
-                                {selectedFile.name}
-                            </Typography>
-                        ) : (
-                            <Button
-                                className={classes.verifybutton}
-                                size="large"
-                                color="primary"
-                                startIcon={
-                                    <CheckCircleOutlineTwoToneIcon
-                                        style={{ fontSize: 35 }}
-                                        htmlColor={paymentReceipt ? 'green' : 'inherit'}
-                                    />
-                                }
-                                title={paymentReceipt ? 'Verified' : 'Verify'}
-                            />
-                        )}
+
+
+                                <div style={{ position: 'relative', width: '100%', height: 350 }}>
+                                    {capturedImage && (
+                                        <img
+                                            display="flex"
+                                            justifyContent="center"
+                                            alignItems="center"
+                                            fullWidth
+                                            height={200}
+                                            border={2}
+                                            borderColor="grey.400"
+                                            borderRadius={8}
+                                            src={docsItemData.kyc_front ? REACT_APP_IMAGE_URL + docsItemData.kyc_front : kyc_front}
+                                            alt="KYC Front"
+                                        />
+                                    ) : (
+                                    {openCamera ? (
+                                        <>
+                                            <Webcam
+                                                className="webcam"
+                                                ref={webcamRef}
+                                                height={350}
+                                                width={'100%'}
+                                                src={capturedImage}
+                                                screenshotFormat="image/jpeg" // You can customize the format if 
+                                            />
+
+                                        </>
+                                    ) : (
+                                        <IconButton
+                                            onClick={handleCamera}
+                                            variant="contained"
+                                            color="primary"
+                                            disableElevation
+                                            style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}
+                                        >
+                                            <AddCircleOutlineRoundedIcon fontSize="large" />
+                                        </IconButton>
+                                    )}
+                                    )}
+
+                                </div>
+                            </Box>
+                            {openCamera &&
+                                <>
+                                    <Grid container mt={0.5} xs={12} spacing={2}>
+                                        <>
+                                            <Grid item xs={12} sm={6} >
+                                                <Button onClick={retake} disableElevation fullWidth variant="contained" color="secondary">
+                                                    {t('retake_Photo')}
+                                                </Button>
+                                            </Grid>
+                                            <Grid item xs={12} sm={6} >
+                                                <Button disableElevation fullWidth variant="contained" color="success" onClick={handleConfirm}>
+                                                    {t('confirm')}
+                                                </Button>
+                                            </Grid>
+
+                                        </>
+                                    </Grid>
+                                </>
+                            }
+                        </SubCard>
 
                         <Grid mt={3} item xs={12} sm={12}>
                             <Typography mt={2} gutterBottom className={classes.proofLabel}>
@@ -263,7 +318,7 @@ const PaymentReceipt = ({ saleData }) => {
                                     color="secondary"
                                     value={dateOfBirth}
                                     onChange={(event) => setDateOfBirth(event.target.value)}
-                                    // required
+                                // required
                                 />
                             </FormControl>
                         </Grid>

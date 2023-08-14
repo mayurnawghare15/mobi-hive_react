@@ -69,7 +69,8 @@ export default function ResponsiveDialog(props) {
             state: {
                 data: data,
                 selectedPackage: selectedPackage,
-                isCustomPackage: isCustomPackage
+                isCustomPackage: isCustomPackage,
+                leadid: state.leadid
             }
         });
         // PlaceOrderAPI(token, state.leadid, deviceId, pkgId)

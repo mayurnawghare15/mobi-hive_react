@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { Card, Container, Typography, Grid, Button, IconButton, CardContent } from '@mui/material';
+import { Card, Container, Typography, Grid, Button, IconButton, CardContent, Alert } from '@mui/material';
 import LeadIDCard from './LeadIDCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
@@ -68,7 +68,8 @@ const OrderSummaryPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { state } = location;
-    const leadid = localStorage.getItem('lead_id');
+    // const leadid = localStorage.getItem('lead_id');
+    const leadid = state.leadid;
 
     const { t } = useTranslation();
     const classes = useStyles();
@@ -80,30 +81,13 @@ const OrderSummaryPage = () => {
     const token = user ? user.token : null;
     const pkgId = saleData.package[0].id;
 
-    useEffect(() => {}, []);
-    // const fetchData = (leadid, deviceId) => {
-    //     try {
-    //         GetLeadSaleOrderAPI(token, leadid)
-    //             .then((res) => {
-    //                 const filterData = res.data.filter((item) => item.device.id === deviceId);
-
-    //                 if (filterData.length > 0) {
-    //                     setSaleData(filterData[0]);
-    //                 } else {
-    //                     toast.error("Can't place the same order");
-    //                 }
-    //             })
-    //             .catch((error) => {});
-    //     } catch (error) {
-    //         toast.error('Something went wrong, please check your internet connection.');
-    //     }
-    // };
     const handleAccept = () => {
         try {
             PlaceOrderAPI(token, leadid, deviceId, pkgId)
                 .then((res) => {
-                    toast.success('Order placed successfully');
-                    return navigate(`/payment/`, { state: saleData });
+                    console.log(res, typeof res)
+                    if (typeof res === 'object') return navigate(`/payment/`, { state: saleData, leadid: leadid });
+
                 })
                 .catch((err) => {
                     toast.error(err);

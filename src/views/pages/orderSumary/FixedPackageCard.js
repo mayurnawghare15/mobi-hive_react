@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { formatDate } from '../../../helper/formatDate';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%'
     },
     tableContainer: {
-        maxHeight: 200,
+        maxHeight: 500,
         backgroundColor: '#e3f2fd'
     },
     card: {
@@ -33,9 +34,17 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: theme.spacing(1)
     },
     tableCell: {
+        textAlign: 'center',
         fontSize: 16,
         fontWeight: 'bold',
         color: 'black'
+    },
+    tableHeading: {
+        textAlign: 'center',
+        backgroundColor: 'white',
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: '#251354'
     },
 
     lastTableCell: {
@@ -53,6 +62,12 @@ const useStyles = makeStyles((theme) => ({
 const FixedPackageCard = ({ packageInfo, data }) => {
     const classes = useStyles();
     const applied_package = packageInfo;
+    var nowDate = new Date();
+    var date = nowDate.getFullYear() + '-' + (nowDate.getMonth() + 2) + '-' + nowDate.getDate();
+    date = formatDate(date);
+    const [amount, setAmount] = useState("$130")
+
+
     return (
         <div className={classes.root}>
             <div className={classes.container}>
@@ -65,10 +80,10 @@ const FixedPackageCard = ({ packageInfo, data }) => {
                             <TableContainer component={Paper} className={classes.tableContainer}>
                                 <Table stickyHeader>
                                     <TableBody>
-                                        <TableRow>
-                                            <TableCell className={classes.tableCell}>Upfront Amount</TableCell>
-                                            <TableCell className={classes.tableCell}>Installments</TableCell>
-                                            <TableCell className={classes.tableCell}>Total Tenure</TableCell>
+                                        <TableRow className={classes.tableHeading}>
+                                            <TableCell className={classes.tableHeading}>Upfront Amount</TableCell>
+                                            <TableCell className={classes.tableHeading}>Installments</TableCell>
+                                            <TableCell className={classes.tableHeading}>Total Tenure</TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell align="center" className={classes.tableCell}>
@@ -85,7 +100,7 @@ const FixedPackageCard = ({ packageInfo, data }) => {
                                         <TableRow>
                                             <TableCell colSpan={3}>
                                                 <Typography className={classes.typography}>
-                                                    * Installment Starts from Sep 10, 2023
+                                                    * Installment Starts from {date}
                                                 </Typography>
                                             </TableCell>
                                         </TableRow>
@@ -100,25 +115,33 @@ const FixedPackageCard = ({ packageInfo, data }) => {
                 <div style={{ marginTop: '20px', width: '100%' }}>
                     <Card className={classes.card}>
                         <CardContent>
-                            <TableContainer component={Paper} className={classes.tableContainer}>
+                            <TableContainer className={classes.tableContainer}>
                                 <Table stickyHeader>
                                     <TableHead className={classes.tablehead}>
                                         <TableRow>
-                                            <TableCell className={classes.tableCell}>Sr.No</TableCell>
-                                            <TableCell className={classes.tableCell}>Due</TableCell>
-                                            <TableCell className={classes.tableCell}>Total Tenure</TableCell>
+                                            <TableCell className={classes.tableHeading}>Sr.No</TableCell>
+                                            <TableCell className={classes.tableHeading}>Due Date</TableCell>
+                                            <TableCell className={classes.tableHeading}>Amount</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
-                                        {/* {data.installments.map((installment, index) => (
-                                            <TableRow key={index}>
-                                                <TableCell className={classes.tableCell}>{index + 1}</TableCell>
-                                                <TableCell className={classes.tableCell}>
-                                                    {packageInfo.currency.cr_prefix} {installment.dueAmount}
-                                                </TableCell>
-                                                <TableCell className={classes.lastTableCell}>{installment.totalAmount}</TableCell>
-                                            </TableRow>
-                                        ))} */}
+
+                                        <TableRow>
+                                            <TableCell className={classes.tableCell}>1</TableCell>
+                                            <TableCell className={classes.tableCell}>{date}</TableCell>
+                                            <TableCell className={classes.tableCell}>{amount}</TableCell>
+                                        </TableRow>
+
+                                        <TableRow>
+                                            <TableCell className={classes.tableCell}>2</TableCell>
+                                            <TableCell className={classes.tableCell}>{date}</TableCell>
+                                            <TableCell className={classes.tableCell}>{amount}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell className={classes.tableCell}>3</TableCell>
+                                            <TableCell className={classes.tableCell}>{date}</TableCell>
+                                            <TableCell className={classes.tableCell}>{amount}</TableCell>
+                                        </TableRow>
                                     </TableBody>
                                 </Table>
                             </TableContainer>
