@@ -18,6 +18,7 @@ import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { decryptData } from '../../../helper/encryption/decrypt';
 import GetLeadDocsApi from '../../../apicalls/GetLeadDocs';
+import { createData } from '../../../utils/indexDB';
 
 function KYCDocumentPage() {
     const { t } = useTranslation();
@@ -87,17 +88,10 @@ function KYCDocumentPage() {
     const handleAddButton = (_itemData, type) => {
         setOpen(true);
         setDocsItemData(_itemData);
-        // if (_itemData.kyc_front) {
-
-        // } else {
-        //     console.log('Default onClick for isAdded false');
-        // }
     };
     useEffect(() => {
-        console.log(lead_id, 'Lead Id');
         const decrypted_mob = decryptData(mobile_Number);
-        console.log(decrypted_mob, 'decrypted_mob');
-        console.log(state, 'state');
+
         if (!state) {
             navigate('/lead/verify-phonenumber');
             return toast.error('You can not direct authorized this page');
@@ -106,15 +100,18 @@ function KYCDocumentPage() {
         } else {
             return toast.error('You are not authorized this page');
         }
-
         if (!lead_id) {
             return toast.error('You can not authorized this page');
         }
     }, [open]);
 
+    async function handleCreateInIndexDb(newData) {
+        await createData(newData);
+      }
     const get_lead_detail_api = (lead_id) => {
         GetLeadDetailsApi(lead_id, token).then((res) => {
             if (res) {
+                handleCreateInIndexDb(res.data)
                 const data = res.data.ekyc_document;
                 setDocumentTypeData(data);
 
