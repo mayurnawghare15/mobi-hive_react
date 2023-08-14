@@ -224,20 +224,6 @@ const PaymentReceipt = ({ saleData }) => {
 
 
                                 <div style={{ position: 'relative', width: '100%', height: 350 }}>
-                                    {capturedImage && (
-                                        <img
-                                            display="flex"
-                                            justifyContent="center"
-                                            alignItems="center"
-                                            fullWidth
-                                            height={200}
-                                            border={2}
-                                            borderColor="grey.400"
-                                            borderRadius={8}
-                                            src={docsItemData.kyc_front ? REACT_APP_IMAGE_URL + docsItemData.kyc_front : kyc_front}
-                                            alt="KYC Front"
-                                        />
-                                    ) : (
                                     {openCamera ? (
                                         <>
                                             <Webcam
@@ -245,10 +231,15 @@ const PaymentReceipt = ({ saleData }) => {
                                                 ref={webcamRef}
                                                 height={350}
                                                 width={'100%'}
-                                                src={capturedImage}
-                                                screenshotFormat="image/jpeg" // You can customize the format if 
+                                                screenshotFormat="image/jpeg"
                                             />
-
+                                            <IconButton
+                                                onClick={handleConfirm}
+                                                color="primary"
+                                                style={{ position: 'absolute', bottom: 10, left: '50%', transform: 'translateX(-50%)' }}
+                                            >
+                                                Capture
+                                            </IconButton>
                                         </>
                                     ) : (
                                         <IconButton
@@ -261,8 +252,11 @@ const PaymentReceipt = ({ saleData }) => {
                                             <AddCircleOutlineRoundedIcon fontSize="large" />
                                         </IconButton>
                                     )}
+                                    {capturedImage && (
+                                        <div style={{ position: 'relative', width: '100%', height: 350 }}>
+                                            <img src={capturedImage} alt="Captured" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+                                        </div>
                                     )}
-
                                 </div>
                             </Box>
                             {openCamera &&
