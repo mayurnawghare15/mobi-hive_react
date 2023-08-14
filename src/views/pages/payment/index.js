@@ -99,7 +99,7 @@ const Payment = () => {
                             </Grid>
                         </Collapse>
                         <CardHeader
-                            title="Package Information"
+                            title="Package information"
                             action={
                                 <IconButton
                                     onClick={() => setPackageCardExpanded((prevExpanded) => !prevExpanded)}
