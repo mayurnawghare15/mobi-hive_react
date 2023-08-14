@@ -1,34 +1,173 @@
-import React from 'react';
-import { Redirect, Switch } from 'react-router-dom';
-
-// routes
-import MainRoutes from './MainRoutes';
-import LoginRoutes from './LoginRoutes';
-import AuthenticationRoutes from './AuthenticationRoutes';
+import React, { lazy } from 'react';
+import { BrowserRouter, Routes, Navigate } from 'react-router-dom';
+import Loadable from '../ui-component/Loadable';
+import { useAuthContext } from '../hooks/useAuthContext';
 
 // project imports
-import config from './../config';
-import MobileVerification from '../views/MobileNoVerify';
+import PrivateRoute from './PrivateRoute';
+import MinimalLayout from '../layout/MinimalLayout';
+import NavMotion from '../layout/NavMotion';
+import NavigationScroll from '../layout/NavigationScroll';
+import MainLayout from '../layout/MainLayout';
+import KYCdocument from '../views/pages/ekYC/KYCdocument';
+import PublicRoute from './PublicRoute';
+import EligibleDevices from '../views/pages/EligibleDevices';
+import { BussinessSectorProvider } from '../context/BussinessSectorContext';
+import { ChoiceListProvider } from '../context/ChoiceListContext';
+import Payment from '../views/pages/payment';
 
+const RegisterLeadViaPhone = Loadable(lazy(() => import('../views/pages/leadRegister/RegisterLeadViaPhone')));
+const LeadCreateForm = Loadable(lazy(() => import('../views/pages/createLead/LeadCreateForm')));
+const AuthLogin = Loadable(lazy(() => import('../views/pages/login')));
+const Ordersummary = Loadable(lazy(() => import('../views/pages/orderSumary')));
+const SearchLead = Loadable(lazy(() => import('../views/pages/searchLead')));
+
+// dashboard routing
+const DashboardDefault = Loadable(lazy(() => import('../views/dashboard/Default')));
 //-----------------------|| ROUTING RENDER ||-----------------------//
 
-const Routes = () => {
+const AllRoutes = () => {
+    const { user } = useAuthContext();
     return (
-        <Switch>
-            <Redirect exact from="/" to={config.defaultPath} />
-            <React.Fragment>
-                {/* Routes for authentication pages */}
-                <AuthenticationRoutes />
+        <BrowserRouter>
+            <NavigationScroll>
+                <Routes>
+                    {/* Routes for authentication pages */}
+                    <PublicRoute
+                        path="/login"
+                        element={
+                            !user ? (
+                                <MinimalLayout>
+                                    <NavMotion>
+                                        <AuthLogin />
+                                    </NavMotion>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/" />
+                            )
+                        }
+                    />
 
-                {/* Route for login */}
-                <LoginRoutes />
-
-                {/* Routes for main layouts */}
-                <MainRoutes />
-                <MobileVerification />
-            </React.Fragment>
-        </Switch>
+                    <PrivateRoute
+                        path="/"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <DashboardDefault />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/search"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <SearchLead />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/lead/verify-phonenumber"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <RegisterLeadViaPhone />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/lead/createlead/:mobile_Number"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <ChoiceListProvider>
+                                            <BussinessSectorProvider>
+                                                <LeadCreateForm user={user} />
+                                            </BussinessSectorProvider>
+                                        </ChoiceListProvider>
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/lead/kyc/:mobile_Number"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <KYCdocument />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/eligibledevices/:mobile_Number"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <EligibleDevices />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/login" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/ordersummary/:mobile_Number"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <Ordersummary />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/eligibledevices/:mobile_Number" />
+                            )
+                        }
+                    />
+                    <PrivateRoute
+                        path="/payment"
+                        element={
+                            user ? (
+                                <MinimalLayout>
+                                    <MainLayout>
+                                        <Payment />
+                                    </MainLayout>
+                                </MinimalLayout>
+                            ) : (
+                                <Navigate to="/eligibledevices/:mobile_Number" />
+                            )
+                        }
+                    />
+                </Routes>
+            </NavigationScroll>
+        </BrowserRouter>
     );
 };
 
-export default Routes;
+export default AllRoutes;

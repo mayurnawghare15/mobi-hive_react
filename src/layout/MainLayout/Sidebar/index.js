@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // material-ui
-import { makeStyles, useTheme } from '@material-ui/styles';
-import { Box, Drawer, useMediaQuery } from '@material-ui/core';
+import { makeStyles, useTheme } from '@mui/styles';
+import { Box, Drawer, useMediaQuery } from '@mui/material';
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';

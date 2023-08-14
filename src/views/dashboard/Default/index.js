@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 // material-ui
-import { Grid } from '@material-ui/core';
+import { Grid } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 // project imports

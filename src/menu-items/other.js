@@ -26,7 +26,7 @@ export const other = {
             id: 'documentation',
             title: 'Documentation',
             type: 'item',
-            url: 'https://docs.appseed.us/products/react/node-js-berry-dashboard',
+            url: '',
             icon: icons['IconHelp'],
             external: true,
             target: true

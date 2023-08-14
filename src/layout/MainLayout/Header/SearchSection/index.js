@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
 // material-ui
-import { makeStyles } from '@material-ui/styles';
-import { Avatar, Box, ButtonBase, Card, CardContent, Grid, InputAdornment, OutlinedInput, Popper } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import { Avatar, Box, ButtonBase, Card, CardContent, Grid, InputAdornment, OutlinedInput, Popper } from '@mui/material';
 
 // third-party
 import PopupState, { bindPopper, bindToggle } from 'material-ui-popup-state';
@@ -16,8 +16,8 @@ import { IconAdjustmentsHorizontal, IconSearch, IconX } from '@tabler/icons';
 // style constant
 const useStyles = makeStyles((theme) => ({
     searchControl: {
-        width: '434px',
-        marginLeft: '16px',
+        width: '300px',
+        // marginLeft: '16px',
         paddingRight: '16px',
         paddingLeft: '16px',
         '& input': {
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     closeAvatar: {
         ...theme.typography.commonAvatar,
         ...theme.typography.mediumAvatar,
-        background: theme.palette.orange.dark,
+        background: theme.palette.orange.light,
         color: theme.palette.orange.dark,
         '&:hover': {
             background: theme.palette.orange.dark,
@@ -80,108 +80,34 @@ const useStyles = makeStyles((theme) => ({
 
 //-----------------------|| SEARCH INPUT ||-----------------------//
 
-const SearchSection = () => {
+const SearchSection = ({handleSearch, searchTerm}) => {
     const classes = useStyles();
-    const [value, setValue] = useState('');
+    // const [value, setValue] = useState('');
 
     return (
         <React.Fragment>
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
-                <PopupState variant="popper" popupId="demo-popup-popper">
-                    {(popupState) => (
-                        <React.Fragment>
-                            <Box
-                                sx={{
-                                    ml: 2
-                                }}
-                            >
-                                <ButtonBase sx={{ borderRadius: '12px' }}>
-                                    <Avatar variant="rounded" className={classes.headerAvatar} {...bindToggle(popupState)}>
-                                        <IconSearch stroke={1.5} size="1.2rem" />
-                                    </Avatar>
-                                </ButtonBase>
-                            </Box>
-                            <Popper {...bindPopper(popupState)} transition className={classes.popperContainer}>
-                                {({ TransitionProps }) => (
-                                    <Transitions type="zoom" {...TransitionProps} sx={{ transformOrigin: 'center left' }}>
-                                        <Card className={classes.card}>
-                                            <CardContent className={classes.cardContent}>
-                                                <Grid container alignItems="center" justifyContent="space-between">
-                                                    <Grid item xs>
-                                                        <OutlinedInput
-                                                            className={classes.searchControl}
-                                                            id="input-search-header"
-                                                            value={value}
-                                                            onChange={(e) => setValue(e.target.value)}
-                                                            placeholder="Search"
-                                                            startAdornment={
-                                                                <InputAdornment position="start">
-                                                                    <IconSearch
-                                                                        stroke={1.5}
-                                                                        size="1rem"
-                                                                        className={classes.startAdornment}
-                                                                    />
-                                                                </InputAdornment>
-                                                            }
-                                                            endAdornment={
-                                                                <InputAdornment position="end">
-                                                                    <ButtonBase sx={{ borderRadius: '12px' }}>
-                                                                        <Avatar variant="rounded" className={classes.headerAvatar}>
-                                                                            <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                                                                        </Avatar>
-                                                                    </ButtonBase>
-                                                                    <Box
-                                                                        sx={{
-                                                                            ml: 2
-                                                                        }}
-                                                                    >
-                                                                        <ButtonBase sx={{ borderRadius: '12px' }}>
-                                                                            <Avatar
-                                                                                variant="rounded"
-                                                                                className={classes.closeAvatar}
-                                                                                {...bindToggle(popupState)}
-                                                                            >
-                                                                                <IconX stroke={1.5} size="1.3rem" />
-                                                                            </Avatar>
-                                                                        </ButtonBase>
-                                                                    </Box>
-                                                                </InputAdornment>
-                                                            }
-                                                            aria-describedby="search-helper-text"
-                                                            inputProps={{
-                                                                'aria-label': 'weight'
-                                                            }}
-                                                        />
-                                                    </Grid>
-                                                </Grid>
-                                            </CardContent>
-                                        </Card>
-                                    </Transitions>
-                                )}
-                            </Popper>
-                        </React.Fragment>
-                    )}
-                </PopupState>
-            </Box>
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', ml: 2, mb: 2 }}>
+                {/* Move the search box to the end */}
+                <Box sx={{ mr: 2 }}>
+                    <PopupState variant="popper" popupId="demo-popup-popper">
+                        {(popupState) => (
+                            <React.Fragment>
+                                <Popper {...bindPopper(popupState)} transition className={classes.popperContainer}>
+                                    {/* ... (rest of the JSX unchanged) ... */}
+                                </Popper>
+                            </React.Fragment>
+                        )}
+                    </PopupState>
+                </Box>
                 <OutlinedInput
                     className={classes.searchControl}
                     id="input-search-header"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
+                    value={searchTerm}
+                    onChange={handleSearch}
                     placeholder="Search"
                     startAdornment={
                         <InputAdornment position="start">
                             <IconSearch stroke={1.5} size="1rem" className={classes.startAdornment} />
-                        </InputAdornment>
-                    }
-                    endAdornment={
-                        <InputAdornment position="end">
-                            <ButtonBase sx={{ borderRadius: '12px' }}>
-                                <Avatar variant="rounded" className={classes.headerAvatar}>
-                                    <IconAdjustmentsHorizontal stroke={1.5} size="1.3rem" />
-                                </Avatar>
-                            </ButtonBase>
                         </InputAdornment>
                     }
                     aria-describedby="search-helper-text"

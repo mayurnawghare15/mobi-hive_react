@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // material-ui
-import { makeStyles } from '@material-ui/styles';
-import { Avatar, Button, Grid, Typography } from '@material-ui/core';
+import { makeStyles } from '@mui/styles';
+import { Avatar, Button, Grid, Typography } from '@mui/material';
 
 // third-party
 import Chart from 'react-apexcharts';
@@ -16,8 +16,8 @@ import ChartDataMonth from './chart-data/total-order-month-line-chart';
 import ChartDataYear from './chart-data/total-order-year-line-chart';
 
 // assets
-import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
-import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 // style constant
 const useStyles = makeStyles((theme) => ({

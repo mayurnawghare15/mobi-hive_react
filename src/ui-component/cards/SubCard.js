@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 // material-ui
-import { useTheme } from '@material-ui/styles';
-import { Card, CardContent, CardHeader, Divider, Typography } from '@material-ui/core';
+import { useTheme } from '@mui/material/styles';
+import { Card, CardContent, CardHeader, Divider, Typography } from '@mui/material';
 
 //-----------------------|| CUSTOM SUB CARD ||-----------------------//
 
@@ -13,6 +13,7 @@ const SubCard = ({ children, content, contentClass, darkTitle, secondary, sx = {
     return (
         <Card
             sx={{
+                // background: '#d1ca6d',
                 border: '1px solid',
                 marginTop: '20px',
 

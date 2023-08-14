@@ -11,14 +11,14 @@ const icons = {
 
 export const dashboard = {
     id: 'dashboard',
-    title: 'Dashboard',
+    title: 'dashboard',
     type: 'group',
     children: [
         {
             id: 'default',
             title: 'Dashboard',
             type: 'item',
-            url: '/dashboard/default',
+            url: '/',
             icon: icons['IconDashboard'],
             breadcrumbs: false
         }

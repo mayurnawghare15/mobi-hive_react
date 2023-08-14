@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 // material-ui
-import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { makeStyles, ThemeProvider } from '@mui/styles';
 import { createTheme } from '@mui/material/styles';
 
-import { Avatar, Box, ButtonBase } from '@material-ui/core';
+import { Avatar, Box, ButtonBase } from '@mui/material';
 
 // project imports
 import LogoSection from '../LogoSection';
@@ -15,6 +15,8 @@ import ProfileSection from './ProfileSection';
 // assets
 import { IconMenu2 } from '@tabler/icons';
 import DarkMode from './DarkMode';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // style constant
 const useStyles = makeStyles((theme) => ({
@@ -62,7 +64,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             </div>
             {/* header search */}
 
-            <SearchSection theme="dark" />
+            {/* <SearchSection theme="dark" /> */}
             {/* Other header components */}
 
             <div className={classes.grow} />
@@ -71,7 +73,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
             {/* <NotificationSection /> */}
 
             <div className={theme.spacing(10000)} />
-            <DarkMode />
+            {/* <DarkMode /> */}
             <ProfileSection />
         </React.Fragment>
     );

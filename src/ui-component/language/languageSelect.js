@@ -2,12 +2,12 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 
-import ArrowDropDown from '@material-ui/icons/ArrowDropDown';
-import Button from '@material-ui/core/Button';
-import Popover from '@material-ui/core/Popover';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListSubheader from '@material-ui/core/ListSubheader';
+import ArrowDropDown from '@mui/icons-material/ArrowDropDown';
+import Button from '@mui/material/Button';
+import Popover from '@mui/material/Popover';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListSubheader from '@mui/material/ListSubheader';
 import { useEffect } from 'react';
 
 const languageMap = {
