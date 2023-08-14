@@ -94,7 +94,7 @@ const Payment = () => {
                         <Collapse in={leadCardExpanded} unmountOnExit>
                             <Grid container spacing={3}>
                                 <Grid item xs={12} sm={12} className={classes.card}>
-                                    {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />}
+                                    {/* {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />} */}
                                 </Grid>
                             </Grid>
                         </Collapse>

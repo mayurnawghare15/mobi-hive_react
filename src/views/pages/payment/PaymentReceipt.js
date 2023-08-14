@@ -231,7 +231,7 @@ const PaymentReceipt = ({ saleData }) => {
                             />
                         )}
 
-                        <Grid mt={3} item xs={12} sm={8}>
+                        <Grid mt={3} item xs={12} sm={12}>
                             <Typography mt={2} gutterBottom className={classes.proofLabel}>
                                 {t('remarks')}
                             </Typography>

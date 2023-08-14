@@ -45,52 +45,60 @@ export default function ResponsiveDialog(props) {
         data,
         encrypted_mobile_Number,
         state,
+        customPkg,
         isCustomPackage,
-        setIsCustomPackage,
-        isfixPackage,
-        setFixPackage
+        setIsCustomPackage
+        // isfixPackage,
+        // setFixPackage
     } = props;
+
+    console.log(selectedPackage);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const [package_Type, setPackage_type] = useState(true);
-
-    const pkgId = selectedPackage;
-    const deviceId = data.device.id;
     const { user } = useAuthContext();
     let token = null;
     if (user) {
         token = user.token;
     }
 
+    console.log(isCustomPackage);
+
     const handleConfirm = () => {
         setConfirmOrder(false);
-        PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
-            .then((res) => {
-                if (res) {
-                    toast.success(res.message);
-                    return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
-                        state: {
-                            ph_number: state.ph_number,
-                            leadid: state.leadid,
-                            deviceId: deviceId,
-                            isCustomPackage: isCustomPackage,
-                            isfixPackage: isfixPackage
-                        }
-                    });
-                } else {
-                    setIsCustomPackage(false);
-                    setFixPackage(false);
-                }
-            })
-            .catch((error) => {
-                // return toast.error('Something went wrong , Please check your internet connection.');
-            });
+        return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
+            state: {
+                data: data,
+                selectedPackage: selectedPackage,
+                isCustomPackage: isCustomPackage
+            }
+        });
+        // PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
+        //     .then((res) => {
+        //         if (res) {
+        //             toast.success(res.message);
+        //                 state: {
+        //                     ph_number: state.ph_number,
+        //                     leadid: state.leadid,
+        //                     deviceId: deviceId,
+        //                     isCustomPackage: isCustomPackage,
+        //                     isfixPackage: isfixPackage
+        //                 }
+        //             });
+        //         } else {
+        //             setIsCustomPackage(false);
+        //             setFixPackage(false);
+        //         }
+        //     })
+        //     .catch((error) => {
+        //         // return toast.error('Something went wrong , Please check your internet connection.');
+        //     });
     };
 
     const handleClose = () => {
         setConfirmOrder(false);
         setIsCustomPackage(false);
-        setFixPackage(false);
+        // setIsCustomPackage(false);
+        // setFixPackage(false);
     };
 
     return (
@@ -108,22 +116,52 @@ export default function ResponsiveDialog(props) {
                 }
             }}
         >
-            <DialogTitle id="responsive-dialog-title" style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}>
-                {'Confirm Order'}
-            </DialogTitle>
-            <DialogContent>
-                <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
-                    Are you sure you want to purchase the device with the selected package?
-                </DialogContentText>
-            </DialogContent>
-            <DialogActions style={{ justifyContent: 'center' }}>
-                <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
-                    Deny
-                </Button>
-                <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
-                    Confirm
-                </Button>
-            </DialogActions>
+            {isCustomPackage ? (
+                <>
+                    <DialogTitle
+                        id="responsive-dialog-title"
+                        style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}
+                    >
+                        {'Confirm Order'}
+                    </DialogTitle>
+
+                    <DialogContent>
+                        <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
+                            Are you sure you want to customize ?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions style={{ justifyContent: 'center' }}>
+                        <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
+                            Deny
+                        </Button>
+                        <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </>
+            ) : (
+                <>
+                    <DialogTitle
+                        id="responsive-dialog-title"
+                        style={{ fontSize: '20px', textAlign: 'center', color: theme.palette.primary.main }}
+                    >
+                        {'Confirm Order'}
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText style={{ fontSize: '18px', color: 'black' }}>
+                            Are you sure you want to purchase the device with the selected package?
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions style={{ justifyContent: 'center' }}>
+                        <Button variant="outlined" onClick={handleClose} className={classes.redButton}>
+                            Deny
+                        </Button>
+                        <Button variant="contained" onClick={handleConfirm} className={classes.confirmButton}>
+                            Confirm
+                        </Button>
+                    </DialogActions>
+                </>
+            )}
         </Dialog>
     );
 }

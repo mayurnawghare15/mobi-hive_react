@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { Card, CardContent, Typography, Grid } from '@mui/material';
+const APP_IMAGE_URL = process.env.REACT_APP_IMAGE_URL;
 
 const useStyles = makeStyles((theme) => ({
     image: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
         marginTop: '1.5rem',
         display: 'flex',
         alignItems: 'center',
-        flexWrap: 'wrap' // Added to wrap tags in case of limited space
+        flexWrap: 'wrap'
     },
     tag: {
         padding: '0.2rem 0.5rem',
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.common.white,
         marginLeft: '0.5rem',
         fontSize: '16px',
-        fontWeight: 'bold' // Added font weight to make tags more prominent
+        fontWeight: 'bold'
     }
 }));
 
@@ -47,7 +48,7 @@ const PhotoOfDevice = (props) => {
                         </Grid>
                     </Grid>
                     <Grid item xs={12} sm={12}>
-                        <img src={deviceData.device.photo} className={classes.image} alt={deviceData.device.model_name} />
+                        <img src={APP_IMAGE_URL + deviceData.device.photo} className={classes.image} alt={deviceData.device.model_name} />
                     </Grid>
                 </Grid>
             </CardContent>

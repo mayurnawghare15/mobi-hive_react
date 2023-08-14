@@ -68,8 +68,10 @@ const useStyles = makeStyles((theme) => ({
         borderRadius: 5
     },
     packageContainer: {
-        height: '100%',
-        marginTop: theme.spacing(3)
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        padding: '20px'
     },
     customPackageContainer: {
         // height: '300px',
@@ -78,27 +80,35 @@ const useStyles = makeStyles((theme) => ({
     },
     packageRadio: {
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        marginBottom: theme.spacing(1),
-        cursor: 'pointer',
-        '& input[type="radio"]': {
-            marginRight: theme.spacing(1),
-            cursor: 'pointer'
-        },
-        '&:hover': {
-            color: theme.palette.primary.main
-        }
+        backgroundColor: '#f5f5f5',
+        borderRadius: '10px',
+
+        cursor: 'pointer'
+    },
+    btn: {
+        marginTop: theme.spacing(1),
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'end',
+        justifyContent: 'center',
+        borderRadius: '10px',
+        cursor: 'pointer'
     },
     selectedPackage: {
         fontWeight: 'bold'
     },
     containerStyle: {
-        width: '600px',
+        // maxWidth: '600px',
+        Width: '600px',
         backgroundColor: '#d0e5f5',
         padding: '20px',
         borderRadius: '10px',
-        boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-        marginBottom: '20px'
+        boxShadow: '0px 0px 2px  rgba(0, 0, 0, 0.1)',
+        marginBottom: '10px'
     },
 
     headingStyle: {
@@ -109,21 +119,17 @@ const useStyles = makeStyles((theme) => ({
 
     labelStyle: {
         fontSize: '18px',
-        fontWeight: 'bold'
-    },
-
-    valueStyle: {
-        fontSize: '18px'
-    },
-
-    offerText: {
-        color: 'white',
         fontWeight: 'bold',
+        color: 'white',
         backgroundColor: '#1cc88a',
         border: 'none',
         padding: '10px 10px',
         borderRadius: '10px',
         margin: '10px 10px'
+    },
+
+    valueStyle: {
+        fontSize: '18px'
     }
 }));
 
@@ -138,29 +144,24 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     var data = deviceData;
     var packages = data.package;
     let customPkg = data.custom_package ? data.custom_package : null;
-    console.log('data');
-    console.log(data);
-    const deviceId = data.device.id;
 
-    const handlePackageChange = (packageId) => {
-        setSelectedPackageId(packageId);
-        setFixPackage(true);
+    const handleFixPackageChange = (_pkg) => {
+        setSelectedPackageId(_pkg);
         setConfirmOrder(true);
     };
-    const handlecustomPkg = (packageId) => {
-        setSelectedPackageId(packageId);
+    const handleCustomClick = () => {
         setIsCustomPackage(true);
         setConfirmOrder(true);
     };
-    const handleCardClick = () => {
-        if (packages.length > 0) {
-            setShowFixed(true);
-        }
+    // const handleCardClick = () => {
+    //     if (packages.length > 0) {
+    //         setShowFixed(true);
+    //     }
 
-        if (customPkg.length > 0) {
-            setShowCustom(true);
-        }
-    };
+    //     if (customPkg.length > 0) {
+    //         setShowCustom(true);
+    //     }
+    // };
 
     return (
         <>
@@ -174,14 +175,15 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                     setConfirmOrder={setConfirmOrder}
                     isCustomPackage={isCustomPackage}
                     setIsCustomPackage={setIsCustomPackage}
-                    isfixPackage={isfixPackage}
-                    setFixPackage={setFixPackage}
+                    // isfixPackage={isfixPackage}
+                    // setFixPackage={setFixPackage}
                 ></ConfirmDialog>
             )}
+
             <Container>
                 <div className={classes.cardWrapper}>
                     <Grid container spacing={2} className={classes.cardContainer}>
-                        <Card className={`${classes.card} ${classes.clickableCard}`} onClick={handleCardClick}>
+                        <Card className={`${classes.card} ${classes.clickableCard}`}>
                             <CardHeader title={<Typography variant="h3">{data.device.oem_slug.toUpperCase()}</Typography>} />
                             <hr className={classes.hr} />
                             <CardContent className={classes.cardContent}>
@@ -211,34 +213,42 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                 </Grid>
                             </CardContent>
                             <CardActions>
-                                {showFixed && packages.length > 0 && (
-                                    <div className={classes.packageContainer}>
-                                        {packages.map((pkg) => (
+                                <div className={classes.packageContainer}>
+                                    {packages.map((pkg) => (
+                                        <div>
                                             <div
                                                 key={pkg.id}
                                                 className={`${classes.packageRadio} ${
                                                     selectedPackageId === pkg.id ? classes.selectedPackage : ''
                                                 }`}
-                                                onClick={() => handlePackageChange(pkg.id)}
+                                                onClick={() => handleFixPackageChange(pkg)}
                                             >
                                                 <Grid container className={classes.containerStyle} alignItems="center">
                                                     <Grid container alignItems="center">
-                                                        <Grid item xs={12} sm={1.6} className={classes.offerText}>
-                                                            OFFER
+                                                        <Grid item xs={12} sm={4} md={3} className={classes.offerText}>
+                                                            <Typography className={classes.labelStyle}>OFFER</Typography>
                                                         </Grid>
-                                                        <Grid item xs={12} sm={5} style={{ marginLeft: '1rem' }}>
-                                                            <Typography className={classes.labelStyle}>
-                                                                Deposite {data.currency}
+                                                        <Grid item xs={12} sm={6} md={4} style={{ marginLeft: '1rem' }}>
+                                                            <Typography variant="h4">
+                                                                Deposit {data.currency}
                                                                 {pkg.upfront_payment}
                                                             </Typography>
                                                         </Grid>
                                                         <Grid
                                                             item
+                                                            mt={2.5}
                                                             xs={12}
-                                                            sm={4}
-                                                            style={{ marginLeft: '1rem', display: 'flex', alignItems: 'end' }}
+                                                            sm={12}
+                                                            md={4}
+                                                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
                                                         >
-                                                            <Typography style={{ fontSize: '14px', color: 'black', textAlign: 'end' }}>
+                                                            <Typography
+                                                                style={{
+                                                                    fontSize: '14px',
+                                                                    color: 'black',
+                                                                    textAlign: 'end'
+                                                                }}
+                                                            >
                                                                 Valid till{' '}
                                                                 <b style={{ marginLeft: '5px' }}>{formatDate(data.valid_till_date)}</b>
                                                             </Typography>
@@ -246,9 +256,17 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                                     </Grid>
                                                 </Grid>
                                             </div>
-                                        ))}
-                                    </div>
-                                )}
+                                            <Button
+                                                onClick={handleCustomClick}
+                                                className={classes.btn}
+                                                color="secondary"
+                                                variant="contained"
+                                            >
+                                                Customize
+                                            </Button>
+                                        </div>
+                                    ))}
+                                </div>
                             </CardActions>
                         </Card>
                     </Grid>
