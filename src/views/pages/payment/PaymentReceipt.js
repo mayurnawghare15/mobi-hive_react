@@ -45,12 +45,11 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(1),
         alignItems: 'center',
         display: 'flex',
-        fontSize: '1rem',
         fontWeight: 'bold'
     },
-    content: {},
     formControl: {
         marginBottom: theme.spacing(1),
+        color: 'black',
         width: '100%'
     },
     labels: {
@@ -74,8 +73,8 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: 'bold',
         marginRight: theme.spacing(2)
     },
-    proofLabel: {
-        fontSize: '14px',
+    subHeading: {
+        fontSize: '16px',
         color: 'black',
         fontWeight: 'bold'
     },
@@ -92,14 +91,15 @@ const PaymentReceipt = ({ saleData }) => {
     const { t } = useTranslation();
     const webcamRef = useRef(null);
     const [openCamera, setOpenCamera] = useState(false);
-    const [paymentReceipt, setPaymentReceipt] = useState('');
-    const [dateOfBirth, setDateOfBirth] = useState(currentDate());
+    const [paymentReceipt, setPaymentReceiptImg] = useState('');
+    const [receivedOn, setReceivedOn] = useState(currentDate());
     const [capturedImage, setCapturedImage] = useState(null);
     const [paymentForm, setPaymentForm] = useState({
-        amount: '',
+        amount: '130',
+        receiptId: '',
         receipt: paymentReceipt,
         remarks: '',
-        dateOfBirth: dateOfBirth
+        receivedOn: receivedOn
     });
     const { user } = useAuthContext();
     const orderId = null;
@@ -121,7 +121,7 @@ const PaymentReceipt = ({ saleData }) => {
         const img = value ? value.split(',') : '';
         const content_type = img[0].split(':')[1];
         let finalImage = value ? b64toBlob(img[1], content_type) : '';
-        setPaymentReceipt(finalImage);
+        setPaymentReceiptImg(finalImage);
     };
     function currentDate() {
         const currentDate = new Date();
@@ -168,7 +168,7 @@ const PaymentReceipt = ({ saleData }) => {
 
 
             <Card className={classes.card}>
-                <CardHeader className={classes.heading} title={t('Payment')} />
+                <CardHeader title={t('Payment')} />
 
                 <CardContent className={classes.content}>
                     <Grid container spacing={2}>
@@ -179,21 +179,22 @@ const PaymentReceipt = ({ saleData }) => {
                                 </InputLabel>
                                 <OutlinedInput
                                     type="number"
-                                    id="monthly-income"
+                                    id="amount"
                                     name="amount"
                                     value={paymentForm.amount}
                                     disabled
+                                    onChange={onInputChange}
                                     startAdornment={<InputAdornment position="start">$</InputAdornment>}
                                     label={t('amount')}
                                 />
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12} sm={6}>
+                        <Grid item xs={12} sm={12}>
                             <FormControl fullWidth className={classes.formControl}>
-                                <Typography mt={-2.5} variant="h5" color="black">
+                                <Typography mt={2} variant="h5" color="black" gutterBottom>
                                     Receipt
                                 </Typography>
-                                <TextField label={t('Receipt')} type="text" variant="outlined" fullWidth name="receipt" required />
+                                <TextField type="text" variant="outlined" fullWidth name="receiptId" onChange={onInputChange} value={paymentForm.receiptId} required />
                                 <Typography mt={2} variant="body1">
                                     Reference/ Transaction ID
                                 </Typography>
@@ -202,9 +203,9 @@ const PaymentReceipt = ({ saleData }) => {
                     </Grid>
 
                     <Box alignItems="center">
-                        <Grid container spacing={2}>
+                        <Grid mt={2} container spacing={2}>
                             <Grid item xs={12} sm={12}>
-                                <Typography className={classes.proofLabel}>{t('payment_receipt')}*</Typography>
+                                <Typography className={classes.subHeading}>{t('payment_receipt')}*</Typography>
                             </Grid>
                         </Grid>
                         <SubCard>
@@ -220,9 +221,6 @@ const PaymentReceipt = ({ saleData }) => {
                                 position="relative"
                                 overflow="hidden"
                             >
-
-
-
                                 <div style={{ position: 'relative', width: '100%', height: 350 }}>
                                     {openCamera ? (
                                         <>
@@ -308,10 +306,10 @@ const PaymentReceipt = ({ saleData }) => {
                                     className="textfield"
                                     type="date"
                                     variant="outlined"
-                                    name={'date_of_birth'}
+                                    name='receivedOn'
                                     color="secondary"
-                                    value={dateOfBirth}
-                                    onChange={(event) => setDateOfBirth(event.target.value)}
+                                    value={receivedOn}
+                                    onChange={(event) => setReceivedOn(event.target.value)}
                                 // required
                                 />
                             </FormControl>

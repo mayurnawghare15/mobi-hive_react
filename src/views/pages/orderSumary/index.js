@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useAuthContext } from '../../../hooks/useAuthContext';
-import { Card, Container, Typography, Grid, Button, IconButton, CardContent, Alert } from '@mui/material';
+import { Card, Typography, Grid, Button, CardContent, Alert } from '@mui/material';
 import LeadIDCard from './LeadIDCard';
 import SubCard from '../../../ui-component/cards/SubCard';
 import { useTranslation } from 'react-i18next';
 import { makeStyles } from '@mui/styles';
-import GetLeadSaleOrderAPI from '../../../apicalls/GetLeadSaleOrderAPI';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router';
 import PhotoOfDevice from './PhotoOfDevice';
@@ -80,13 +79,21 @@ const OrderSummaryPage = () => {
     const { user } = useAuthContext();
     const token = user ? user.token : null;
     const pkgId = saleData.package[0].id;
+    const packageInfo = state.selectedPackage
 
     const handleAccept = () => {
         try {
             PlaceOrderAPI(token, leadid, deviceId, pkgId)
                 .then((res) => {
-                    console.log(res, typeof res)
-                    if (typeof res === 'object') return navigate(`/payment/`, { state: saleData, leadid: leadid });
+                    if (typeof res === 'object')
+                        //  return navigate(`/payment/`, { state: { ,  } });
+                        return navigate(`/payment/`, {
+                            state: {
+                                saleData: saleData,
+                                leadid: leadid,
+                                packageInfo: packageInfo
+                            }
+                        });
 
                 })
                 .catch((err) => {
@@ -121,12 +128,12 @@ const OrderSummaryPage = () => {
                     <SubCard>
                         <Grid container spacing={3}>
                             <Grid item xs={12} sm={12} className={classes.card}>
-                                {/* {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />} */}
+                                {/* {saleData ? <LeadIDCard /> : <LoadingSkeleton />} */}
                             </Grid>
                             {!state.isCustomPackage ? (
                                 <>
                                     <Grid item xs={12} sm={12} className={classes.card}>
-                                        <FixedPackageCard packageInfo={state.selectedPackage} data={state.data} />
+                                        <FixedPackageCard packageInfo={packageInfo} data={state.data} />
                                     </Grid>
                                 </>
                             ) : (
@@ -143,25 +150,13 @@ const OrderSummaryPage = () => {
                                     onClick={handleAccept}
                                     startIcon={<LocalShippingIcon />}
                                     disableElevation
-                                    size="small"
+                                    size="medium"
                                     variant="contained"
                                     color="success"
                                 >
                                     {t('place_order')}
                                 </Button>
                             </AnimateButton>
-                            {/* <AnimateButton>
-                                <Button
-                                    onclick={handleDeletebtn}
-                                    disableElevation
-                                    size="small"
-                                    variant="contained"
-                                    color="warning"
-                                    style={{ marginLeft: '8px' }}
-                                >
-                                    {t('change_installment_date')}
-                                </Button>
-                            </AnimateButton> */}
                         </div>
                     </SubCard>
                 </Grid>

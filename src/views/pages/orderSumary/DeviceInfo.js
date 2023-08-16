@@ -14,17 +14,18 @@ const CustomCard = ({ title, content }) => {
 
     return (
         <>
-            <Card sx={{ minWidth: 300, border: '1px solid rgba(211,211,211,0.6)' }}>
+            <Card sx={{ marginTop: '15px', minWidth: 300, cursor: 'pointer' }}>
                 <CardHeader
+                    onClick={() => setOpen(!open)}
                     title={title}
                     action={
-                        <IconButton onClick={() => setOpen(!open)} aria-label="expand" size="small">
+                        <IconButton aria-label="expand" size="small">
                             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                         </IconButton>
                     }
                 />
                 <Collapse in={open} timeout="auto" unmountOnExit>
-                    <CardContent>
+                    <CardContent style={{ fontSize: '14px', color: "black" }}>
                         <Container sx={{ lineHeight: 2 }}>{content}</Container>
                     </CardContent>
                 </Collapse>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import ProductCard from '../../../components/phoneCard/ProductCard';
+import ProductCard from './ProductCard';
 import SearchSection from '../../../layout/MainLayout/Header/SearchSection';
 import { Grid, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
@@ -101,7 +101,7 @@ const EligibleDevices = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <div className={classes.searchContainer}>
-                        <SearchSection handleSearch={handleInputChange}  />
+                        <SearchSection handleSearch={handleInputChange} />
                     </div>
                 </Grid>
             </Grid>
@@ -120,10 +120,10 @@ const EligibleDevices = () => {
                         {' '}
                         {filterData && filterData.length > 0
                             ? filterData.map((item, index) => (
-                                  <Grid key={index + '_prductcard'} item xs={12} sm={12}>
-                                      <ProductCard encrypted_mobile_Number={mobile_Number} state={state} deviceData={item} index={index} />
-                                  </Grid>
-                              ))
+                                <Grid key={index + '_prductcard'} item xs={12} sm={12}>
+                                    <ProductCard encrypted_mobile_Number={mobile_Number} state={state} deviceData={item} index={index} />
+                                </Grid>
+                            ))
                             : 'No devices available for now'}
                     </>
                 )}

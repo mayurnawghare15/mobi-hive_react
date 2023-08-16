@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Card, CardActions, CardContent, CardHeader, Container, Grid, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import '../../views/pages/EligibleDevices/index';
-import ConfirmDialog from '../../components/ConfirmDialog';
-import { formatDate } from '../../helper/formatDate';
+import './index';
+import ConfirmDialog from '../../../components/ConfirmDialog';
+import { formatDate } from '../../../helper/formatDate';
 
 const API_Image_Url = process.env.REACT_APP_IMAGE_URL;
 
@@ -175,8 +175,8 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                     setConfirmOrder={setConfirmOrder}
                     isCustomPackage={isCustomPackage}
                     setIsCustomPackage={setIsCustomPackage}
-                    // isfixPackage={isfixPackage}
-                    // setFixPackage={setFixPackage}
+                // isfixPackage={isfixPackage}
+                // setFixPackage={setFixPackage}
                 ></ConfirmDialog>
             )}
 
@@ -218,9 +218,8 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
                                         <div>
                                             <div
                                                 key={pkg.id}
-                                                className={`${classes.packageRadio} ${
-                                                    selectedPackageId === pkg.id ? classes.selectedPackage : ''
-                                                }`}
+                                                className={`${classes.packageRadio} ${selectedPackageId === pkg.id ? classes.selectedPackage : ''
+                                                    }`}
                                                 onClick={() => handleFixPackageChange(pkg)}
                                             >
                                                 <Grid container className={classes.containerStyle} alignItems="center">

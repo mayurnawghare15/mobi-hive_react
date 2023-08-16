@@ -14,6 +14,8 @@ import PaymentReceipt from './PaymentReceipt';
 import PackageCard from '../orderSumary/FixedPackageCard';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import GetLeadDetailsApi from '../../../apicalls/GetLeadDetailsApi';
+import GetLeadSaleOrder from '../../../apicalls/GetLeadSaleOrderAPI';
 
 const useStyles = makeStyles((theme) => ({
     heading: {
@@ -37,13 +39,23 @@ const useStyles = makeStyles((theme) => ({
         height: '100%'
     },
     photoContainer: {
-        height: '100%',
+        border: '3px solid #483285',
+        // height: '100%',
+        maxHeight: '100vh',
         width: '100%',
         marginBottom: theme.spacing(2)
     },
     CollapseCard: {
-        height: 'auto'
-    }
+        border: '3px solid #483285',
+        height: 'auto',
+    },
+    hr: {
+        margin: theme.spacing(0.5, 0),
+        marginTop: theme.spacing(3),
+        borderColor: theme.palette.primary.main,
+        borderWidth: 3,
+        borderRadius: 5
+    },
 }));
 
 const Payment = () => {
@@ -51,11 +63,44 @@ const Payment = () => {
     const { state } = location;
     const { t } = useTranslation();
     const classes = useStyles();
-    const saleData = state;
+    const { user } = useAuthContext();
+    const token = user ? user.token : null;
+    const leadid = state.leadid;
+    const packageInfo = state.packageInfo;
+    const saleData = state.saleData;
+    const [prospectData, setProspectData] = useState({});
+    const [saleOrderData, setSaleOrderData] = useState({});
+    console.log(leadid);
+    console.log(prospectData);
+    console.log(saleOrderData[0]);
 
-    useEffect(() => { }, []);
+
+
+
+    useEffect(() => {
+        fetchLeadData(leadid, token);
+    }, []);
+
+    async function fetchLeadData(leadid, token) {
+        try {
+            const res = await GetLeadDetailsApi(token, leadid);
+            setProspectData(res);
+        } catch (error) {
+            console.log(error);
+            toast.error(error);
+        }
+        try {
+            const res = await GetLeadSaleOrder(token, leadid);
+            setSaleOrderData(res);
+        } catch (error) {
+            console.log(error);
+            toast.error(error);
+        }
+    }
+
     const [leadCardExpanded, setLeadCardExpanded] = useState(false);
     const [packageCardExpanded, setPackageCardExpanded] = useState(false);
+
 
     return (
         <>
@@ -67,23 +112,28 @@ const Payment = () => {
             <Grid container spacing={3}>
                 <Grid item xs={12} sm={6} mt={2}>
                     <Card className={classes.photoContainer}>
-                        {saleData ? (
+                        {saleOrderData[0] ? (
                             <>
-                                <PhotoOfDevice deviceData={saleData} />
+                                <PhotoOfDevice deviceData={saleOrderData[0]} />
+                                <hr className={classes.hr} />
                                 <DeviceInfo deviceData={saleData} />
                             </>
                         ) : (
                             <LoadingSkeleton />
                         )}
                     </Card>
+
                 </Grid>
+
                 <Grid item xs={12} sm={6}>
                     <SubCard className={classes.CollapseCard}>
                         <CardHeader
+                            onClick={() => setLeadCardExpanded(!leadCardExpanded)}
+                            style={{ cursor: 'pointer' }}
                             title="Lead ID Card"
                             action={
                                 <IconButton
-                                    onClick={() => setLeadCardExpanded((prevExpanded) => !prevExpanded)}
+                                    onClick={() => setLeadCardExpanded(!leadCardExpanded)}
                                     aria-label="expand"
                                     size="small"
                                 >
@@ -92,17 +142,16 @@ const Payment = () => {
                             }
                         />
                         <Collapse in={leadCardExpanded} unmountOnExit>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={12} className={classes.card}>
-                                    {/* {saleData ? <LeadIDCard leadInfo={saleData.prospect_id} /> : <LoadingSkeleton />} */}
-                                </Grid>
-                            </Grid>
+                            {prospectData ? <LeadIDCard leadInfo={prospectData} /> : <LoadingSkeleton />}
                         </Collapse>
+                        <hr className={classes.hr} />
                         <CardHeader
+                            onClick={() => setPackageCardExpanded(!packageCardExpanded)}
+                            style={{ marginTop: "15px", cursor: 'pointer' }}
                             title="Package information"
                             action={
                                 <IconButton
-                                    onClick={() => setPackageCardExpanded((prevExpanded) => !prevExpanded)}
+                                    onClick={() => setPackageCardExpanded(!packageCardExpanded)}
                                     aria-label="expand"
                                     size="small"
                                 >
@@ -111,14 +160,10 @@ const Payment = () => {
                             }
                         />
                         <Collapse in={packageCardExpanded} unmountOnExit>
-                            <Grid container spacing={3}>
-                                <Grid item xs={12} sm={12} className={classes.card}>
-                                    {/* {saleData ? <PackageCard packageInfo={saleData} /> : <LoadingSkeleton />} */}
-                                </Grid>
-                            </Grid>
+                            {packageInfo ? <PackageCard packageInfo={packageInfo} /> : <LoadingSkeleton />}
                         </Collapse>
                     </SubCard>
-                    <PaymentReceipt saleData={saleData} />
+                    <PaymentReceipt saleOrderData={saleOrderData} />
                 </Grid>
             </Grid>
         </>

@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const GetLeadDetailsApi = async (leadid, token) => {
+const GetLeadDetailsApi = async (token, leadid) => {
     try {
         const headers = {
             headers: {
@@ -13,9 +13,9 @@ const GetLeadDetailsApi = async (leadid, token) => {
         };
 
         const response = await axios
-            .get(API_Base_Url + '/v2/prospect-lead/' + leadid, headers)
+            .get(API_Base_Url + '/v2/prospect_lead/' + leadid, headers)
             .then((response) => {
-                return response;
+                return response.data;
             })
             .catch((error) => {
                 if (error.response.status === 400) {

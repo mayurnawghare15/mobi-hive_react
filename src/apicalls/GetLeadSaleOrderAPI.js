@@ -27,7 +27,7 @@ const GetLeadSaleOrder = async (token, leadid) => {
         if (response.status) {
             // Success: Order placed successfully
 
-            return response.data;
+            return response.data.data;
         }
     } catch (error) {
         if (error.response) {
