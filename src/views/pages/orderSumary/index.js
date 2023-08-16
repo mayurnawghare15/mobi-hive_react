@@ -75,11 +75,12 @@ const OrderSummaryPage = () => {
     const classes = useStyles();
     // const [customPkgType, setcustomPkgType] = useState(state.isCustomPackage);
 
-    const [saleData, setSaleData] = useState(state.data);
+    const saleData = state.data;
     const deviceId = saleData.device.id;
     const { user } = useAuthContext();
     const token = user ? user.token : null;
     const pkgId = saleData.package[0].id;
+    console.log(state, '')
 
     const handleAccept = () => {
         try {
