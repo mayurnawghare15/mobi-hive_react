@@ -3,26 +3,38 @@ import { Card, CardContent, Typography, InputAdornment } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import EmailIcon from '@mui/icons-material/Email';
-import LocationCityIcon from '@mui/icons-material/LocationCity';
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined';
+import { readData } from '../../../utils/indexDB';
 
 const useStyles = makeStyles((theme) => ({
     card: {
-        backgroundColor: theme.palette.primary.light,
+        backgroundColor: '#e3f2fd',
         padding: theme.spacing(2),
         borderRadius: theme.spacing(1),
-        boxShadow: theme.shadows[3],
+
         minWidth: 200,
         height: 250
     },
     title: {
-        fontSize: '1rem',
+        fontSize: '1.2rem',
         fontWeight: 'bold',
         marginBottom: theme.spacing(2)
     },
     details: {
         color: 'black',
         marginBottom: theme.spacing(1),
-        marginTop: 2
+        marginTop: 2,
+        color: 'black',
+        fontSize: "15px"
+    },
+    income: {
+        color: 'black',
+        marginBottom: theme.spacing(1),
+        marginTop: 2,
+        color: 'black',
+        fontSize: "14px",
+        fontWeight: 'bold'
+
     },
     iconText: {
         display: 'flex',
@@ -33,15 +45,16 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const LeadIDCard = (props) => {
-    const { leadInfo } = props;
+const LeadIDCard = (leadInfo) => {
     const classes = useStyles();
+    leadInfo = leadInfo.leadInfo;
+    console.log(leadInfo);
 
     return (
         <Card className={classes.card}>
             <CardContent>
                 <Typography variant="h4" className={classes.title}>
-                    {`Name: ${leadInfo.first_name} ${leadInfo.last_name}`}
+                    {`Name :  ${leadInfo.first_name} ${leadInfo.last_name}`}
                 </Typography>
                 <Typography variant="body1" className={classes.details}>
                     <div className={classes.iconText}>
@@ -60,12 +73,12 @@ const LeadIDCard = (props) => {
                 </Typography>
                 <Typography variant="body1" className={classes.details}>
                     <div className={classes.iconText}>
-                        <LocationCityIcon className={classes.icon} />
-                        {leadInfo.city.city_name}
+                        <LocationOnOutlinedIcon className={classes.icon} />
+                        {leadInfo.city_name}
                     </div>
                 </Typography>
-                <Typography variant="body1" className={classes.details}>
-                    {`Income ${leadInfo.monthly_income}, Paying ${leadInfo.monthly_installments} Installments & Saving ${leadInfo.monthly_saving} Monthly`}
+                <Typography variant="body1" className={classes.income}>
+                    {`Income ${leadInfo.currency} ${leadInfo.monthly_income}, Paying  ${leadInfo.currency} ${leadInfo.monthly_installments} Installments & Saving  ${leadInfo.currency} ${leadInfo.monthly_saving} Monthly`}
                 </Typography>
             </CardContent>
         </Card>

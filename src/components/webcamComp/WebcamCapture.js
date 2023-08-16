@@ -19,6 +19,7 @@ const WebcamCapture = ({ openCamera, setOpenCamera, handleImages }) => {
         toast.success('File Uploaded');
         setOpenCamera(false);
         handleImages(imgSrc);
+
     };
     const capture = useCallback(() => {
         const imgSrc = webcamRef.current.getScreenshot();
@@ -41,53 +42,51 @@ const WebcamCapture = ({ openCamera, setOpenCamera, handleImages }) => {
                         <CloseIcon />
                     </IconButton>
                 </div>
-                <div className="container">
-                    {imgSrc ? (
-                        <img src={imgSrc} alt="webcam" className="photo" />
-                    ) : (
-                        <Webcam
-                            videoConstraints={{ facingMode: mirrored ? 'user' : 'environment' }}
-                            mirrored={mirrored}
-                            ref={webcamRef}
-                            className="webcam"
-                            height={350}
-                            width={'100%'}
-                        />
-                    )}
-
-                    <div className="btn-container">
-                        <Grid container spacing={2}>
-                            <Grid item xs={6}>
-                                {imgSrc ? (
-                                    <Button onClick={retake} disableElevation fullWidth variant="contained" color="secondary">
-                                        {t('retake_Photo')}
-                                    </Button>
-                                ) : (
-                                    <Button disableElevation fullWidth variant="contained" color="secondary" onClick={capture}>
-                                        {t('capture_Photo')}
-                                    </Button>
-                                )}
-                            </Grid>
-                            <Grid item xs={6}>
-                                {imgSrc ? (
-                                    <Button disableElevation fullWidth variant="contained" color="success" onClick={handleConfirm}>
-                                        {t('confirm')}
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        disableElevation
-                                        fullWidth
-                                        color="secondary"
-                                        variant={mirrored ? 'contained' : 'outlined'}
-                                        onClick={() => setMirrored(!mirrored)}
-                                    >
-                                        {t('switch_camera')}
-                                    </Button>
-                                )}
-                            </Grid>
+                {imgSrc ? (
+                    <img src={imgSrc} alt="webcam" className="photo" />
+                ) : (
+                    <Webcam
+                        videoConstraints={{ facingMode: mirrored ? 'user' : 'environment' }}
+                        mirrored={mirrored}
+                        ref={webcamRef}
+                        className="webcam"
+                        height={350}
+                        width={'100%'}
+                    />
+                )}
+                <div className="btn-container">
+                    <Grid mt={2} container spacing={2}>
+                        <Grid item xs={6}>
+                            {imgSrc ? (
+                                <Button onClick={retake} disableElevation fullWidth variant="contained" color="secondary">
+                                    {t('retake_Photo')}
+                                </Button>
+                            ) : (
+                                <Button disableElevation fullWidth variant="contained" color="secondary" onClick={capture}>
+                                    {t('capture_Photo')}
+                                </Button>
+                            )}
                         </Grid>
-                    </div>
+                        <Grid item xs={6}>
+                            {imgSrc ? (
+                                <Button disableElevation fullWidth variant="contained" color="success" onClick={handleConfirm}>
+                                    {t('confirm')}
+                                </Button>
+                            ) : (
+                                <Button
+                                    disableElevation
+                                    fullWidth
+                                    color="secondary"
+                                    variant={mirrored ? 'contained' : 'outlined'}
+                                    onClick={() => setMirrored(!mirrored)}
+                                >
+                                    {t('switch_camera')}
+                                </Button>
+                            )}
+                        </Grid>
+                    </Grid>
                 </div>
+
             </DialogContent>
         </Dialog>
     );

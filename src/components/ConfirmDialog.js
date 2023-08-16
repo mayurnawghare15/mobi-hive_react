@@ -11,7 +11,7 @@ import { makeStyles } from '@mui/styles';
 import PlaceOrderAPI from '../apicalls/PlaceOrderAPI';
 import { useAuthContext } from '../hooks/useAuthContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { useState } from 'react';
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +52,6 @@ export default function ResponsiveDialog(props) {
         // setFixPackage
     } = props;
 
-    console.log(selectedPackage);
     const theme = useTheme();
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
     const { user } = useAuthContext();
@@ -61,37 +60,16 @@ export default function ResponsiveDialog(props) {
         token = user.token;
     }
 
-    console.log(isCustomPackage);
-
     const handleConfirm = () => {
         setConfirmOrder(false);
         return navigate(`/ordersummary/${encodeURIComponent(encrypted_mobile_Number)}`, {
             state: {
                 data: data,
                 selectedPackage: selectedPackage,
-                isCustomPackage: isCustomPackage
+                isCustomPackage: isCustomPackage,
+                leadid: state.leadid
             }
         });
-        // PlaceOrderAPI(token, state.leadid, deviceId, pkgId)
-        //     .then((res) => {
-        //         if (res) {
-        //             toast.success(res.message);
-        //                 state: {
-        //                     ph_number: state.ph_number,
-        //                     leadid: state.leadid,
-        //                     deviceId: deviceId,
-        //                     isCustomPackage: isCustomPackage,
-        //                     isfixPackage: isfixPackage
-        //                 }
-        //             });
-        //         } else {
-        //             setIsCustomPackage(false);
-        //             setFixPackage(false);
-        //         }
-        //     })
-        //     .catch((error) => {
-        //         // return toast.error('Something went wrong , Please check your internet connection.');
-        //     });
     };
 
     const handleClose = () => {

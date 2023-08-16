@@ -2,7 +2,7 @@
     "name": "easycredit-react-app",
     "version": "0.0.1",
     "private": true,
-    "homepage": "",
+    "homepage": "https://mayurnawghare15.github.io/my-app",
     "build": {
         "yarn": "v14.0.0,v16.0.0",
         "npm": "v14.0.0,v16.0.0"
@@ -26,6 +26,7 @@
         "file-saver": "^2.0.5",
         "formik": "^2.2.6",
         "framer-motion": "^4.1.13",
+        "gh-pages": "^6.0.0",
         "html-to-image": "^1.11.11",
         "i18next": "^23.2.11",
         "i18next-browser-languagedetector": "^7.1.0",
@@ -61,6 +62,8 @@
         "yup": "^0.32.9"
     },
     "scripts": {
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build",
         "start": "react-scripts start",
         "build": "react-scripts build",
         "test": "react-scripts test --passWithNoTests",

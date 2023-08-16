@@ -31,9 +31,8 @@ const LeadCreateFormApi = async (body, token, create_copy_new_lead) => {
                 return response;
             })
             .catch((error) => {
-                console.log(error);
                 if (error.response.status === 400) {
-                    return toast.error(error);
+                    return toast.error("We’re sorry. This Email or Mobile Number already exists.");
                 } else if (error.response.status === 401) {
                     toast.error('You are not authorized to view this page');
                     localStorage.setItem('user', '');
@@ -50,8 +49,8 @@ const LeadCreateFormApi = async (body, token, create_copy_new_lead) => {
             });
         return response.data;
     } catch (error) {
-        console.log(error);
-        return toast.error(error);
+    
+        // return toast.error(error);
     }
 };
 

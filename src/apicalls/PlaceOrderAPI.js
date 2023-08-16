@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
+const PlaceOrderAPI = async (token, leadid, deviceId, pkgId) => {
     try {
         const headers = {
             headers: {
@@ -22,31 +22,35 @@ const PlaceOrderAPI = async (token, prospectId, deviceId, pkgId) => {
             return () => clearTimeout(timer);
         }
 
-        const response = await axios.get(API_Base_Url + `/v1/place-order/${prospectId}/${deviceId}/${pkgId}`, headers);
+        const response = await axios.get(API_Base_Url + `/v1/place-order/${leadid}/${deviceId}/${pkgId}`, headers)
+            .then((response) => {
+                if (response.status === 201) {
+                    toast.success(response.message);
+                    return response;
+                }
+            })
+            .catch((error) => {
+                if (error.response.status === 400) {
+                    return toast.error("Oops! Sorry this Order can't be placed..");
+                } else if (error.response.status === 401) {
+                    toast.error('You are not authorized to view this page');
+                    localStorage.setItem('user', '');
+                    const timer = setTimeout(() => {
+                        window.location.href = '/login';
+                    }, 500);
+                    return () => clearTimeout(timer);
+                } else if (error.response.status === 404) {
+                    return toast.error('Url not found');
+                }
+                else return toast.error('Something went wrong , Please contact to Admin.');
 
-        if (response.status === 201) {
-            return response.data;
-        }
+            });
+        return response;
+
     } catch (error) {
-        if (error.response) {
-            if (error.response.status === 400) {
-                toast.error("Oops! Sorry this Order can't be placed..");
-            } else if (error.response.status === 401) {
-                // Handle unauthorized access error
-            } else if (error.response.status === 404) {
-                toast.error('URL not found');
-            } else if (error.response.status >= 500) {
-                toast.error('Something went wrong. Please contact the administrator.');
-            }
-        } else if (error.request) {
-            // The request was made but no response was received
-            toast.error('No response received from the server. Please check your internet connection.');
-        } else {
-            // Something else happened while setting up the request
-            toast.error('An unexpected error occurred. Please try again later.');
-        }
-        return null;
+        console.log(error);
     }
+
 };
 
 export default PlaceOrderAPI;

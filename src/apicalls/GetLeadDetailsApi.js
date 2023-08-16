@@ -2,7 +2,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 const API_Base_Url = process.env.REACT_APP_BASE_URL;
 
-const GetLeadDetailsApi = async (leadid, token) => {
+const GetLeadDetailsApi = async (token, leadid) => {
     try {
         const headers = {
             headers: {
