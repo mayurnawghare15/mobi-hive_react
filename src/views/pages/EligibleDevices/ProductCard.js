@@ -138,12 +138,10 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
     const [isfixPackage, setFixPackage] = useState(false);
     const [isCustomPackage, setIsCustomPackage] = useState(false);
     const [selectedPackageId, setSelectedPackageId] = useState(null);
-    const [showFixed, setShowFixed] = useState(false);
-    const [showCustom, setShowCustom] = useState(false);
     const [confirmOrder, setConfirmOrder] = useState(false);
-    var data = deviceData;
-    var packages = data.package;
-    let customPkg = data.custom_package ? data.custom_package : null;
+    const data = deviceData;
+    const packages = data.package;
+    const customPkg = data.custom_package ? data.custom_package : null;
 
     const handleFixPackageChange = (_pkg) => {
         setSelectedPackageId(_pkg);
@@ -153,15 +151,6 @@ const ProductCard = ({ deviceData, encrypted_mobile_Number, state }) => {
         setIsCustomPackage(true);
         setConfirmOrder(true);
     };
-    // const handleCardClick = () => {
-    //     if (packages.length > 0) {
-    //         setShowFixed(true);
-    //     }
-
-    //     if (customPkg.length > 0) {
-    //         setShowCustom(true);
-    //     }
-    // };
 
     return (
         <>
