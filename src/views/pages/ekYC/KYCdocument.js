@@ -109,7 +109,7 @@ function KYCDocumentPage() {
         await createData(newData);
       }
     const get_lead_detail_api = (lead_id) => {
-        GetLeadDetailsApi(lead_id, token).then((res) => {
+        GetLeadDetailsApi(token,lead_id).then((res) => {
             if (res) {
                 handleCreateInIndexDb(res.data)
                 const data = res.data.ekyc_document;

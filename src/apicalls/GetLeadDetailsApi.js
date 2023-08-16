@@ -13,9 +13,9 @@ const GetLeadDetailsApi = async (token, leadid) => {
         };
 
         const response = await axios
-            .get(API_Base_Url + '/v2/prospect_lead/' + leadid, headers)
+            .get(API_Base_Url + '/v2/prospect-lead/' + leadid, headers)
             .then((response) => {
-                return response.data;
+                return response;
             })
             .catch((error) => {
                 if (error.response.status === 400) {
