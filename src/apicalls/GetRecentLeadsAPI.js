@@ -22,10 +22,10 @@ const RecentLeads_Api = async (token, search_param) => {
             return () => clearTimeout(timer);
         }
 
-        const response = await axios.get(API_Base_Url + '/v2/recent_leads/?page=1&s=10&search=' + search_param, headers);
+        const response = await axios.get(API_Base_Url + '/v2/prospect_lead/?page=1&s=10&recents=true&search=' + search_param, headers);
 
         if (response.status) {
-            return response.data.results;
+            return response.data;
         }
     } catch (error) {
         if (error.response) {

@@ -49,7 +49,8 @@ export default function SearchLead() {
             setLoading(true);
             GetRecentLeadsAPI(token, searchTerm)
                 .then((res) => {
-                    setRecentData(res);
+                    const results = res.data.result
+                    setRecentData(results);
                 })
                 .catch((error) => {
                     toast.error('Something went wrong, please check your internet connection.');
@@ -94,15 +95,7 @@ export default function SearchLead() {
                     <Grid item xs={12} height={'100vh'}>
                         <LoadingSkeleton />
                     </Grid>
-                ) : (
-                    recentData
-                        .filter(
-                            (lead) =>
-                                lead.first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                lead.last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                lead.full_phones.includes(searchTerm.toLowerCase())
-                        )
-                        .map((lead) => (
+                ) : (recentData && recentData.length > 0 && recentData.map((lead) => (
                             <Grid item xs={12} md={6} key={lead.id}>
                                 <LeadCard user={lead} />
                             </Grid>
